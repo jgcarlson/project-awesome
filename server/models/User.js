@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-let UserSchema = new Schema(){
+let UserSchema = new Schema({
 	first_name: {
 		type: String,
 		trim: true,
@@ -34,9 +34,9 @@ let UserSchema = new Schema(){
 	rating: {
 		type: Number,
 		default: 0
-	}
-	orders_placed: [{type: Schema.Types.ObjectId, ref: 'Product'}]
+	},
+	orders_placed: [{type: Schema.Types.ObjectId, ref: 'Product'}],
 	products_offered: [{type: Schema.Types.ObjectId, ref: 'Product'}],
-}
+})
 
 mongoose.model('User', UserSchema)
