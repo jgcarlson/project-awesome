@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-let ProductSchema = new Schema(){
+let ProductSchema = new Schema({
 	title: {
 		type: String,
 		required: [true, "Title is required"],
@@ -20,5 +20,6 @@ let ProductSchema = new Schema(){
 	tags: [{type: String}],
 	images: [{type: String}]
 },
+{timestamps: true})
 
 mongoose.model('Product', ProductSchema)
