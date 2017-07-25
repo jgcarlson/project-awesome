@@ -12,13 +12,18 @@ let ProductSchema = new Schema({
 		type: String,
 		required: [true, "Description is required"]
 	},
+	price: {
+		type: Number,
+		required: [true, "Price is required"]
+	}
 	rating: {
 		type: Number,
 		default: 0
 	},
 	_vendor: [{type: Schema.Types.ObjectId, ref: 'User'}],
 	tags: [{type: String}],
-	images: [{type: String}]
+	images: [{type: String}],
+
 },
 {timestamps: true})
 
