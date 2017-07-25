@@ -10,7 +10,7 @@ const path = require('path');
 // require the fs module for loading model files
 const fs = require('fs');
 // connect to mongoose!
-mongoose.connect('mongodb://localhost/awesome_db', {  // add db after 'localhost/'
+mongoose.connect('mongodb://admin:oojainMtxmHffMYTAsUEDh9f@35.165.156.108/awesome_db', {  // add db after 'localhost/'
   useMongoClient: true
 });
 // create a variable that points to the path where all of the models live

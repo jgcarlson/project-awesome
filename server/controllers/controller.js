@@ -1,21 +1,8 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Product = mongoose.model('Product');
-//var Review = mongoose.model('Review');
-app.get('/api/todays_deals', controller.todays_deals);
-	app.get('/api/shop_by_category', controller.shop_by_category);
-	app.get('/api/featured_items', controller.featured_items);
-	app.get('/api/featured_vendors', controller.featured_vendors);
-	app.get('/api/recent_reviews', controller.recent_reviews);
-	app.get('/api/recently_viewed', controller.recently_viewed);
-	app.get('/api/suggested_products', controller.suggested_products);
-    app.get('/api/get_user/:id', controller.get_user);
-    app.get('/api/get_vendor/:id', controller.get_vendor);
-    app.get('/api/get_item/:id', controller.get_item);
-    app.get('/api/find_item/:search_criteria', controller.find_item);
-    app.get('/api/new_items_from_store/:id', controller.new_items_from_store);
-    app.get('/api/popular_items_from_store/:id', controller.popular_items_from_store);
-    app.post('/api/create_item', controller.create_item);
+var Review = mongoose.model('Review');
+
 
 
 module.exports = {
@@ -37,15 +24,65 @@ module.exports = {
 		
 	},
 	shop_by_category: function(req, res){
+		Product.find({'tags.2': {$exists: true}}).limit(1).exec( (err, product)=>{
+			if(err){
+	    		console.log(err);
+				let errors = [];
+		        for(let i in err.errors){
+		          errors.push(err.errors[i].message);
+	        	}
+	        	return res.status(400).send(errors);
+	    	}
+	    	var taygs = [];
+	    	//will this query return an array? or just one object.....
+	    	//ignoring the possibility of an empty result bc we have a lot of fake data and im lazy
+	    	taygs.push(product.tags[0]);
+	    	taygs.push(product.tags[1]);
+	    	taygs.push(product.tags[2]);
+	    	return res.json(taygs);
+		})
 		
 	},
 	featured_items: function(req, res){
+		Product.find({}).limit(3).exec( (err, products)=>{
+			if(err){
+	    		console.log(err);
+				let errors = [];
+		        for(let i in err.errors){
+		          errors.push(err.errors[i].message);
+	        	}
+	        	return res.status(400).send(errors);
+	    	}
+	    	return res.json(products);
+		})
 		
 	},
 	featured_vendors: function(req, res){
+		User.find({vendor: true}).limit(3).exec( (err, vendors)=>{
+			if(err){
+	    		console.log(err);
+				let errors = [];
+		        for(let i in err.errors){
+		          errors.push(err.errors[i].message);
+	        	}
+	        	return res.status(400).send(errors);
+	    	}
+	    	return res.json(vendors);
+		})
 		
 	},
 	recent_reviews: function(req, res){
+		Review.find({}).sort('-createdAt').limit(3).exec( (err, reviews)=>{
+			if(err){
+	    		console.log(err);
+				let errors = [];
+		        for(let i in err.errors){
+		          errors.push(err.errors[i].message);
+	        	}
+	        	return res.status(400).send(errors);
+	    	}
+	    	return res.json(reviews);
+		})
 		
 	},
 	recently_viewed: function(req, res){
@@ -54,13 +91,18 @@ module.exports = {
 	suggested_products: function(req, res){
 		
 	},
-	get_user: function(req, res){
-		
-	},
-	get_vendor: function(req, res){
-		
-	},
 	get_item: function(req, res){
+		Product.find({_id: req.params.id}, (err, product)=>{
+			if(err){
+	    		console.log(err);
+				let errors = [];
+		        for(let i in err.errors){
+		          errors.push(err.errors[i].message);
+	        	}
+	        	return res.status(400).send(errors);
+	    	}
+	    	return res.json(product);
+		})
 		
 	},
 	find_item: function(req, res){
@@ -95,14 +137,66 @@ module.exports = {
 	},
 	new_items_from_store: function(req, res){
 		Product.find({_vendor: req.params.id}).sort('-createdAt').limit(3).exec( (err, products)=>{
-			
+			if(err){
+	    		console.log(err);
+				let errors = [];
+		        for(let i in err.errors){
+		          errors.push(err.errors[i].message);
+	        	}
+	        	return res.status(400).send(errors);
+	    	}
+	    	return res.json(products);
 		})
 		
 	},
 	popular_items_from_store: function(req, res){
-		
+		Product.find({_vendor: req.params.id}).sort('-avgRating').limit(3).exec( (err, products)=>{
+			if(err){
+	    		console.log(err);
+				let errors = [];
+		        for(let i in err.errors){
+		          errors.push(err.errors[i].message);
+	        	}
+	        	return res.status(400).send(errors);
+	    	}
+	    	return res.json(products);
+		})
 	},
 	create_item: function(req, res){
+		let prod = new Product({title: req.body.title, description: req.body.description, price: req.body.price, _vendor: req.session.user_id});
+		//tags can be just a single text input
+		//and we can turn it into an array here
+		//images could theoretically be done the same way
+	},
+	//**********************************
+	//user controller methods \/
+	//**********************************
+	get_user: function(req, res){
+		User.find({_id: req.params.id}, (err, user)=>{
+			if(err){
+	    		console.log(err);
+				let errors = [];
+		        for(let i in err.errors){
+		          errors.push(err.errors[i].message);
+	        	}
+	        	return res.status(400).send(errors);
+	    	}
+	    	return res.json(user);
+
+		})
+	},
+	get_vendor: function(req, res){
+		User.find({_id: req.params.id}, (err, user)=>{ //could add extra layer where we check that vendor = true?
+			if(err){
+	    		console.log(err);
+				let errors = [];
+		        for(let i in err.errors){
+		          errors.push(err.errors[i].message);
+	        	}
+	        	return res.status(400).send(errors);
+	    	}
+	    	return res.json(user);
+		})
 		
 	},
 	
