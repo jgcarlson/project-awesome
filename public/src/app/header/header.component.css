@@ -1,0 +1,12 @@
+#header {
+  max-height: 10vh;
+}
+
+img {
+  max-height: 10vh;
+  max-width: 10vh;
+}
+
+#title {
+  text-align: left;
+}
