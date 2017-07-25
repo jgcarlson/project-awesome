@@ -10,3 +10,7 @@ img {
 #title {
   text-align: left;
 }
+
+.navbar {
+  border-radius: 8px;
+}
