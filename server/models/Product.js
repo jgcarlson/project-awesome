@@ -15,8 +15,12 @@ let ProductSchema = new Schema({
 	price: {
 		type: Number,
 		required: [true, "Price is required"]
-	}
-	rating: {
+	},
+	totalRating: {
+		type: Number,
+		default: 0
+	},
+	avgRating: {
 		type: Number,
 		default: 0
 	},

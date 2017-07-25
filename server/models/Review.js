@@ -4,16 +4,20 @@ const Schema = mongoose.Schema;
 
 let ReviewSchema = new Schema({
 	review: {
-		type: String
+		type: String,
 		required: [true, "Review is required"]
 	},
+	rating: {
+		type: Number,
+		required: [true, "Rating is required"]
+	},
 	_byUser: {
-		type: Schemas.Type.ObjectId, ref: "User"
+		type: Schema.Types.ObjectId, ref: "User"
 	},
 	_reviewedVendor: [{
-		type: Schemas.Type.ObjectId, ref: "User"
+		type: Schema.Types.ObjectId, ref: "User"
 	}],
 	_reviewedProduct: [{
-		type: Schemas.Type.ObjectId, ref: "Product"
+		type: Schema.Types.ObjectId, ref: "Product"
 	}]
 }, {timestamps: true})

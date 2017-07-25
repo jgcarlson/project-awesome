@@ -2,7 +2,6 @@
 // This is the file that specifies which routes will be handled and by which controller methods.
 // From routes.js we require the controller file (or files).
 
-var controller = require('./../controllers/controller.js');
 
 
 const mongoose = require('mongoose');
@@ -28,5 +27,5 @@ module.exports = app => {
         res.sendfile(path.resolve("./public/dist/index.html"))
         //should this really be index.html???????
     });
-  
+
 }

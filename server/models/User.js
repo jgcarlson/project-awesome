@@ -31,10 +31,15 @@ let UserSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
-	rating: {
+	totalRating: {
 		type: Number,
 		default: 0
 	},
+	avgRating: {
+		type: Number,
+		default: 0
+	},
+	reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}],
 	orders_placed: [{type: Schema.Types.ObjectId, ref: 'Product'}],
 	products_offered: [{type: Schema.Types.ObjectId, ref: 'Product'}],
 })
