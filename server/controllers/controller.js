@@ -3,8 +3,8 @@ var User = mongoose.model('User');
 var Product = mongoose.model('Product');
 var Review = mongoose.model('Review');
 var bcrypt = require('bcrypt');
-
-
+const jwt = require('jsonwebtoken');
+const cert = 'KEEP_IT_SECRET.KEEP_IT_SAFE.'
 
 module.exports = {
   //**********************************
