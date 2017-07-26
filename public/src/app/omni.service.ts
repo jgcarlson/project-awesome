@@ -99,8 +99,8 @@ export class OmniService implements CanActivate {
     }
 
     //**********************************
-  //user controller methods \/
-  //**********************************
+    //user controller methods \/
+    //**********************************
 
     register_user(user) {
       return this._http.post('/api/register_user', user)
@@ -131,6 +131,24 @@ export class OmniService implements CanActivate {
       .map( data => data.json())
       .toPromise();
     }
+
+    //**********************************
+    //review controller methods \/
+    //**********************************
+
+    review_product(id, form){
+      return this._http.post('/api/review_product/' + id, form.value)
+      .map( data => data.json())
+      .toPromise();
+    }
+
+    review_vendor(id, form){
+      return this._http.post('/api/review_vendor/' + id, form.value)
+      .map( data => data.json())
+      .toPromise();
+    }
+
+
 
 
 }
