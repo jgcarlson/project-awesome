@@ -86,16 +86,17 @@ module.exports = {
 
   },
   recently_viewed: function(req, res){
-
   	//whenever we get a product, rotate the recently viewed array
+  	User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}).populate('orders_placed').exec( (err, user)=>{
+  		
+  	})
+
 
   },
   suggested_products: function(req, res){
   	//get up to 3 items from order history, get up to 3 tags from each- 3 tags total
-  	//then do the search thing and return those items
-
-  	//typeof arrayName[index] === 'undefined'
-  	/*User.find({_id: req.session.}).limit(3).exec( (err, vendors)=>{
+  	//then do the search thing and return those items 	
+  	User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}).populate('orders_placed').exec( (err, user)=>{
       if(err){
           console.log(err);
         let errors = [];
@@ -104,8 +105,44 @@ module.exports = {
             }
             return res.status(400).send(errors);
         }
-        return res.json(vendors);
-    })*/
+        var criteria = [];
+        if (typeof user.orders_placed[0] === 'undefined'){ //IF THERE ARE NO ORDERS PLACED YET
+        	Product.find({}).limit(3).exec( (err, products)=>{
+			    if(err){
+			        console.log(err);
+			        let errors = [];
+			            for(let i in err.errors){
+			              errors.push(err.errors[i].message);
+			            }
+			        return res.status(400).send(errors);
+			    }
+			    return res.json(products);
+			})
+        } else if (typeof user.orders_placed[1] === 'undefined'){ //IF ONLY 1 ORDER
+        	criteria.push(user.orders_placed[0].tags[0]);
+        	criteria.push(user.orders_placed[0].tags[1]);
+        	criteria.push(user.orders_placed[0].tags[2]);
+        } else if (typeof user.orders_placed[2] === 'undefined'){ //IF ONLY 2
+        	criteria.push(user.orders_placed[0].tags[0]);
+        	criteria.push(user.orders_placed[0].tags[1]);
+        	criteria.push(user.orders_placed[1].tags[0]);
+        } else { //IF 3 OR MORE
+        	criteria.push(user.orders_placed[0].tags[0]);
+        	criteria.push(user.orders_placed[1].tags[0]);
+        	criteria.push(user.orders_placed[2].tags[0]);
+        }
+        Product.find({ tags: { "$in" : criteria} }).limit(3).exec( (err, products)=>{ //FIND PRODUCTS BASED ON NEW CRITERIA
+	        if(err){
+	          console.log(err);
+	        let errors = [];
+	            for(let i in err.errors){
+	              errors.push(err.errors[i].message);
+	            }
+	            return res.status(400).send(errors);
+	        }
+	        return res.json(products);
+	    });
+    })
 
 
 
@@ -267,7 +304,7 @@ module.exports = {
     })
   },
   get_user: function(req, res){
-    User.find({_id: req.params.id}, (err, user)=>{
+    User.findOne({_id: req.params.id}, (err, user)=>{
       if(err){
           console.log(err);
         let errors = [];
@@ -281,7 +318,7 @@ module.exports = {
     })
   },
   get_vendor: function(req, res){
-    User.find({_id: req.params.id}, (err, user)=>{ //could add extra layer where we check that vendor = true?
+    User.findOne({_id: req.params.id}, (err, user)=>{ //could add extra layer where we check that vendor = true?
       if(err){
           console.log(err);
         let errors = [];
