@@ -18,7 +18,9 @@ export class HeaderComponent implements OnInit {
     console.log(this.currentUser)
   }
 
-  currentUser:any;
+
+  currentUser: any
+  errors: any
 
   user:any = {
     alias: '',
@@ -32,7 +34,9 @@ export class HeaderComponent implements OnInit {
       console.log(data);
       console.log(this.currentUser);
     })
-    .catch(data => console.log('Login-catch data:', data));
+
+    .catch(err => console.log('Login-catch error:', err))
+
     this.user = { alias: '', password: '' };
   }
 

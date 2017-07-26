@@ -7,7 +7,7 @@ let ProductSchema = new Schema({
   title: {
     type: String,
     required: [true, "Title is required"],
-    minlength: [10, "Title must be at least 2 characters long"]
+    minlength: [10, "Title must be at least 10 characters long"]
   },
   description: {
     type: String,
@@ -25,7 +25,7 @@ let ProductSchema = new Schema({
     type: Number,
     default: 0
   },
-  _vendor: [{type: Schema.Types.ObjectId, ref: 'User'}],
+  _vendor: {type: Schema.Types.ObjectId, ref: 'User'},
   tags: [{type: String}],
   images: [{type: String}],
 
