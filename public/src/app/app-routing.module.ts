@@ -9,15 +9,14 @@ import { ProductComponent } from './product/product.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 
-const routes: Routes = [
+const routes: Routes = [ // to limit access to only logged in users, add 'canActivate: [RouterService]' to route.
   { path: '', component: LandingComponent },
   { path: 'search', component: SearchComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'product/:id', component: ProductComponent },
-  { path: 'profile/:id', component: ProfileComponent }
+  { path: 'profile/:id', component: ProfileComponent },
+  { path: '**', component: LandingComponent }
 ];
-
-// to limit access to only logged in users, add 'canActivate: [RouterService]' to route.
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
