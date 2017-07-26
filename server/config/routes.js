@@ -23,9 +23,9 @@ module.exports = app => {
   app.post('/api/authenticate', controller.authenticate);
 
 
-    app.all("*", (req,res,next) => {
-        res.sendfile(path.resolve("./public/dist/index.html"))
-        //should this really be index.html???????
-    });
+    // app.all("*", (req,res,next) => {
+    //     res.sendfile(path.resolve("./public/dist/index.html"))
+    //     //should this really be index.html???????
+    // });
 
 }
