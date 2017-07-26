@@ -1,0 +1,23 @@
+#carousel-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+ngb-carousel {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.carousel-item {
+  max-height: 40vh;
+  margin:auto
+}
+
+#img-container {
+  margin: auto;
+}
+
+img {
+  width: 100%;
+  margin:auto
+}
