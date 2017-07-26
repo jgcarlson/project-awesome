@@ -9,14 +9,11 @@
       <h5>Etsy meets bitcoin and bartering.</h5>
     </div>
     <div *ngIf="currentUser == null" class="navbar-collapse collapse" id="loggedout">
+		<p *ngIf="errors" class="error">Invalid Credentials</p>
         <form class="d-inline ml-auto" (submit)="login()">
             <div class="input-group">
               <input type="text" name="alias" [(ngModel)]="user.alias" class="form-control" placeholder="Alias">
               <input type="password" name="password" [(ngModel)]="user.password" class="form-control" placeholder="Password">
-<<<<<<< HEAD
-=======
-			  <span *ngIf="errors" class="error"><p></p></span>
->>>>>>> committing changes before rebase master
               <span class="input-group-btn">
                 <button class="btn btn-outline-primary" type="submit">Login</button>
               </span>
