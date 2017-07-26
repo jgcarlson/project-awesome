@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema;
 
+// Make sure to add changes to front-end schema as well (as applicable).
 let ReviewSchema = new Schema({
   review: {
     type: String,
