@@ -191,8 +191,16 @@ module.exports = {
               console.log(success)
             }
           })
+          user.save( (err, user) => {
+            if (err) {
+              console.log('Error in controller-register:', err)
+            } else {
+              res.json({username: user.username, password: req.body.password})
+            }
+          })
         }
     })
+
   },
   get_user: function(req, res){
     User.find({_id: req.params.id}, (err, user)=>{

@@ -22,7 +22,6 @@ let UserSchema = new Schema({
     type: String,
     trim: true,
     required: [true, "Password is required"],
-
   },
   admin: {
     type: Boolean,
@@ -43,6 +42,6 @@ let UserSchema = new Schema({
   reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}],
   orders_placed: [{type: Schema.Types.ObjectId, ref: 'Product'}],
   products_offered: [{type: Schema.Types.ObjectId, ref: 'Product'}],
-})
+}, {timestamps: true} )
 
 mongoose.model('User', UserSchema)
