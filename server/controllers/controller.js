@@ -104,7 +104,6 @@ module.exports = {
         }
         return res.json(product);
     })
-
   },
   find_item: function(req, res){
     var search = req.params.search_criteria.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
@@ -224,6 +223,8 @@ module.exports = {
           res.json({
             user: {
               alias: user.alias,
+              id: user._id,
+              vendor: user.vendor
             },
             success: true,
             token: token

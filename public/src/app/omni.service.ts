@@ -120,10 +120,6 @@ export class OmniService implements CanActivate {
       toPromise();
     }
 
-    logout() {
-      localStorage.removeItem('currentUser');
-    }
-
     get_user(id){
       return this._http.get('/api/get_user/' + id)
       .map( data => data.json())
