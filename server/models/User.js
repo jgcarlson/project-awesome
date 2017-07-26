@@ -12,6 +12,10 @@ let UserSchema = new Schema({
     type: String,
     trim: true,
   },
+  admin: {
+    type: String,
+    trim: true,
+  },
   email: {
     type: String,
     trim: true,
