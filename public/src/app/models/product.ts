@@ -5,7 +5,7 @@ export class Product {
     public price:number = null,
     public totalRating:number = null,
     public avgRating:number = null,
-    public vendor:string = '',
+    public _vendor:string = '',
     public tags:Array<string> = [],
     public images:Array<string> = []
   ) {}

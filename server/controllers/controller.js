@@ -163,7 +163,18 @@ module.exports = {
     })
   },
   create_item: function(req, res){
-    let prod = new Product({title: req.body.title, description: req.body.description, price: req.body.price, _vendor: req.session.user_id});
+    console.log(req.body)
+    let prod = new Product({title: req.body.title, description: req.body.description, price: req.body.price, _vendor: req.body._vendor, images: req.body.images, tags: req.body.tags});
+    prod.save( (err, prod) => {
+      console.log('hello again again')
+      if (err) {
+        console.log('false:', err)
+        res.json({success: false}) // We should do something else here
+      } else {
+        console.log('true')
+        res.json({success: true}) // and here.
+      }
+    })
     //tags can be just a single text input
     //and we can turn it into an array here
     //images could theoretically be done the same way

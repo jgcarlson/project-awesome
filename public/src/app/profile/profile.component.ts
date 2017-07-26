@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Product } from './../models/product';
+
+import { OmniService } from './../omni.service';
+
 
 @Component({
   selector: 'app-profile',
@@ -7,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() {
+  constructor(private _omniService:OmniService) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
 
@@ -15,5 +19,15 @@ export class ProfileComponent implements OnInit {
   }
 
   currentUser:any;
+
+  product = new Product()
+
+  create_item() {
+    this.product._vendor = this.currentUser.user.id;
+    this._omniService.create_item(this.product)
+    .then(data => console.log(data))
+    .catch(data => console.log(data))
+    this.product = new Product();
+  }
 
 }

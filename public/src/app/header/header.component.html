@@ -9,7 +9,7 @@
       <h5>Etsy meets bitcoin and bartering.</h5>
     </div>
     <div *ngIf="currentUser == null" class="navbar-collapse collapse" id="loggedout">
-		<p *ngIf="errors" class="error">Invalid Credentials</p>
+    <p *ngIf="errors" class="error">Invalid Credentials</p>
         <form class="d-inline ml-auto" (submit)="login()">
             <div class="input-group">
               <input type="text" name="alias" [(ngModel)]="user.alias" class="form-control" placeholder="Alias">
@@ -23,10 +23,18 @@
     </div>
     <div *ngIf="currentUser != null" class="container-fluid" id="loggedin">
       <div class="card">
-        <div class="card-block d-inline">
-          <button type="submit" class="btn btn-outline-danger" (click)="logout()">Logout</button>
-          <h3><a [routerLink]="['user', currentUser.user.id, 'basket']">Basket <i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i></a></h3>
-          <h3><a [routerLink]="['user', currentUser.user.id]">Profile <i class="fa fa-user-secret fa-fw" aria-hidden="true"></i></a></h3>
+        <div class="card-block">
+          <div class="d-inline-flex justify-content-center">
+            <h4 class="item"><a [routerLink]="['user', currentUser.user.id, 'basket']">Basket <i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i></a></h4>
+            <h4 class="middle item"><a [routerLink]="['user', currentUser.user.id]">Profile <i class="fa fa-user-secret fa-fw" aria-hidden="true"></i></a></h4>
+            <button type="submit" class="btn btn-outline-danger btn-sm" (click)="logout()">Logout</button>
+          </div>
+          <form (submit)="search">
+            <div class="input-group">
+              <input type="text" name="search" [(ngModel)]="query" class="form-control" placeholder="What are you looking for?">
+              <span class="input-group-btn"><button type="submit" class="btn btn-outline-primary">Search</button></span>
+            </div>
+          </form>
         </div>
       </div>
     </div>
