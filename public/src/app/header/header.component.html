@@ -9,15 +9,17 @@
       <h5>Etsy meets bitcoin and bartering.</h5>
     </div>
     <div class="navbar-collapse collapse" id="navbar">
-        <form class="d-inline ml-auto">
+        <form class="d-inline ml-auto" (submit)="login()">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Alias">
-              <input type="text" class="form-control" placeholder="Password">
+              <input type="text" name="alias" [(ngModel)]="user.alias" class="form-control" placeholder="Alias">
+              <input type="text" name="password" [(ngModel)]="user.password" class="form-control" placeholder="Password">
               <span class="input-group-btn">
-                <button class="btn btn-outline-primary" type="button">Login</button>
+                <button class="btn btn-outline-primary" type="submit">Login</button>
               </span>
             </div>
             <small class="form-text text-muted">Don't have an account? Register <a [routerLink]="['/register']">here</a>!</small>
         </form>
     </div>
 </nav>
+
+{{ user | json }}
