@@ -87,8 +87,27 @@ module.exports = {
   },
   recently_viewed: function(req, res){
 
+  	//whenever we get a product, rotate the recently viewed array
+
   },
   suggested_products: function(req, res){
+  	//get up to 3 items from order history, get up to 3 tags from each- 3 tags total
+  	//then do the search thing and return those items
+
+  	//typeof arrayName[index] === 'undefined'
+  	/*User.find({_id: req.session.}).limit(3).exec( (err, vendors)=>{
+      if(err){
+          console.log(err);
+        let errors = [];
+            for(let i in err.errors){
+              errors.push(err.errors[i].message);
+            }
+            return res.status(400).send(errors);
+        }
+        return res.json(vendors);
+    })*/
+
+
 
   },
   get_item: function(req, res){
