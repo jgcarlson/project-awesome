@@ -193,9 +193,9 @@ module.exports = {
           })
           user.save( (err, user) => {
             if (err) {
-              console.log('Error in controller-register:', err)
+              res.json({success: false}) // We should do something else here
             } else {
-              res.json({username: user.username, password: req.body.password})
+              res.json({success: true}) // and here.
             }
           })
         }
