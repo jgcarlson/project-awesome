@@ -2,11 +2,6 @@
 // This is the file that specifies which routes will be handled and by which controller methods.
 // From routes.js we require the controller file (or files).
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 0309dd4e6aac7b011c8ebd1c431ada1cdd330578
-
 const mongoose = require('mongoose');
 const controller = require('./../controllers/controller.js');
 module.exports = app => {
@@ -24,6 +19,7 @@ module.exports = app => {
   app.get('/api/new_items_from_store/:id', controller.new_items_from_store);
   app.get('/api/popular_items_from_store/:id', controller.popular_items_from_store);
   app.post('/api/create_item', controller.create_item);
+  app.post('/api/register_user', controller.register_user);
 
 
     app.all("*", (req,res,next) => {
