@@ -1,13 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Http, Headers, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs';
 
+
 @Injectable()
-export class OmniService {
+export class OmniService implements CanActivate {
 
-    constructor(private _http: Http) { }
+    constructor(private _http: Http, private _router:Router) { }
 
-    //**********************************
+  //**********************************
+  // canActivate: Allows only logged in users to view certain pages (in conjunction with the app-routing module). \/
+  //**********************************
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+      if (localStorage.getItem('currentUser')) {
+          return true;
+      }
+      this._router.navigate(['/']);
+      return false;
+  }
+
+  //**********************************
   //product controller methods \/
   //**********************************
 
@@ -91,6 +106,22 @@ export class OmniService {
       return this._http.post('/api/register_user', user)
       .map( data => data.json())
       .toPromise();
+    }
+
+    login(data) {
+      return this._http.post('/api/authenticate', data)
+      .map((res) => {
+        let user = res.json();
+        if (user && user.token) {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+        }
+        return user;
+      }).
+      toPromise();
+    }
+
+    logout() {
+      localStorage.removeItem('currentUser');
     }
 
     get_user(id){

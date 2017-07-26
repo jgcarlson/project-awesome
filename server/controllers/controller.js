@@ -208,7 +208,33 @@ module.exports = {
           })
         }
     })
-
+  },
+  authenticate: (req, res) => {
+    User.findOne({alias: req.body.alias}, (err, user) => {
+      if (err) {
+        console.log('Error in controller-login-findUser:', err)
+      }
+      if (!user) {
+        res.status(403).json({success: false, message: 'User not found.'})
+      } else if (user) {
+        if (bcrypt.compareSync(req.body.password, user.password)) {
+          let token = jwt.sign(user, cert, {
+            expiresIn: 86400 // expires in 24 hours
+          });
+          res.json({
+            user: {
+              alias: user.alias,
+            },
+            success: true,
+            token: token
+          });
+        } else {
+          res.status(403).json({success: false, message: 'Authentication failed.'})
+        }
+      } else {
+        console.log('Error in controller-auth-else.')
+      }
+    })
   },
   get_user: function(req, res){
     User.find({_id: req.params.id}, (err, user)=>{

@@ -17,6 +17,8 @@ const routes: Routes = [
   { path: 'profile/:id', component: ProfileComponent }
 ];
 
+// to limit access to only logged in users, add 'canActivate: [RouterService]' to route.
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
