@@ -11,14 +11,13 @@
     <div class="navbar-collapse collapse" id="navbar">
         <form class="d-inline ml-auto">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Email">
-            </div>
-            <div class="input-group justify-content-end">
+              <input type="text" class="form-control" placeholder="Alias">
               <input type="text" class="form-control" placeholder="Password">
               <span class="input-group-btn">
-                <button class="btn btn-outline-primary" type="button">Search</button>
+                <button class="btn btn-outline-primary" type="button">Login</button>
               </span>
             </div>
+            <small class="form-text text-muted">Don't have an account? Register <a [routerLink]="['/register']">here</a>!</small>
         </form>
     </div>
 </nav>
