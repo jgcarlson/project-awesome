@@ -1,23 +1,23 @@
-<div class="container-fluid" id="header">
-  <div class="row">
-    <div class="col">
-      <div class="container-fluid">
-        <img src="./../../../assets/images/llama.png" class="img-fluid float-left" alt="llama">
-      </div>
+<nav class="navbar navbar-toggleable-sm">
+
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar4">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a href="/" class="navbar-brand"><img src="./../../../assets/images/llama.png" class="img-fluid float-left" alt="llama"></a>
+    <div class="container-fluid" id="title">
+      <h2>FairBnB</h2>
+      <h5>Etsy meets bitcoin and bartering.</h5>
     </div>
-    <div class="col">
-      <div class="container-fluid" id="title">
-        <h2>FairBnB</h2>
-        <h5>Etsy meets bitcoin and bartering.</h5>
-      </div>
+    <div class="navbar-collapse collapse" id="navbar">
+        <form class="d-inline ml-auto">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Alias">
+              <input type="text" class="form-control" placeholder="Password">
+              <span class="input-group-btn">
+                <button class="btn btn-outline-primary" type="button">Login</button>
+              </span>
+            </div>
+            <small class="form-text text-muted">Don't have an account? Register <a [routerLink]="['/register']">here</a>!</small>
+        </form>
     </div>
-    <div class="col-sm-3"></div>
-    <div class="col">
-      <form class="form form-inline">
-        <div class="input-group">
-          
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+</nav>
