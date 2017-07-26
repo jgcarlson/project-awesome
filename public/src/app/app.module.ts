@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -19,6 +20,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { BasketComponent } from './basket/basket.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { NgbdCarouselConfig } from './landing/carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
     ProfileComponent,
     RegisterComponent,
     BasketComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    NgbdCarouselConfig
   ],
   imports: [
     BrowserModule,
@@ -40,9 +43,13 @@ import { CheckoutComponent } from './checkout/checkout.component';
     ReactiveFormsModule,
     HttpModule,
     NgbModule.forRoot(),
-	CommonModule
+  CommonModule
   ],
-  providers: [ OmniService, PaymentService ],
+  providers: [
+    OmniService,
+    NgbCarouselConfig,
+    PaymentService
+   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
