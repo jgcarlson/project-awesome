@@ -14,3 +14,7 @@ img {
 form {
   text-align: right;
 }
+
+.error{
+	color: red;
+}

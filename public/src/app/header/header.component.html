@@ -9,6 +9,7 @@
       <h5>Etsy meets bitcoin and bartering.</h5>
     </div>
     <div *ngIf="currentUser == null" class="navbar-collapse collapse" id="loggedout">
+		<p *ngIf="errors" class="error">Invalid Credentials</p>
         <form class="d-inline ml-auto" (submit)="login()">
             <div class="input-group">
               <input type="text" name="alias" [(ngModel)]="user.alias" class="form-control" placeholder="Alias">
