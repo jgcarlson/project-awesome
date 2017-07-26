@@ -46,6 +46,10 @@ let UserSchema = new Schema({
     type: Number,
     default: 0
   },
+  numReviews: {
+    type: Number,
+    default: 0
+  },
   avgRating: {
     type: Number,
     default: 0

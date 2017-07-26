@@ -258,6 +258,27 @@ module.exports = {
         console.log('false:', err)
         res.json({success: false}) // We should do something else here
       } else {
+      	User.findOne({_id: req.body._vendor}, (err, vendor)=>{
+      		if(err){
+            console.log(err);
+	        let errors = [];
+	            for(let i in err.errors){
+	              errors.push(err.errors[i].message);
+	            }
+	            return res.status(400).send(errors);
+	        }
+	        vendor.products_offered.push(prod._id);
+	        vendor.save( (err, savedProd)=>{
+	        	if(err){
+	            console.log(err);
+		        let errors = [];
+		            for(let i in err.errors){
+		              errors.push(err.errors[i].message);
+		            }
+		            return res.status(400).send(errors);
+		        }
+	        })
+      	})
         console.log('true')
         res.json({success: true}) // and here.
       }
@@ -363,5 +384,91 @@ module.exports = {
     })
 
   },
+
+  //**********************************
+  //review controller methods \/
+  //**********************************
+
+  review_product: function(req, res){
+    Product.findOne({_id: req.params.id}, (err, product)=>{ 
+        if(err){
+          console.log(err);
+        let errors = [];
+            for(let i in err.errors){
+              errors.push(err.errors[i].message);
+            }
+            return res.status(400).send(errors);
+        }
+        let review = new Review({review: req.body.review, rating: req.body.rating, _byUser: JSON.parse(localStorage.getItem('currentUser.user.id')), _reviewedProduct: req.params.id});
+        review.save( (err, savedReview)=>{
+        	if(err){
+            console.log(err);
+	        let errors = [];
+	            for(let i in err.errors){
+	              errors.push(err.errors[i].message);
+	            }
+	            return res.status(400).send(errors);
+	        }
+        
+	        product.totalRating += req.body.rating;
+	        product.numReviews += 1;
+	        product.avgRating = product.totalRating/product.numReviews;
+	        product.save( (err, savedProduct)=>{
+	        	if(err){
+	            console.log(err);
+		        let errors = [];
+		            for(let i in err.errors){
+		              errors.push(err.errors[i].message);
+		            }
+		            return res.status(400).send(errors);
+		        }
+		        return res.json(review);
+	        })
+	    })
+        
+    })
+
+  },
+  review_vendor: function(req, res){
+    User.findOne({_id: req.params.id}, (err, user)=>{ //could add extra layer where we check that vendor = true?
+      if(err){
+          console.log(err);
+        let errors = [];
+            for(let i in err.errors){
+              errors.push(err.errors[i].message);
+            }
+            return res.status(400).send(errors);
+        }
+        let review = new Review({review: req.body.review, rating: req.body.rating, _byUser: JSON.parse(localStorage.getItem('currentUser.user.id')), _reviewedVendor: req.params.id});
+        review.save( (err, savedReview)=>{
+        	if(err){
+            console.log(err);
+	        let errors = [];
+	            for(let i in err.errors){
+	              errors.push(err.errors[i].message);
+	            }
+	            return res.status(400).send(errors);
+	        }
+        
+	        user.totalRating += req.body.rating;
+	        user.numReviews += 1;
+	        user.avgRating = user.totalRating/user.numReviews;
+	        user.save( (err, saveduser)=>{
+	        	if(err){
+	            console.log(err);
+		        let errors = [];
+		            for(let i in err.errors){
+		              errors.push(err.errors[i].message);
+		            }
+		            return res.status(400).send(errors);
+		        }
+		        return res.json(savedReview);
+	        })
+	    })
+    })
+
+  },
+
+
 
 }
