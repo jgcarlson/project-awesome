@@ -190,7 +190,7 @@ module.exports = {
             } else {
               console.log(success)
             }
-          }
+          })
         }
     })
   },
