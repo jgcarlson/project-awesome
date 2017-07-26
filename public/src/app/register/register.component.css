@@ -10,3 +10,7 @@ img {
 ul, li {
   text-align: left;
 }
+
+.error {
+	color: red;
+}

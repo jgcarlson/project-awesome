@@ -43,12 +43,16 @@
     <h5>Your privacy and anonymity are imporant to us. We don't share your information with anyone.</h5>
     <div class="card">
       <div class="card-block">
-        <form (submit)="register()">
-          <input type="text" [(ngModel)]="user.alias" name="alias" class="form-control" placeholder="Alias">
-          <input type="text" [(ngModel)]="user.email" name="email" class="form-control" placeholder="Email">
-          <input type="password" [(ngModel)]="user.password" name="password" class="form-control" placeholder="Password">
-          <input type="password" [(ngModel)]="user.confirm" name="confirm" class="form-control" placeholder="Confirm Password">
-          <button type="submit" class="btn btn-outline-primary btn-block">Register!</button>
+        <form #regForm="ngForm" (submit)="register()">
+          <input type="text" [(ngModel)]="user.alias" #alias="ngModel" name="alias" class="form-control" placeholder="Alias" minlength="2" required>
+		  	<p class="error" *ngIf="alias.touched && !alias.valid">Alias must be at least 2 characters long</p>
+          <input type="text" [(ngModel)]="user.email" #email="ngModel" name="email" class="form-control" placeholder="Email" pattern="[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" required>
+		  	<p class="error" *ngIf="email.touched && !email.valid">Please enter a valid email address</p>
+          <input type="password" [(ngModel)]="user.password" #password="ngModel" name="password" class="form-control" placeholder="Password" minlength="8" required>
+		  	<p class="error" *ngIf="password.touched && !password.valid">Password must be at least 8 characters long</p>
+          <input type="password" [(ngModel)]="user.confirm" #confirm="ngModel" name="confirm" class="form-control" placeholder="Confirm Password" pattern=password minlength="8" required>
+		  	<p class="error" *ngIf="confirm.touched && !confirm.valid">Please enter your password again</p>
+          <button [disabled]="!regForm.valid" type="submit" class="btn btn-outline-primary btn-block">Register!</button>
         </form>
       </div>
     </div>
