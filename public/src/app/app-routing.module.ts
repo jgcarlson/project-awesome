@@ -8,13 +8,15 @@ import { SearchComponent } from './search/search.component';
 import { ProductComponent } from './product/product.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
+import { BasketComponent } from './basket/basket.component';
 
-const routes: Routes = [ // to limit access to only logged in users, add 'canActivate: [RouterService]' to route.
+const routes: Routes = [ // to limit access to only logged in users, add 'canActivate: [OmniService]' to route.
   { path: '', component: LandingComponent },
   { path: 'search', component: SearchComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'product/:id', component: ProductComponent },
-  { path: 'profile/:id', component: ProfileComponent },
+  { path: 'user/:id', component: ProfileComponent },
+  { path: 'user/:id/basket', component: BasketComponent, canActivate: [OmniService] },
   { path: '**', component: LandingComponent }
 ];
 
