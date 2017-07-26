@@ -19,7 +19,8 @@
     "mongoose": "^4.11.3",
     "morgan": "^1.8.2",
     "passport": "^0.3.2",
-    "passport-jwt": "^2.2.1"
+    "passport-jwt": "^2.2.1",
+    "stripe": "^4.23.1"
   },
   "keywords": [
     "'e-commerce'",
@@ -37,5 +38,8 @@
   "bugs": {
     "url": "https://github.com/jgcarlson/project-awesome/issues"
   },
-  "homepage": "https://github.com/jgcarlson/project-awesome#readme"
+  "homepage": "https://github.com/jgcarlson/project-awesome#readme",
+  "devDependencies": {
+    "@angular/cli": "^1.2.4"
+  }
 }

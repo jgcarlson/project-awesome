@@ -3,8 +3,11 @@ var User = mongoose.model('User');
 var Product = mongoose.model('Product');
 var Review = mongoose.model('Review');
 var bcrypt = require('bcrypt');
+const stripe = require('stripe')
 const jwt = require('jsonwebtoken');
 const cert = 'KEEP_IT_SECRET.KEEP_IT_SAFE.'
+const keyPublishable = process.env.PUBLISHABLE_KEY;
+const keySecret = process.env.SECRET_KEY;
 
 module.exports = {
   //**********************************
@@ -103,14 +106,14 @@ module.exports = {
             return res.status(400).send(errors);
         }
         return res.json(user.recently_viewed);
-  		//hopefully this returns just the array of products	
+  		//hopefully this returns just the array of products
   	})
 
 
   },
   suggested_products: function(req, res){
   	//get up to 3 items from order history, get up to 3 tags from each- 3 tags total
-  	//then do the search thing and return those items 	
+  	//then do the search thing and return those items
   	User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}).populate('orders_placed').exec( (err, user)=>{
         if(err){
           console.log(err);
@@ -382,7 +385,6 @@ module.exports = {
         }
         return res.json(user);
     })
-
   },
 
   //**********************************
@@ -390,7 +392,7 @@ module.exports = {
   //**********************************
 
   review_product: function(req, res){
-    Product.findOne({_id: req.params.id}, (err, product)=>{ 
+    Product.findOne({_id: req.params.id}, (err, product)=>{
         if(err){
           console.log(err);
         let errors = [];
@@ -409,7 +411,7 @@ module.exports = {
 	            }
 	            return res.status(400).send(errors);
 	        }
-        
+
 	        product.totalRating += req.body.rating;
 	        product.numReviews += 1;
 	        product.avgRating = product.totalRating/product.numReviews;
@@ -425,7 +427,7 @@ module.exports = {
 		        return res.json(review);
 	        })
 	    })
-        
+
     })
 
   },
@@ -449,7 +451,7 @@ module.exports = {
 	            }
 	            return res.status(400).send(errors);
 	        }
-        
+
 	        user.totalRating += req.body.rating;
 	        user.numReviews += 1;
 	        user.avgRating = user.totalRating/user.numReviews;

@@ -9,6 +9,7 @@ import { ProductComponent } from './product/product.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { BasketComponent } from './basket/basket.component';
+import { CheckoutComponent } from './checkout/checkout.component'
 
 const routes: Routes = [ // to limit access to only logged in users, add 'canActivate: [OmniService]' to route.
   { path: '', component: LandingComponent },
@@ -17,7 +18,8 @@ const routes: Routes = [ // to limit access to only logged in users, add 'canAct
   { path: 'product/:id', component: ProductComponent },
   { path: 'user/:id', component: ProfileComponent },
   { path: 'user/:id/basket', component: BasketComponent, canActivate: [OmniService] },
-  { path: '**', component: LandingComponent }
+  { path: 'checkout', component: CheckoutComponent},
+  { path: '**', component: LandingComponent },
 ];
 
 @NgModule({

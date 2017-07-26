@@ -3,8 +3,10 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { OmniService } from './omni.service';
+import { PaymentService } from './payment.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +18,7 @@ import { ProductComponent } from './product/product.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { BasketComponent } from './basket/basket.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import { BasketComponent } from './basket/basket.component';
     ProductComponent,
     ProfileComponent,
     RegisterComponent,
-    BasketComponent
+    BasketComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
@@ -35,9 +39,10 @@ import { BasketComponent } from './basket/basket.component';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+	CommonModule
   ],
-  providers: [ OmniService ],
+  providers: [ OmniService, PaymentService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

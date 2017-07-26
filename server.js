@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const passjwt = require('passport-jwt').Strategy;
 
+
 // configuration =================
 mongoose.Promise = global.Promise;
 app.use(express.static(path.join(__dirname, 'public', 'dist')))
