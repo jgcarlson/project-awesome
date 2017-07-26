@@ -92,8 +92,8 @@ export class OmniService implements CanActivate {
       .toPromise();
     }
 
-    create_item(form){
-      return this._http.post('/api/create_item', form.value) //the .value should be called somewhere before the http request
+    create_item(item){
+      return this._http.post('/api/create_item', item)
       .map( data => data.json())
       .toPromise();
     }

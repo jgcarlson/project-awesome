@@ -26,6 +26,8 @@ export class HeaderComponent implements OnInit {
     password: ''
   }
 
+  query:string = ''
+
   login() {
     this._omniService.login(this.user)
     .then(data => {
@@ -35,9 +37,9 @@ export class HeaderComponent implements OnInit {
     })
 
     .catch(err => {
-		console.log('Login-catch error:', err)
-		this.errors = err;
-	})
+    console.log('Login-catch error:', err)
+    this.errors = err;
+  })
     this.user = { alias: '', password: '' };
   }
 

@@ -22,10 +22,4 @@ module.exports = app => {
   app.post('/api/register_user', controller.register_user);
   app.post('/api/authenticate', controller.authenticate);
 
-
-    // app.all("*", (req,res,next) => {
-    //     res.sendfile(path.resolve("./public/dist/index.html"))
-    //     //should this really be index.html???????
-    // });
-
 }

@@ -16,5 +16,17 @@ form {
 }
 
 .error{
-	color: red;
+  color: red;
+}
+
+i {
+  color: black;
+}
+
+.btn-sm {
+  max-height: 1.9em;
+}
+
+.middle {
+  margin: auto 2vw;
 }

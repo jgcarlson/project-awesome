@@ -1,7 +1,24 @@
-<p>
-  profile works!
-</p>
-
-<div *ngIf="currentUser.user.vendor" class="container-fluid">
-
+<h2>{{ currentUser.user.alias }}'s Profile</h2>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div *ngIf="currentUser.user.vendor == true" class="container-fluid" id="create_item">
+        <div class="card">
+          <div class="card-block">
+            <form (submit)="create_item()">
+              <input type="text" name="title" [(ngModel)]="product.title" class="form-control" placeholder="Product Name">
+              <input type="text" name="description" [(ngModel)]="product.description" class="form-control" placeholder="Product Description">
+              <input type="number" name="price" [(ngModel)]="product.price" class="form-control" placeholder="Price in USD">
+              <input type="text" name="tags" [(ngModel)]="product.tags" class="form-control" placeholder="Tags (at least 3 tags seperated by spaces)">
+              <input type="text" name="images" [(ngModel)]="product.images" class="form-control" placeholder="Add image URLs (seperated by spaces)">
+              <button type="submit" class="btn btn-block btn-outline-primary">Add Product</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <h4>Other stuff goes here.</h4>
+    </div>
+  </div>
 </div>
