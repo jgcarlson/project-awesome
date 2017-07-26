@@ -3,8 +3,11 @@ var User = mongoose.model('User');
 var Product = mongoose.model('Product');
 var Review = mongoose.model('Review');
 var bcrypt = require('bcrypt');
+const stripe = require('stripe')
 const jwt = require('jsonwebtoken');
 const cert = 'KEEP_IT_SECRET.KEEP_IT_SAFE.'
+const keyPublishable = process.env.PUBLISHABLE_KEY;
+const keySecret = process.env.SECRET_KEY;
 
 module.exports = {
   //**********************************
@@ -382,8 +385,7 @@ module.exports = {
         }
         return res.json(user);
     })
-
-  },
+  }
 
   //**********************************
   //review controller methods \/
