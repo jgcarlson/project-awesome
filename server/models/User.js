@@ -53,6 +53,7 @@ let UserSchema = new Schema({
   reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}],
   orders_placed: [{type: Schema.Types.ObjectId, ref: 'Product'}],
   products_offered: [{type: Schema.Types.ObjectId, ref: 'Product'}],
+  recently_viewed: [{type: Schema.Types.ObjectId, ref: 'Product'}],
 }, {timestamps: true} )
 
 mongoose.model('User', UserSchema)

@@ -11,7 +11,7 @@ module.exports = {
   //product controller methods \/
   //**********************************
   todays_deals: function(req, res){ //fetch 3 random products
-    Product.find({}).limit(3).exec( (err, products)=>{
+    Product.find({}, (err, products)=>{
       if(err){
           console.log(err);
         let errors = [];
@@ -44,7 +44,7 @@ module.exports = {
 
   },
   featured_items: function(req, res){
-    Product.find({}).limit(3).exec( (err, products)=>{
+    Product.find({}, (err, products)=>{
       if(err){
           console.log(err);
         let errors = [];
@@ -53,7 +53,13 @@ module.exports = {
             }
             return res.status(400).send(errors);
         }
-        return res.json(products);
+        var prods = [];
+        prods.push(products[Math.random()*products.length]);
+        prods.push(products[Math.random()*products.length]);
+        prods.push(products[Math.random()*products.length]);
+        prods.push(products[Math.random()*products.length]);
+        prods.push(products[Math.random()*products.length]);
+        return res.json(prods);
     })
 
   },
@@ -87,8 +93,17 @@ module.exports = {
   },
   recently_viewed: function(req, res){
   	//whenever we get a product, rotate the recently viewed array
-  	User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}).populate('orders_placed').exec( (err, user)=>{
-  		
+  	User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}).populate('recently_viewed').exec( (err, user)=>{
+  		if(err){
+          console.log(err);
+        let errors = [];
+            for(let i in err.errors){
+              errors.push(err.errors[i].message);
+            }
+            return res.status(400).send(errors);
+        }
+        return res.json(user.recently_viewed);
+  		//hopefully this returns just the array of products	
   	})
 
 
@@ -97,7 +112,7 @@ module.exports = {
   	//get up to 3 items from order history, get up to 3 tags from each- 3 tags total
   	//then do the search thing and return those items 	
   	User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}).populate('orders_placed').exec( (err, user)=>{
-      if(err){
+        if(err){
           console.log(err);
         let errors = [];
             for(let i in err.errors){
@@ -149,7 +164,7 @@ module.exports = {
   },
   get_item: function(req, res){
     Product.find({_id: req.params.id}, (err, product)=>{
-      if(err){
+        if(err){
           console.log(err);
         let errors = [];
             for(let i in err.errors){
@@ -157,6 +172,19 @@ module.exports = {
             }
             return res.status(400).send(errors);
         }
+        User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}, (err, user)=>{
+        	if(err){
+                console.log(err);
+                let errors = [];
+                for(let i in err.errors){
+                    errors.push(err.errors[i].message);
+                }
+            return res.status(400).send(errors);
+            }
+        	user.recently_viewed.shift();
+        	user.recently_viewed[2] = product._id;
+        })
+
         return res.json(product);
     })
   },
@@ -200,7 +228,11 @@ module.exports = {
             }
             return res.status(400).send(errors);
         }
-        return res.json(products);
+        var prods = [];
+        prods.push(products[Math.random()*products.length]);
+        prods.push(products[Math.random()*products.length]);
+        prods.push(products[Math.random()*products.length]);
+        return res.json(prods);
     })
 
   },
