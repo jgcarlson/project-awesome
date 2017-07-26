@@ -4,6 +4,8 @@ import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { OmniService } from './omni.service';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -33,7 +35,7 @@ import { RegisterComponent } from './register/register.component';
     HttpModule,
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [ OmniService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
