@@ -12,6 +12,13 @@ let UserSchema = new Schema({
     type: String,
     trim: true,
   },
+  alias: {
+    type: String,
+    trim: true,
+    required: [true, "An alias is required."],
+    unique: true
+
+  },
   admin: {
     type: String,
     trim: true,

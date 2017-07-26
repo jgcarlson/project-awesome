@@ -174,27 +174,35 @@ module.exports = {
   //**********************************
 
   register_user: function(req, res) {
-    User.find({alias: req.body.alias}, (err, newUser)=>{
+    console.log('hello')
+    User.findOne({alias: req.body.alias}, (err, newUser)=>{
       if(err){
-          console.log(err);
+        console.log(err);
         let errors = [];
-            for(let i in err.errors){
-              errors.push(err.errors[i].message);
-            }
-            return res.status(400).send(errors);
+          for(let i in err.errors){
+            errors.push(err.errors[i].message);
+          }
+          return res.status(400).send(errors);
         } else if (newUser == null) {
+          console.log('hello again')
           let hash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+          console.log(hash)
           let user = new User({alias: req.body.alias, email: req.body.email, password: hash}, (err, success) => {
+            console.log(user)
             if (err) {
               console.log(err)
             } else {
               console.log(success)
             }
           })
+          console.log(user)
           user.save( (err, user) => {
+            console.log('hello again again')
             if (err) {
+              console.log('false')
               res.json({success: false}) // We should do something else here
             } else {
+              console.log('true')
               res.json({success: true}) // and here.
             }
           })
