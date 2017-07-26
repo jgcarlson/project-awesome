@@ -22,7 +22,6 @@ module.exports = {
         }
         return res.json(products);
     })
-
   },
   shop_by_category: function(req, res){
     Product.find({'tags.2': {$exists: true}}).limit(1).exec( (err, product)=>{

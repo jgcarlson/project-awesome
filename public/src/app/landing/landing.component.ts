@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { OmniService } from './../omni.service'
+
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _omniService:OmniService) { }
 
   ngOnInit() {
+    this.todays_deals()
+  }
+
+  todays_listing:any = ''
+
+  todays_deals() {
+    console.log('firing')
+    this._omniService.todays_deals()
+    .then(data => this.todays_listing = data)
+    .catch(data => console.log(data))
   }
 
 }
