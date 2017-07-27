@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from './../models/product';
+import { FileUploadModule } from 'primeng/primeng';
 
 import { OmniService } from './../omni.service';
 

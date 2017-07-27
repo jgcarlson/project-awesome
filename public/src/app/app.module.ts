@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FileUploadModule } from 'primeng/primeng';
 
 import { OmniService } from './omni.service';
 import { PaymentService } from './payment.service';
@@ -45,6 +46,7 @@ import { NgbdRatingConfig } from './rating/rating.component';
     ReactiveFormsModule,
     HttpModule,
     CommonModule,
+    FileUploadModule,
     NgbModule.forRoot()
   ],
   providers: [
