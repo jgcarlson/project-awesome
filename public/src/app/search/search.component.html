@@ -1,9 +1,27 @@
-<div *ngFor='let item of listings'>
-	<img src='item.images[0]'>
-	<h4>{{item.title}}</h4>
-	<p>{{item.description}}</p>
-	<p>${{item.price}}</p>
-	<p>Rating: {{item.avgRating}}</p>
+<h2>Search results for "{{ query }}".</h2>
+<hr>
+<div class="container-fluid" id="results">
+  <div  *ngFor="let item of listings; let i = index" class="container-fluid">
+    <div class="row">
+      <div class="col-md-1">
+          <h4>{{ i + 1 }}.</h4>
+      </div>
+      <div class="col-md-4">
+        <img src="{{ item.images[0] }}" class="img-fluid" alt="{{ item.title }} image">
+      </div>
+      <div class="col-md-6" id="description">
+        <h3>{{ item.title }}</h3>
+        <ngb-rating [rate]="item.rating"></ngb-rating>
+        <h4>{{ item.price | currency : 'USD' : true }}</h4>
+        <h5>Description: {{ item.description }}</h5>
+        <h5>Vendor: {{ item._vendor }}</h5>
+        <div class="d-inline">
+          <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
+          <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+        </div>
+      </div>
+      <div class="cold-md-1"></div>
+    </div>
+    <hr>
+  </div>
 </div>
-
-{{ listings | json }}
