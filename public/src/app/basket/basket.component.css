@@ -1,4 +1,11 @@
-div {
-	border: 1px solid black;
-	margin: 10px;
+h2 {
+  text-decoration: underline;
+}
+
+#product {
+  text-align: left;
+}
+
+.card {
+  margin: 1vh 1vw;
 }
