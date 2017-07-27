@@ -101,7 +101,7 @@ module.exports = {
   },
   recently_viewed: function(req, res){
     //whenever we get a product, rotate the recently viewed array
-    User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}).populate('recently_viewed').exec( (err, user)=>{
+    User.findOne({_id: req.params.id}).populate('recently_viewed').exec( (err, user)=>{
       if(err){
           console.log(err);
         let errors = [];
@@ -119,7 +119,7 @@ module.exports = {
   suggested_products: function(req, res){
     //get up to 3 items from order history, get up to 3 tags from each- 3 tags total
     //then do the search thing and return those items
-    User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}).populate('orders_placed').exec( (err, user)=>{
+    User.findOne({_id: req.params.id}).populate('orders_placed').exec( (err, user)=>{
         if(err){
           console.log(err);
         let errors = [];
@@ -555,7 +555,7 @@ db.articles.createIndex( { subject: "text" } )
             }
             return res.status(400).send(errors);
         }
-        let review = new Review({review: req.body.review, rating: req.body.rating, _byUser: JSON.parse(localStorage.getItem('currentUser.user.id')), _reviewedProduct: req.params.id});
+        let review = new Review({req.body});
         review.save( (err, savedReview)=>{
           if(err){
             console.log(err);
@@ -595,7 +595,7 @@ db.articles.createIndex( { subject: "text" } )
             }
             return res.status(400).send(errors);
         }
-        let review = new Review({review: req.body.review, rating: req.body.rating, _byUser: JSON.parse(localStorage.getItem('currentUser.user.id')), _reviewedVendor: req.params.id});
+        let review = new Review({req.body});
         review.save( (err, savedReview)=>{
           if(err){
             console.log(err);
