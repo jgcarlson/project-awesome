@@ -5,7 +5,7 @@
 <div class="container-fluid">
   <h3>Today's Deals</h3>
   <div class="d-inline-flex justify-content-around no-wrap">
-    <div *ngFor="let item of todays_listing" class="card">
+    <div *ngFor="let item of todays_listing.prods" class="card">
       <div class="card-block">
         <h5>{{ item.title }}</h5>
         <h6>{{ item.description }}</h6>
@@ -17,3 +17,4 @@
     </div>
   </div>
 </div>
+{{ todays_listing | json }}
