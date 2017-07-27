@@ -29,6 +29,7 @@ module.exports = app => {
   app.get('/api/get_vendor/:id', controller.get_vendor);
   app.get('/api/get_basket/:id', controller.get_basket);
   app.post('/api/basket', controller.add_to_basket);
+  app.post('/api/remove_from_basket', controller.remove_from_basket);
 
   //**********************************
   //review routes \/

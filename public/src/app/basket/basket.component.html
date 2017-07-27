@@ -1,3 +1,11 @@
 <h2>Your Basket</h2>
 
 <h4 *ngIf="userBasket.length === 0">You currently have no items in your basket</h4>
+
+<div *ngIf="userBasket.length > 0">
+	<div *ngFor="let product of userBasket">
+		<p>Title: {{ product.title }}</p>
+		<p>Description: {{ product.description }}</p>
+		<button (click)="remove_from_basket(product)">Remove from basket</button>
+	</div>
+</div>
