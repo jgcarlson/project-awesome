@@ -39,3 +39,7 @@ i {
 .asdf {
   border: 1px solid red;
 }
+
+#buttons {
+  margin-bottom: 1vh;
+}
