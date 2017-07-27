@@ -9,29 +9,42 @@ import { OmniService } from './../omni.service'
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+  query = '';
 
   constructor(private _omniService:OmniService, private _route: ActivatedRoute) {
     this._route.params.subscribe((param)=>{
-          console.log("searchComponent loaded and url search_criteria given is: ", param.search_critera);
+        console.log(param);
+          console.log("searchComponent loaded and url search_criteria given is: " + param.search_critera);
           this.query = param.search_criteria;
+          this._omniService.find_item(param.search_criteria)
+          .then(results => {
+            this.listings = results;
+            console.log(results);
+          })
+          .catch(err => {
+            console.log('Search-catch error:', err);
+            //this.errors = err;
+          })
+          console.log("this.query: " + this.query);
       })
   }
 
   ngOnInit() {
-    this._omniService.find_item(this.query)
-    .then(results => {
-      this.listings = results;
-      console.log(results);
-    })
-
-    .catch(err => {
-      console.log('Search-catch error:', err);
-      //this.errors = err;
-    })
+    
   }
 
   listings:any = '';
-  query = '';
+  
+
+
+  /*
+  ngOnInit() {
+  this.route.paramMap
+    .switchMap((params: ParamMap) =>
+      this.service.getHero(params.get('id')))
+    .subscribe((hero: Hero) => this.hero = hero);
+}
+  */
 
 
 }

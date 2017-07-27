@@ -30,7 +30,7 @@ let ProductSchema = new Schema({
     default: 0
   },
   _vendor: {type: Schema.Types.ObjectId, ref: 'User'},
-  tags: [{type: String}],
+  tags: {type: String},
   images: [{type: String}],
 
 },

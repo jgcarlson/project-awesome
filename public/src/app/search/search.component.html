@@ -1,5 +1,9 @@
-<p>
-  search works!
-</p>
+<div *ngFor='let item of listings'>
+	<img src='item.images[0]'>
+	<h4>{{item.title}}</h4>
+	<p>{{item.description}}</p>
+	<p>${{item.price}}</p>
+	<p>Rating: {{item.avgRating}}</p>
+</div>
 
 {{ listings | json }}
