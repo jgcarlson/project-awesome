@@ -50,6 +50,11 @@ export class HeaderComponent implements OnInit {
     console.log(this.currentUser)
   }
 
+  search(){
+    console.log('made it to search function');
+    this._router.navigate(['/search/', this.query]);
+  }
+
 
 
 
