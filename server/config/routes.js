@@ -14,6 +14,7 @@ module.exports = app => {
   app.get('/api/featured_vendors', controller.featured_vendors);
   app.get('/api/recent_reviews', controller.recent_reviews);
   app.get('/api/recently_viewed/:id', controller.recently_viewed);
+  app.get('/api/order_history/:id', controller.order_history);
   app.get('/api/suggested_products/:id', controller.suggested_products);
   app.get('/api/get_item/:id', controller.get_item);
   app.get('/api/find_item/:search_criteria', controller.find_item);
@@ -35,7 +36,7 @@ module.exports = app => {
   //**********************************
   //review routes \/
   //**********************************
-  app.post('/api/review_vendor/:id', controller.review_vendor);
-  app.post('/api/review_product/:id', controller.review_product);
+  app.post('/api/review_vendor', controller.review_vendor);
+  app.post('/api/review_product', controller.review_product);
 
 }

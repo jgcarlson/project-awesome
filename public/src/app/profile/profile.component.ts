@@ -11,9 +11,39 @@ import { OmniService } from './../omni.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  recently_viewed;
+  suggested_products;
+  orders;
 
   constructor(private _omniService:OmniService) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this._omniService.recently_viewed(this.currentUser.user.id)
+          .then(results => {
+            this.recently_viewed = results;
+            console.log(results);
+          })
+          .catch(err => {
+            console.log('Recently_viewed-catch error:', err);
+            //this.errors = err;
+          })
+    this._omniService.suggested_products(this.currentUser.user.id)
+          .then(results => {
+            this.suggested_products = results;
+            console.log(results);
+          })
+          .catch(err => {
+            console.log('suggested_products-catch error:', err);
+            //this.errors = err;
+          })
+    this._omniService.order_history(this.currentUser.user.id)
+          .then(results => {
+            this.orders = results;
+            console.log(results);
+          })
+          .catch(err => {
+            console.log('order_history-catch error:', err);
+            //this.errors = err;
+          })
   }
 
   ngOnInit() {

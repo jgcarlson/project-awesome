@@ -116,6 +116,23 @@ module.exports = {
 
 
   },
+  order_history: function(req, res){
+    //whenever we get a product, rotate the recently viewed array
+    User.findOne({_id: req.params.id}).populate('orders_placed').exec( (err, user)=>{
+      if(err){
+          console.log(err);
+        let errors = [];
+            for(let i in err.errors){
+              errors.push(err.errors[i].message);
+            }
+            return res.status(400).send(errors);
+        }
+        return res.json(user.orders_placed);
+      //hopefully this returns just the array of products
+    })
+
+
+  },
   suggested_products: function(req, res){
     //get up to 3 items from order history, get up to 3 tags from each- 3 tags total
     //then do the search thing and return those items
@@ -208,8 +225,9 @@ module.exports = {
     search = search.toLowerCase();
     //var criteria = search.split(" ");
     //console.log(criteria);
-  Product.find({ $text: { $search: search } }, { score: { $meta: "textScore" } }).sort( { score: { $meta: "textScore" } } ).exec( (err, products)=>{
-    if(err){
+
+	Product.find({ $text: { $search: search } }, { score: { $meta: "textScore" } }).populate('_vendor').sort( { score: { $meta: "textScore" } } ).exec( (err, products)=>{
+		if(err){
             console.log(err);
           let errors = [];
             for(let i in err.errors){
@@ -555,7 +573,7 @@ db.articles.createIndex( { subject: "text" } )
             }
             return res.status(400).send(errors);
         }
-        let review = new Review({req.body});
+        let review = new Review(req.body);
         review.save( (err, savedReview)=>{
           if(err){
             console.log(err);
@@ -595,7 +613,7 @@ db.articles.createIndex( { subject: "text" } )
             }
             return res.status(400).send(errors);
         }
-        let review = new Review({req.body});
+        let review = new Review(req.body);
         review.save( (err, savedReview)=>{
           if(err){
             console.log(err);
