@@ -20,6 +20,7 @@ module.exports = app => {
   app.get('/api/new_items_from_store/:id', controller.new_items_from_store);
   app.get('/api/popular_items_from_store/:id', controller.popular_items_from_store);
   app.post('/api/create_item', controller.create_item);
+  app.post('/api/payment', controller.payment);
   //**********************************
   //user routes \/
   //**********************************

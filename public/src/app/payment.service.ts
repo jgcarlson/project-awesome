@@ -7,9 +7,17 @@ export class PaymentService {
 
   constructor(private _http: Http) { }
 
-  processPayment(token: any, amount){
+  processPayment(userId, token, amount){
+	  let body = {
+		  token: token,
+		  amount: amount,
+		  userId: userId
+	  }
 	  console.log("Service token: ", token)
 	  console.log("Service, amount: ", amount)
+	  return this._http.post("/api/payment", body)
+	  .map(data => data.json())
+	  .toPromise()
   }
 
 }
