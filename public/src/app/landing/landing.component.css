@@ -7,3 +7,7 @@ a:link {
   text-decoration: none;
   color: black
 }
+
+.card, .card-block {
+  margin: 1vw 1vw;
+}
