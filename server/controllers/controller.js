@@ -513,7 +513,33 @@ db.articles.createIndex( { subject: "text" } )
 			return res.json(savedUser)
 		})
 	});
-},
+  },
+
+  payment: function(req, res){
+	  console.log(req.body)
+	  User.findOne({_id: req.body.userId}, (err, user) => {
+		  if(err){
+		  console.log(err);
+		  let errors = [];
+			  for(let i in err.errors){
+				errors.push(err.errors[i].message);
+			  }
+			  return res.status(400).send(errors);
+		  }
+		  user.payments.push(req.body.token)
+		  user.save( (err, savedUser) => {
+			  if(err){
+			  console.log(err);
+			  let errors = [];
+				  for(let i in err.errors){
+					errors.push(err.errors[i].message);
+				  }
+				  return res.status(400).send(errors);
+			  }
+			  res.json(savedUser)
+		  })
+	  })
+  },
 
   //**********************************
   //review controller methods \/
