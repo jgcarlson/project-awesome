@@ -9,3 +9,8 @@
 #description {
   text-align: left;
 }
+
+a:link {
+  text-decoration: none;
+  color: black
+}

@@ -16,7 +16,7 @@
             <ul>
               <li><h4>Price: {{ product.price | currency : 'USD' : true }}</h4></li>
               <li><h4>Product description: {{ product.description }}</h4></li>
-              <li><h4>Vendor: {{ product._vendor }}</h4></li>
+              <li><h4>Vendor: {{ product._vendor.alias }}</h4></li>
               <li><h4>Reviews: REVIEWS GO HERE!!!!</h4></li>
             </ul>
             <button type="submit" class="btn btn-outline-primary" (click)="add_to_basket(product)">Add to Basket</button>
