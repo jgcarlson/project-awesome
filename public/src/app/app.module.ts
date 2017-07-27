@@ -23,6 +23,7 @@ import { BasketComponent } from './basket/basket.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { NgbdCarouselConfig } from './landing/carousel/carousel.component';
 import { NgbdRatingConfig } from './rating/rating.component';
+import { ReviewComponent } from './review/review.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { NgbdRatingConfig } from './rating/rating.component';
     BasketComponent,
     CheckoutComponent,
     NgbdCarouselConfig,
-    NgbdRatingConfig
+    NgbdRatingConfig,
+    ReviewComponent
   ],
   imports: [
     BrowserModule,
