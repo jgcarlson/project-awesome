@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit {
   product = new Product()
 
   create_item() {
-    this.product._vendor = this.currentUser.user.alias;
+    this.product._vendor = this.currentUser.user.id;
     this._omniService.create_item(this.product)
     .then(data => console.log(data))
     .catch(data => console.log(data))

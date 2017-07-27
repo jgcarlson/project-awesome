@@ -42,8 +42,8 @@ import { NgbdCarouselConfig } from './landing/carousel/carousel.component';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    NgbModule.forRoot(),
-    CommonModule
+    CommonModule,
+    NgbModule.forRoot()
   ],
   providers: [
     OmniService,
