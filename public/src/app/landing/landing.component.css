@@ -2,3 +2,8 @@
   max-width: 100vw;
   margin-top: 3px auto;
 }
+
+a:link {
+  text-decoration: none;
+  color: black
+}

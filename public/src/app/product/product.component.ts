@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
+import { NgbdRatingConfig } from './../rating/rating.component';
 import { OmniService } from './../omni.service';
 
 @Component({
@@ -9,7 +11,9 @@ import { OmniService } from './../omni.service';
 })
 export class ProductComponent implements OnInit {
 
-  constructor(private _route: ActivatedRoute, private _omniService:OmniService) {
+  constructor(private _route: ActivatedRoute, private _omniService:OmniService, config: NgbRatingConfig) {
+    config.max = 5;
+    config.readonly = false;
     this._route.params.subscribe((param)=> {
       console.log(param.id)
       this.product_id = param.id;

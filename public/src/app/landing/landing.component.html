@@ -7,14 +7,15 @@
   <div class="d-inline-flex justify-content-around no-wrap">
     <div *ngFor="let item of todays_listing.prods" class="card">
       <div class="card-block">
-        <h5><a [routerLink]="['/product', item._id]">{{ item.title }}</a></h5>
-        <h6>{{ item.description }}</h6>
-        <img class="img-fluid" src="{{ item.images[0] }}" alt="product_image">
-        <h6>{{ item.price | currency : 'USD' }}</h6>
-        <h6>Listed by {{ item._vendor }}</h6>
+        <a [routerLink]="['/product', item._id]">
+          <h5>{{ item.title }}</h5>
+          <h6>{{ item.description }}</h6>
+          <img class="img-fluid" src="{{ item.images[0] }}" alt="product_image">
+          <h6>{{ item.price | currency : 'USD' : true }}</h6>
+          <h6>Listed by {{ item._vendor }}</h6>
+        </a>
         <button type="submit" class="btn btn-outline-primary" (click)="add_to_basket(item.id)">Add to Basket</button>
       </div>
     </div>
   </div>
 </div>
-{{ todays_listing | json }}

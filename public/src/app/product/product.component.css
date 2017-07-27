@@ -1,3 +1,10 @@
-.card {
-  width: 60vw;
+#description {
+  text-align: left;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+
+img {
+  border: 2px solid black;
+  border-radius: 3px;
 }

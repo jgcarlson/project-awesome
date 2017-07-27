@@ -171,7 +171,7 @@ module.exports = {
 
   },
   get_item: function(req, res){
-    Product.find({_id: req.params.id}, (err, product)=>{
+    Product.findOne({_id: req.params.id}, (err, product)=>{
         if(err){
           console.log(err);
         let errors = [];
