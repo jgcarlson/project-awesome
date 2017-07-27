@@ -1,25 +1,65 @@
-<h2>{{ currentUser.user.alias }}'s Profile</h2>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <div *ngIf="currentUser.user.vendor == true" class="container-fluid" id="create_item">
-        <div class="card">
-          <div class="card-block">
-            <form (submit)="create_item()">
-              <input type="text" name="title" [(ngModel)]="product.title" class="form-control" placeholder="Product Name">
-              <input type="text" name="description" [(ngModel)]="product.description" class="form-control" placeholder="Product Description">
-              <input type="number" name="price" [(ngModel)]="product.price" class="form-control" placeholder="Price in USD">
-              <input type="text" name="tags" [(ngModel)]="product.tags" class="form-control" placeholder="Tags (at least 3 tags seperated by spaces)">
-              <input type="text" name="images" [(ngModel)]="product.images" class="form-control" placeholder="Add image URLs (seperated by spaces)">
-              <button type="submit" class="btn btn-block btn-outline-primary">Add Product</button>
-            </form>
+<div class="card">
+  <div class="card-block">
+    <h2>{{ currentUser.user.alias }}'s Profile</h2>
+    <hr>
+    <div class="container-fluid">
+      <div class="row" *ngIf="currentUser.user.vendor == true">
+        <div class="col">
+          <div class="container-fluid" id="create_item">
+            <div class="card">
+              <div class="card-block">
+                <h3>List a product:</h3>
+                <form (submit)="create_item()">
+                  <input type="text" name="title" [(ngModel)]="product.title" class="form-control" placeholder="Product Name">
+                  <hr>
+                  <input type="text" name="description" [(ngModel)]="product.description" class="form-control" placeholder="Product Description">
+                  <hr>
+                  <input type="number" name="price" [(ngModel)]="product.price" class="form-control" placeholder="Price in USD">
+                  <hr>
+                  <input type="text" name="tags" [(ngModel)]="product.tags" class="form-control" placeholder="Tags (at least 3 tags seperated by spaces)">
+                  <hr>
+                  <input type="text" name="images" [(ngModel)]="product.images" class="form-control" placeholder="Add image URLs (seperated by spaces)">
+                  <div class="form-group">
+                    ... or upload an image here:
+                    <input type="file" class="btn btn-outline-success" aria-describedby="fileHelp">
+                  </div>
+                  <hr>
+                  <button type="submit" class="btn btn-block btn-outline-primary">Add Product</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <h4>Other stuff goes here.</h4>
+          <h4></h4>
+        </div>
+        <hr>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-block">
+              <h1>Basket can go here?</h1>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-block">
+              <h1>Something else can go here?</h1>
+              <h3>Maybe suggestions?</h3>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col">
-      <h4>Other stuff goes here.</h4>
+      <div class="card">
+        <div class="card-block">
+          <h1>Recently Viewed</h1>
+          <hr>
+          <h3>Maybe add recently viewed here?</h3>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-{{ product | json }}
