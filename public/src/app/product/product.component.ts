@@ -4,6 +4,7 @@ import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 import { NgbdRatingConfig } from './../rating/rating.component';
 import { OmniService } from './../omni.service';
 
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -18,15 +19,36 @@ export class ProductComponent implements OnInit {
       console.log(param.id)
       this.product_id = param.id;
     })
+	this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
+
+  currentUser: any
 
   product_id:string;
   product:any;
 
   ngOnInit() {
     this._omniService.get_item(this.product_id)
-    .then(data => this.product = data)
+    .then(data => {
+		console.log("data: ", data)
+	  this.product = data
+	})
     .catch(data => console.log(data))
   }
+
+  add_to_basket(product){
+	  if(!this.currentUser){
+ 		alert("Modal Window here: Please log in!")
+	 	//Modal window here
+	  }else{
+	 	 let body = {
+	 		 userId: this.currentUser.user.id,
+	 		 product: product
+	 	 }
+	 	 this._omniService.product_to_basket(body)
+	  }
+
+  }
+
 
 }

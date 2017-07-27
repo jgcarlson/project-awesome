@@ -17,7 +17,6 @@ let UserSchema = new Schema({
     trim: true,
     required: [true, "An alias is required."],
     unique: true
-
   },
   admin: {
     type: String,
@@ -54,6 +53,7 @@ let UserSchema = new Schema({
     type: Number,
     default: 0
   },
+  basket: [{type: Schema.Types.ObjectId, ref: 'Product'}],
   reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}],
   orders_placed: [{type: Schema.Types.ObjectId, ref: 'Product'}],
   products_offered: [{type: Schema.Types.ObjectId, ref: 'Product'}],

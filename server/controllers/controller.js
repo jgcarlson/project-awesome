@@ -401,7 +401,8 @@ db.articles.createIndex( { subject: "text" } )
             user: {
               alias: user.alias,
               id: user._id,
-              vendor: user.vendor
+              vendor: user.vendor,
+			  basket: user.basket
             },
             success: true,
             token: token
@@ -441,6 +442,78 @@ db.articles.createIndex( { subject: "text" } )
         return res.json(user);
     })
   },
+
+  get_basket: function(req, res){
+	User.findOne({_id: req.params.id}).populate({path: 'basket'}).exec( (err, user)=>{
+		if(err){
+		console.log(err);
+		let errors = [];
+			for(let i in err.errors){
+			  errors.push(err.errors[i].message);
+			}
+			return res.status(400).send(errors);
+		}
+		return res.json(user)
+	});
+  },
+
+  add_to_basket: function(req, res){
+	User.findOne({_id: req.body.userId}, (err, user) =>{
+		if(err){
+		console.log(err);
+		let errors = [];
+			for(let i in err.errors){
+			  errors.push(err.errors[i].message);
+			}
+			return res.status(400).send(errors);
+		}
+		user.basket.push(req.body.product)
+		user.save( (err, savedUser) => {
+			if(err){
+			console.log(err);
+			let errors = [];
+				for(let i in err.errors){
+				  errors.push(err.errors[i].message);
+				}
+				return res.status(400).send(errors);
+			}
+			return res.json(savedUser)
+		})
+	})
+  },
+
+  remove_from_basket: function(req, res){
+	User.findOne({_id: req.body.userId}, (err, user) => {
+		if(err){
+		console.log(err);
+		let errors = [];
+			for(let i in err.errors){
+			  errors.push(err.errors[i].message);
+			}
+			return res.status(400).send(errors);
+		}
+		console.log("Product_id: ", req.body.product._id)
+		function isProduct(item){
+			return String(item) === String(req.body.product._id)
+		}
+		let index = user.basket.findIndex(isProduct)
+		console.log("Index: ", index)
+		console.log("Length", user.basket.length)
+		user.basket.splice(index, 1)
+		console.log("Length", user.basket.length)
+		user.save( (err, savedUser) => {
+			if(err){
+			console.log(err);
+			let errors = [];
+				for(let i in err.errors){
+				  errors.push(err.errors[i].message);
+				}
+				return res.status(400).send(errors);
+			}
+			return res.json(savedUser)
+		})
+	});
+},
 
   //**********************************
   //review controller methods \/
@@ -525,7 +598,6 @@ db.articles.createIndex( { subject: "text" } )
     })
 
   },
-
 
 
 }

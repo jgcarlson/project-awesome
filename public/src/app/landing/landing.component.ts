@@ -9,12 +9,15 @@ import { OmniService } from './../omni.service'
 })
 export class LandingComponent implements OnInit {
 
-  constructor(private _omniService:OmniService) { }
+  constructor(private _omniService:OmniService) {
+	this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
   ngOnInit() {
     this.todays_deals()
   }
 
+  currentUser: any
   todays_listing:any = ''
 
   todays_deals() {
@@ -25,6 +28,20 @@ export class LandingComponent implements OnInit {
       this.todays_listing = data
     })
     .catch(data => console.log(data))
+  }
+
+  add_to_basket(product){
+	if(!this.currentUser){
+	  alert("Modal Window here: Please log in!")
+	  //Modal window here
+	}else{
+	   let body = {
+		   userId: this.currentUser.user.id,
+		   product: product
+	   }
+	   this._omniService.product_to_basket(body)
+	}
+
   }
 
 }

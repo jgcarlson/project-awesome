@@ -148,7 +148,23 @@ export class OmniService implements CanActivate {
       .toPromise();
     }
 
+	get_basket(id){
+	  return this._http.get('/api/get_basket/' + id)
+	  .map( data => data.json())
+	  .toPromise();
+	}
 
+	product_to_basket(body){
+		return this._http.post('/api/basket', body)
+		.map( data => data.json())
+		.toPromise()
+	}
+
+	remove_from_basket(body){
+		return this._http.post('/api/remove_from_basket', body)
+		.map( data => data.json())
+		.toPromise()
+	}
 
 
 }

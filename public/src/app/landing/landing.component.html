@@ -14,7 +14,7 @@
           <h6>{{ item.price | currency : 'USD' : true }}</h6>
           <h6>Listed by {{ item._vendor.alias }}</h6>
         </a>
-        <button type="submit" class="btn btn-outline-primary" (click)="add_to_basket(item.id)">Add to Basket</button>
+        <button type="submit" class="btn btn-outline-primary" (click)="add_to_basket(item)">Add to Basket</button>
       </div>
     </div>
   </div>
