@@ -51,8 +51,9 @@ export class HeaderComponent implements OnInit {
   }
 
   search(){
-    console.log('made it to search function');
-    this._router.navigate(['/search/', this.query]);
+    if (this.query.length > 1) {
+      this._router.navigate(['/search/', this.query]);
+    }
   }
 
 
