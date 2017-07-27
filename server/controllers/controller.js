@@ -14,7 +14,7 @@ module.exports = {
   //product controller methods \/
   //**********************************
   todays_deals: function(req, res){ //fetch 3 random products
-    Product.find({}, (err, products)=>{
+    Product.find({}).populate('_vendor').exec( (err, products)=>{
       if(err){
           console.log(err);
         let errors = [];
@@ -28,7 +28,7 @@ module.exports = {
         prods.push(products[Math.floor(Math.random()*products.length)]);
         prods.push(products[Math.floor(Math.random()*products.length)]);
         prods.push(products[Math.floor(Math.random()*products.length)]);
-        return res.json({prods: prods});
+        return res.json({'prods': prods});
     })
   },
   shop_by_category: function(req, res){
@@ -201,19 +201,37 @@ module.exports = {
     })
   },
   find_item: function(req, res){
+  	console.log("MADE it to find_item in controller");
+  	console.log(req.body);
     var search = req.params.search_criteria.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
     search = search.replace(/\s{2,}/g," ");
     search = search.toLowerCase();
-    var criteria = search.split(" ");
-    Product.find({ tags: { "$in" : criteria} }, (err, products)=>{
-      if(err){
-          console.log(err);
-        let errors = [];
+    //var criteria = search.split(" ");
+    //console.log(criteria);
+	Product.find({ $text: { $search: search } }, { score: { $meta: "textScore" } }).sort( { score: { $meta: "textScore" } } ).exec( (err, products)=>{
+		if(err){
+            console.log(err);
+	        let errors = [];
             for(let i in err.errors){
               errors.push(err.errors[i].message);
             }
             return res.status(400).send(errors);
-        }
+	    }
+	    return res.json(products);
+	})
+
+
+    /*
+    Product.find({ tags: criteria[0]}, (err, products)=>{ //{ tags: { "$in" : criteria} }
+        if(err){
+            console.log(err);
+	        let errors = [];
+            for(let i in err.errors){
+              errors.push(err.errors[i].message);
+            }
+            return res.status(400).send(errors);
+	    }
+	    console.log("PRODUCTS FOUND: " + products);
         for (var i = 0; i<products.length; i++){
           products[i].matches = 0;
           for (var w = 0; w<criteria.length; w++){ //loop through all criteria
@@ -227,6 +245,34 @@ module.exports = {
       });
       return res.json(products);
     });
+
+db.articles.find(
+   { $text: { $search: "cake" } },
+   { score: { $meta: "textScore" } }
+)
+The returned document includes an additional field score that contains 
+the document’s score associated with the text search
+
+db.articles.find(
+   { $text: { $search: "coffee" } },
+   { score: { $meta: "textScore" } }
+).sort( { score: { $meta: "textScore" } } )
+
+db.articles.createIndex( { subject: "text" } )
+
+	for (var i = 0; i<products.length; i++){
+          products[i].matches = 0;
+          for (var w = 0; w<criteria.length; w++){ //loop through all criteria
+            if (products[i].tags.indexOf(criteria[w])> -1){ //if word is in tags
+                products[i].matches += 1; //increment matches
+            }
+          } //done with words
+      } //done with products
+        products.sort(function(a, b) {
+          return b.matches - a.matches;
+      });
+      return res.json(products);
+      */
 
 
   },
