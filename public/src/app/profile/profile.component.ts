@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
     this._omniService.recently_viewed(this.currentUser.user.id)
           .then(results => {
             this.recently_viewed = results;
-            console.log(results);
+            console.log("RECENTLY_VIEWED: " + results);
           })
           .catch(err => {
             console.log('Recently_viewed-catch error:', err);
@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
     this._omniService.suggested_products(this.currentUser.user.id)
           .then(results => {
             this.suggested_products = results;
-            console.log(results);
+            console.log("SUGGESTED_PRODUCTS: " + results);
           })
           .catch(err => {
             console.log('suggested_products-catch error:', err);
@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
     this._omniService.order_history(this.currentUser.user.id)
           .then(results => {
             this.orders = results;
-            console.log(results);
+            console.log("ORDER_HISTORY: " + results);
           })
           .catch(err => {
             console.log('order_history-catch error:', err);

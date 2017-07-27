@@ -1,3 +1,11 @@
 .card, .card-block {
   margin: 1vh auto;
 }
+#results {
+  max-width: 60vw;
+  margin: 2vh auto;
+}
+
+#description {
+  text-align: left;
+}
