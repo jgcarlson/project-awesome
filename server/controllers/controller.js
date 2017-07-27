@@ -201,37 +201,37 @@ module.exports = {
     })
   },
   find_item: function(req, res){
-  	console.log("MADE it to find_item in controller");
-  	console.log(req.body);
+    console.log("MADE it to find_item in controller");
+    console.log(req.body);
     var search = req.params.search_criteria.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
     search = search.replace(/\s{2,}/g," ");
     search = search.toLowerCase();
     //var criteria = search.split(" ");
     //console.log(criteria);
-	Product.find({ $text: { $search: search } }, { score: { $meta: "textScore" } }).sort( { score: { $meta: "textScore" } } ).exec( (err, products)=>{
-		if(err){
+  Product.find({ $text: { $search: search } }, { score: { $meta: "textScore" } }).sort( { score: { $meta: "textScore" } } ).exec( (err, products)=>{
+    if(err){
             console.log(err);
-	        let errors = [];
+          let errors = [];
             for(let i in err.errors){
               errors.push(err.errors[i].message);
             }
             return res.status(400).send(errors);
-	    }
-	    return res.json(products);
-	})
+      }
+      return res.json(products);
+  })
 
 
     /*
     Product.find({ tags: criteria[0]}, (err, products)=>{ //{ tags: { "$in" : criteria} }
         if(err){
             console.log(err);
-	        let errors = [];
+          let errors = [];
             for(let i in err.errors){
               errors.push(err.errors[i].message);
             }
             return res.status(400).send(errors);
-	    }
-	    console.log("PRODUCTS FOUND: " + products);
+      }
+      console.log("PRODUCTS FOUND: " + products);
         for (var i = 0; i<products.length; i++){
           products[i].matches = 0;
           for (var w = 0; w<criteria.length; w++){ //loop through all criteria
@@ -250,7 +250,7 @@ db.articles.find(
    { $text: { $search: "cake" } },
    { score: { $meta: "textScore" } }
 )
-The returned document includes an additional field score that contains 
+The returned document includes an additional field score that contains
 the document’s score associated with the text search
 
 db.articles.find(
@@ -260,7 +260,7 @@ db.articles.find(
 
 db.articles.createIndex( { subject: "text" } )
 
-	for (var i = 0; i<products.length; i++){
+  for (var i = 0; i<products.length; i++){
           products[i].matches = 0;
           for (var w = 0; w<criteria.length; w++){ //loop through all criteria
             if (products[i].tags.indexOf(criteria[w])> -1){ //if word is in tags
@@ -309,7 +309,7 @@ db.articles.createIndex( { subject: "text" } )
   },
   create_item: function(req, res){
     console.log(req.body)
-    let prod = new Product({title: req.body.title, description: req.body.description, price: req.body.price, _vendor: req.body._vendor, images: req.body.images, tags: req.body.tags});
+    let prod = new Product({title: req.body.title, description: req.body.description, price: req.body.price, _vendor: req.body._vendor, images: req.body.images, tags: req.body.tags, avgRating: Math.floor(Math.random() * 5)});
     prod.save( (err, prod) => {
       console.log('hello again again')
       if (err) {
