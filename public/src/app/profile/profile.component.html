@@ -48,6 +48,28 @@
           <div class="card">
             <div class="card-block">
               <h1>Recently Viewed Items</h1>
+              <div class="container-fluid" id="results">
+                <div  *ngFor="let item of recently_viewed; let i = index" class="container-fluid">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <img src="{{ item.images[0] }}" class="img-fluid" alt="{{ item.title }} image">
+                    </div>
+                    <div class="col-md-6" id="description">
+                      <h3>{{ item.title }}</h3>
+                      <ngb-rating [rate]="item.rating"></ngb-rating>
+                      <h4>{{ item.price | currency : 'USD' : true }}</h4>
+                      <h5>Description: {{ item.description }}</h5>
+                      <h5>Vendor: {{ item._vendor.alias }}</h5>
+                      <div class="d-inline">
+                        <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
+                        <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+                      </div>
+                    </div>
+                    <div class="cold-md-1"></div>
+                  </div>
+                  <hr>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -56,11 +78,58 @@
         <div class="card-block">
           <app-basket></app-basket>
           <h1>Suggested Products</h1>
+          <div class="container-fluid" id="results">
+            <div  *ngFor="let item of suggested_products; let i = index" class="container-fluid">
+              <div class="row">
+                <div class="col-md-4">
+                  <img src="{{ item.images[0] }}" class="img-fluid" alt="{{ item.title }} image">
+                </div>
+                <div class="col-md-6" id="description">
+                  <h3>{{ item.title }}</h3>
+                  <ngb-rating [rate]="item.rating"></ngb-rating>
+                  <h4>{{ item.price | currency : 'USD' : true }}</h4>
+                  <h5>Description: {{ item.description }}</h5>
+                  <h5>Vendor: {{ item._vendor.alias }}</h5>
+                  <div class="d-inline">
+                    <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
+                    <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+                  </div>
+                </div>
+                <div class="cold-md-1"></div>
+              </div>
+              <hr>
+            </div>
+          </div>
         </div>
       </div>
       <div class="card">
         <div class="card-block">
           <h1>Order History</h1>
+          <div class="container-fluid" id="results">
+            <div  *ngFor="let item of listings; let i = index" class="container-fluid">
+              <div class="row">
+                <div class="col-md-1">
+                    <h4>{{ i + 1 }}.</h4>
+                </div>
+                <div class="col-md-4">
+                  <img src="{{ item.images[0] }}" class="img-fluid" alt="{{ item.title }} image">
+                </div>
+                <div class="col-md-6" id="description">
+                  <h3>{{ item.title }}</h3>
+                  <ngb-rating [rate]="item.rating"></ngb-rating>
+                  <h4>{{ item.price | currency : 'USD' : true }}</h4>
+                  <h5>Description: {{ item.description }}</h5>
+                  <h5>Vendor: {{ item._vendor.alias }}</h5>
+                  <div class="d-inline">
+                    <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
+                    <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+                  </div>
+                </div>
+                <div class="cold-md-1"></div>
+              </div>
+              <hr>
+            </div>
+          </div>
         </div>
       </div>
     </div>
