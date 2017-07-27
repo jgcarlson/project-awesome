@@ -48,6 +48,7 @@
           <div class="card">
             <div class="card-block">
               <h1>Recently Viewed Items</h1>
+              <h3 *ngIf='recently_viewed.length == 0'>No recently viewed items! Go look at some stuff.</h3>
               <div class="container-fluid" id="results">
                 <div  *ngFor="let item of recently_viewed; let i = index" class="container-fluid">
                   <div class="row">
@@ -55,14 +56,16 @@
                       <img src="{{ item.images[0] }}" class="img-fluid" alt="{{ item.title }} image">
                     </div>
                     <div class="col-md-6" id="description">
+                      <a [routerLink]="['/product', item._id]">
                       <h3>{{ item.title }}</h3>
                       <ngb-rating [rate]="item.rating"></ngb-rating>
                       <h4>{{ item.price | currency : 'USD' : true }}</h4>
                       <h5>Description: {{ item.description }}</h5>
                       <h5>Vendor: {{ item._vendor.alias }}</h5>
+                      </a>
                       <div class="d-inline">
                         <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
-                        <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+                        <button type="submit" class="btn btn-outline-primary" (click)="add_to_basket(item)">Add to Cart</button>
                       </div>
                     </div>
                     <div class="cold-md-1"></div>
@@ -85,14 +88,16 @@
                   <img src="{{ item.images[0] }}" class="img-fluid" alt="{{ item.title }} image">
                 </div>
                 <div class="col-md-6" id="description">
+                  <a [routerLink]="['/product', item._id]">
                   <h3>{{ item.title }}</h3>
                   <ngb-rating [rate]="item.rating"></ngb-rating>
                   <h4>{{ item.price | currency : 'USD' : true }}</h4>
                   <h5>Description: {{ item.description }}</h5>
                   <h5>Vendor: {{ item._vendor.alias }}</h5>
+                </a>
                   <div class="d-inline">
                     <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
-                    <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+                    <button type="submit" class="btn btn-outline-primary" (click)="add_to_basket(item)">Add to Cart</button>
                   </div>
                 </div>
                 <div class="cold-md-1"></div>
@@ -105,6 +110,7 @@
       <div class="card">
         <div class="card-block">
           <h1>Order History</h1>
+          <h3 *ngIf='orders.length == 0'>No ordered items! Lame :(</h3>
           <div class="container-fluid" id="results">
             <div  *ngFor="let item of listings; let i = index" class="container-fluid">
               <div class="row">
@@ -115,14 +121,16 @@
                   <img src="{{ item.images[0] }}" class="img-fluid" alt="{{ item.title }} image">
                 </div>
                 <div class="col-md-6" id="description">
+                  <a [routerLink]="['/product', item._id]">
                   <h3>{{ item.title }}</h3>
                   <ngb-rating [rate]="item.rating"></ngb-rating>
                   <h4>{{ item.price | currency : 'USD' : true }}</h4>
                   <h5>Description: {{ item.description }}</h5>
                   <h5>Vendor: {{ item._vendor.alias }}</h5>
+                </a>
                   <div class="d-inline">
                     <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
-                    <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+                    <button type="submit" class="btn btn-outline-primary" (click)="add_to_basket(item)">Add to Cart</button>
                   </div>
                 </div>
                 <div class="cold-md-1"></div>

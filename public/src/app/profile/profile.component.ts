@@ -61,4 +61,19 @@ export class ProfileComponent implements OnInit {
     this.product = new Product();
   }
 
+
+  add_to_basket(product){
+  if(!this.currentUser){
+    alert("Modal Window here: Please log in!")
+    //Modal window here
+  }else{
+     let body = {
+       userId: this.currentUser.user.id,
+       product: product
+     }
+     this._omniService.product_to_basket(body)
+  }
+
+  }
+
 }

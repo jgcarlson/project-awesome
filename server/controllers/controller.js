@@ -203,7 +203,7 @@ module.exports = {
 
   },
   get_item: function(req, res){
-    Product.findOne({_id: req.params.id}, (err, product)=>{
+    Product.findOne({_id: req.params.id}).populate('_vendor').exec( (err, product)=>{
         if(err){
           console.log(err);
         let errors = [];
@@ -212,22 +212,6 @@ module.exports = {
             }
             return res.status(400).send(errors);
         }
-
-        // Had to comment this out because it broke the app when it ran.
-        // I think localStorage might not work in the backend....
-
-        // User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}, (err, user)=>{
-        //   if(err){
-        //         console.log(err);
-        //         let errors = [];
-        //         for(let i in err.errors){
-        //             errors.push(err.errors[i].message);
-        //         }
-        //     return res.status(400).send(errors);
-        //     }
-        //   user.recently_viewed.shift();
-        //   user.recently_viewed[2] = product._id;
-        // })
 
         return res.json(product);
     })
