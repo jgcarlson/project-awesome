@@ -23,7 +23,11 @@ module.exports = {
             }
             return res.status(400).send(errors);
         }
-        return res.json(products);
+        var prods = [];
+        prods.push(products[Math.random()*products.length]);
+        prods.push(products[Math.random()*products.length]);
+        prods.push(products[Math.random()*products.length]);
+        return res.json(prods);
     })
   },
   shop_by_category: function(req, res){
@@ -60,8 +64,8 @@ module.exports = {
         prods.push(products[Math.random()*products.length]);
         prods.push(products[Math.random()*products.length]);
         prods.push(products[Math.random()*products.length]);
-        prods.push(products[Math.random()*products.length]);
-        prods.push(products[Math.random()*products.length]);
+        //prods.push(products[Math.random()*products.length]);
+        //prods.push(products[Math.random()*products.length]);
         return res.json(prods);
     })
 

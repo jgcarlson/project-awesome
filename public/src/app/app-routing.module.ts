@@ -13,7 +13,7 @@ import { CheckoutComponent } from './checkout/checkout.component'
 
 const routes: Routes = [ // to limit access to only logged in users, add 'canActivate: [OmniService]' to route.
   { path: '', component: LandingComponent },
-  { path: 'search', component: SearchComponent },
+  { path: 'search/:search_criteria', component: SearchComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'product/:id', component: ProductComponent },
   { path: 'user/:alias', component: ProfileComponent },
