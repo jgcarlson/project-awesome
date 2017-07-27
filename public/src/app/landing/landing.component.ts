@@ -20,7 +20,10 @@ export class LandingComponent implements OnInit {
   todays_deals() {
     console.log('firing')
     this._omniService.todays_deals()
-    .then(data => this.todays_listing = data)
+    .then(data => {
+      console.log(data)
+      this.todays_listing = data
+    })
     .catch(data => console.log(data))
   }
 

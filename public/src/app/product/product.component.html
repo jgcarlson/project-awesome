@@ -1,3 +1,31 @@
-<p>
-  product works!
-</p>
+<div class="card-container container-fluid">
+  <div class="card">
+    <div class="card-block">
+      <div class="container-fluid">
+        <h1>{{ product.title }}</h1>
+        <h3>Rating:
+          <ngb-rating [rate]="3"></ngb-rating>
+        </h3>
+        <hr>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-4">
+            <img src="{{ product.images }}" alt="{{product.title}} image">
+          </div>
+          <div class="col-md-6" id="description">
+            <ul>
+              <li><h4>Price: {{ product.price | currency : 'USD' : true }}</h4></li>
+              <li><h4>Product description: {{ product.description }}</h4></li>
+              <li><h4>Vendor: {{ product._vendor }}</h4></li>
+              <li><h4>Reviews: REVIEWS GO HERE!!!!</h4></li>
+            </ul>
+            <button type="submit" class="btn btn-outline-primary" (click)="add_to_basket(item.id)">Add to Basket</button>
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+        <hr>
+        <p><small>Listed on {{ product.createdAt | date : 'medium' }}</small></p>
+      </div>
+    </div>
+  </div>
+</div>
