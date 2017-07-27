@@ -7,7 +7,7 @@
   <div class="d-inline-flex justify-content-around no-wrap">
     <div *ngFor="let item of todays_listing.prods" class="card">
       <div class="card-block">
-        <h5>{{ item.title }}</h5>
+        <h5><a [routerLink]="['/product', item._id]">{{ item.title }}</a></h5>
         <h6>{{ item.description }}</h6>
         <img class="img-fluid" src="{{ item.images[0] }}" alt="product_image">
         <h6>{{ item.price | currency : 'USD' }}</h6>
