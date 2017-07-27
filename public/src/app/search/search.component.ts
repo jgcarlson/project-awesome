@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { OmniService } from './../omni.service'
+import { OmniService } from './../omni.service';
 
 @Component({
   selector: 'app-search',

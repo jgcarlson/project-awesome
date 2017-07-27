@@ -24,6 +24,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { NgbdCarouselConfig } from './landing/carousel/carousel.component';
 import { NgbdRatingConfig } from './rating/rating.component';
 import { ReviewComponent } from './review/review.component';
+import { ReviewVendorComponent } from './review-vendor/review-vendor.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ReviewComponent } from './review/review.component';
     CheckoutComponent,
     NgbdCarouselConfig,
     NgbdRatingConfig,
-    ReviewComponent
+    ReviewComponent,
+    ReviewVendorComponent
   ],
   imports: [
     BrowserModule,
