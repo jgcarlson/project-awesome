@@ -1,11 +1,33 @@
 <h2>Your Basket</h2>
 
-<h4 *ngIf="userBasket.length === 0">You currently have no items in your basket</h4>
+<h4 *ngIf="userBasket.length === 0">You currently have no items in your basket.</h4>
+<h4 *ngIf="userBasket.length === 0">You should fix that.</h4>
 
 <div *ngIf="userBasket.length > 0">
-	<div *ngFor="let product of userBasket">
-		<p>Title: {{ product.title }}</p>
-		<p>Description: {{ product.description }}</p>
-		<button (click)="remove_from_basket(product)">Remove from basket</button>
-	</div>
+  <div class="container-fluid" *ngFor="let product of userBasket">
+    <div class="card">
+      <div class="card-block">
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-4">
+            <div class="img-responsive">
+              <img class="img-fluid" src="{{ product.images }}" alt="{{ product.title }} image">
+            </div>
+          </div>
+          <div class="col-md-6" id="product">
+            <h3>{{ product.title }}</h3>
+            <ngb-rating [rate]="product.avgRating"></ngb-rating>
+            <h4>{{ product.price | currency : 'USD' : true }}</h4>
+            <h5>Description: {{ product.description }}</h5>
+            <h5>Vendor: {{ product._vendor }}</h5>
+            <div class="d-inline">
+              <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
+              <button class="btn btn-outline-primary" (click)="remove_from_basket(product)">Remove from Basket</button>
+            </div>
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
