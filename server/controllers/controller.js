@@ -526,6 +526,20 @@ db.articles.createIndex( { subject: "text" } )
 
   },
 
+  get_basket: function(req, res){
+	  User.findOne({_id: req.params.id}).populate({path: 'basket'}).exec( (err, user)=>{
+		  if(err){
+		  console.log(err);
+		  let errors = [];
+			  for(let i in err.errors){
+				errors.push(err.errors[i].message);
+			  }
+			  return res.status(400).send(errors);
+		  }
+		  return res.json(user)
+	  });
+  }
+
 
 
 }

@@ -4,6 +4,7 @@ import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 import { NgbdRatingConfig } from './../rating/rating.component';
 import { OmniService } from './../omni.service';
 
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -26,7 +27,6 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this._omniService.get_item(this.product_id)
     .then(data => this.product = data)
-    .catch(data => console.log(data))
-  }
+    .catch(data => console.log(data))  }
 
 }
