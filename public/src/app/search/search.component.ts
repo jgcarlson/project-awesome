@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
+import { NgbdRatingConfig } from './../rating/rating.component';
 
 import { OmniService } from './../omni.service';
 
@@ -11,7 +13,9 @@ import { OmniService } from './../omni.service';
 export class SearchComponent implements OnInit {
   query = '';
 
-  constructor(private _omniService:OmniService, private _route: ActivatedRoute) {
+  constructor(private _omniService:OmniService, private _route: ActivatedRoute, config: NgbRatingConfig) {
+    config.max = 5;
+    config.readonly = false;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this._route.params.subscribe((param)=>{
         console.log(param);
