@@ -311,8 +311,8 @@ module.exports = {
     })
   },
   create_item: function(req, res){
-    //console.log(req.body)
-    let prod = new Product({title: req.body.title, description: req.body.description, price: req.body.price, _vendor: req.body._vendor, images: req.body.images, tags: req.body.tags, avgRating: Math.floor(Math.random() * 5)});
+    console.log(req.body)
+    let prod = new Product({title: String(req.body.title), description: String(req.body.description), price: Number(req.body.price), _vendor: String(req.body._vendor), images: String(req.body.images), tags: String(req.body.tags), avgRating: Math.floor(Math.random() * 5)});
     prod.save( (err, prod) => {
       //console.log('hello again again')
       if (err) {
