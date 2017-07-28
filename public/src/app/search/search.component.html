@@ -7,7 +7,9 @@
           <h4>{{ i + 1 }}.</h4>
       </div>
       <div class="col-md-4">
+		<a [routerLink]="['/product', item._id]">
         <img src="{{ item.images[0] }}" class="img-fluid" alt="{{ item.title }} image">
+ 	    </a>
       </div>
       <div class="col-md-6" id="description">
         <h3>{{ item.title }}</h3>

@@ -400,7 +400,7 @@ module.exports = {
     })
   },
   authenticate: (req, res) => {
-    User.findOne({alias: req.body.alias}, (err, user) => {
+    User.findOne({alias: String(req.body.alias)}, (err, user) => {
       if (err) {
         console.log('Error in controller-login-findUser:', err)
       }
@@ -458,7 +458,7 @@ module.exports = {
   },
 
   get_basket: function(req, res){
-    console.log("MADE IT TO GET BASKET IN CONTROLLER");
+    // console.log("MADE IT TO GET BASKET IN CONTROLLER");
   User.findOne({_id: req.params.id}).populate({path: 'basket', populate: {path: '_vendor'}}).exec( (err, user)=>{
     if(err){
     console.log(err);
@@ -473,47 +473,47 @@ module.exports = {
   },
 
   add_to_basket: function(req, res){
-	User.findOne({_id: req.body.userId}).populate('basket').exec( (err, user) =>{
-		console.log("MADE IT TO ADD TO BASKET FUNCTION IN CONTROLLER");
-		if(err){
-		console.log(err);
-		let errors = [];
-			for(let i in err.errors){
-			  errors.push(err.errors[i].message);
-			}
-			return res.status(400).send(errors);
-		}
-		function containsObject(obj, list) {
-		    var i;
-		    for (i = 0; i < list.length; i++) {
-		        if (list[i]._id == obj._id) {
-		            return true;
-		        }
-		    }
-		    return false;
-		}
-		if (!containsObject(req.body.product, user.basket)){
-			user.basket.push(req.body.product)
-			console.log("MADE IT TO PUSHING ITEM TO BASKET");
-			//console.log("USER: " + user);
-			user.save( (err, savedUser) => {
-				if(err){
-				console.log(err);
-				let errors = [];
-					for(let i in err.errors){
-					  errors.push(err.errors[i].message);
-					}
-					return res.status(400).send(errors);
-				} else {
-					console.log("USER.BASKET: " + user.basket);
-					return res.json(user.basket);
-				}
-			})
-		} else {
-			console.log("USER.BASKET: " + user.basket);
-			return res.json(user.basket);
-		}
-	})
+    User.findOne({_id: req.body.userId}).populate('basket').exec( (err, user) =>{
+    // console.log("MADE IT TO ADD TO BASKET FUNCTION IN CONTROLLER");
+    if(err){
+    console.log(err);
+    let errors = [];
+      for(let i in err.errors){
+        errors.push(err.errors[i].message);
+      }
+      return res.status(400).send(errors);
+    }
+    function containsObject(obj, list) {
+        var i;
+        for (i = 0; i < list.length; i++) {
+            if (list[i]._id == obj._id) {
+                return true;
+            }
+        }
+        return false;
+    }
+    if (!containsObject(req.body.product, user.basket)){
+      user.basket.push(req.body.product)
+    //   console.log("MADE IT TO PUSHING ITEM TO BASKET");
+    //   console.log("USER: " + user);
+      user.save( (err, savedUser) => {
+        if(err){
+        console.log(err);
+        let errors = [];
+          for(let i in err.errors){
+            errors.push(err.errors[i].message);
+          }
+          return res.status(400).send(errors);
+        } else {
+          console.log("USER.BASKET: " + user.basket);
+          return res.json(user.basket);
+        }
+      })
+    } else {
+      console.log("USER.BASKET: " + user.basket);
+      return res.json(user.basket);
+    }
+  })
   },
 
   remove_from_basket: function(req, res){
