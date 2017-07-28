@@ -10,6 +10,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { BasketComponent } from './basket/basket.component';
 import { CheckoutComponent } from './basket/checkout/checkout.component';
+import { ReviewComponent } from './review/review.component';
+import { ReviewVendorComponent } from './review-vendor/review-vendor.component';
 
 const routes: Routes = [ // to limit access to only logged in users, add 'canActivate: [OmniService]' to route.
   { path: '', component: LandingComponent },
@@ -18,6 +20,9 @@ const routes: Routes = [ // to limit access to only logged in users, add 'canAct
   { path: 'product/:id', component: ProductComponent },
   { path: 'user/:alias', component: ProfileComponent },
   { path: 'user/:alias/basket', component: BasketComponent, canActivate: [OmniService] },
+  { path: 'checkout', component: CheckoutComponent},
+  { path: 'review_product/:id', component: ReviewComponent},
+  { path: 'review_vendor/:id', component: ReviewVendorComponent},
   { path: '**', component: LandingComponent },
 ];
 

@@ -260,7 +260,7 @@ module.exports = {
   },
   find_item: function(req, res){
     console.log("MADE it to find_item in controller");
-    console.log(req.body);
+    //console.log(req.body);
     var search = req.params.search_criteria.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
     search = search.replace(/\s{2,}/g," ");
     search = search.toLowerCase();
@@ -367,10 +367,10 @@ db.articles.createIndex( { subject: "text" } )
     })
   },
   create_item: function(req, res){
-    console.log(req.body)
+    //console.log(req.body)
     let prod = new Product({title: req.body.title, description: req.body.description, price: req.body.price, _vendor: req.body._vendor, images: req.body.images, tags: req.body.tags, avgRating: Math.floor(Math.random() * 5)});
     prod.save( (err, prod) => {
-      console.log('hello again again')
+      //console.log('hello again again')
       if (err) {
         console.log('false:', err)
         res.json({success: false}) // We should do something else here
@@ -409,7 +409,7 @@ db.articles.createIndex( { subject: "text" } )
   //**********************************
 
   register_user: function(req, res) {
-    console.log('hello')
+    //console.log('hello')
     User.findOne({alias: req.body.alias}, (err, newUser)=>{
       if(err){
         console.log(err);
@@ -419,7 +419,7 @@ db.articles.createIndex( { subject: "text" } )
           }
           return res.status(400).send(errors);
         } else if (newUser == null) {
-          console.log('hello again')
+          //console.log('hello again')
           let hash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
           console.log(hash)
           let user = new User({alias: req.body.alias, email: req.body.email, password: hash}, (err, success) => {
@@ -529,47 +529,47 @@ db.articles.createIndex( { subject: "text" } )
   },
 
   add_to_basket: function(req, res){
-  User.findOne({_id: req.body.userId}).populate('basket').exec( (err, user) =>{
-    console.log("MADE IT TO ADD TO BASKET FUNCTION IN CONTROLLER");
-    if(err){
-    console.log(err);
-    let errors = [];
-      for(let i in err.errors){
-        errors.push(err.errors[i].message);
-      }
-      return res.status(400).send(errors);
-    }
-    function containsObject(obj, list) {
-        var i;
-        for (i = 0; i < list.length; i++) {
-            if (list[i]._id == obj._id) {
-                return true;
-            }
-        }
-        return false;
-    }
-    if (!containsObject(req.body.product, user.basket)){
-      user.basket.push(req.body.product)
-      console.log("MADE IT TO PUSHING ITEM TO BASKET");
-      console.log("USER: " + user);
-      user.save( (err, savedUser) => {
-        if(err){
-        console.log(err);
-        let errors = [];
-          for(let i in err.errors){
-            errors.push(err.errors[i].message);
-          }
-          return res.status(400).send(errors);
-        } else {
-          console.log("USER.BASKET: " + user.basket);
-          return res.json(user.basket);
-        }
-      })
-    } else {
-      console.log("USER.BASKET: " + user.basket);
-      return res.json(user.basket);
-    }
-  })
+	User.findOne({_id: req.body.userId}).populate('basket').exec( (err, user) =>{
+		console.log("MADE IT TO ADD TO BASKET FUNCTION IN CONTROLLER");
+		if(err){
+		console.log(err);
+		let errors = [];
+			for(let i in err.errors){
+			  errors.push(err.errors[i].message);
+			}
+			return res.status(400).send(errors);
+		}
+		function containsObject(obj, list) {
+		    var i;
+		    for (i = 0; i < list.length; i++) {
+		        if (list[i]._id == obj._id) {
+		            return true;
+		        }
+		    }
+		    return false;
+		}
+		if (!containsObject(req.body.product, user.basket)){
+			user.basket.push(req.body.product)
+			console.log("MADE IT TO PUSHING ITEM TO BASKET");
+			//console.log("USER: " + user);
+			user.save( (err, savedUser) => {
+				if(err){
+				console.log(err);
+				let errors = [];
+					for(let i in err.errors){
+					  errors.push(err.errors[i].message);
+					}
+					return res.status(400).send(errors);
+				} else {
+					console.log("USER.BASKET: " + user.basket);
+					return res.json(user.basket);
+				}
+			})
+		} else {
+			console.log("USER.BASKET: " + user.basket);
+			return res.json(user.basket);
+		}
+	})
   },
 
   remove_from_basket: function(req, res){
@@ -582,11 +582,14 @@ db.articles.createIndex( { subject: "text" } )
 			}
 			return res.status(400).send(errors);
 		}
+		//console.log("Product_id: ", req.body.product._id)
 		function isProduct(item){
 			return String(item) === String(req.body.product._id)
 		}
 		let index = user.basket.findIndex(isProduct)
 		user.basket.splice(index, 1)
+		//console.log("Index: ", index)
+		//console.log("Length", user.basket.length)
 		user.save( (err, savedUser) => {
 			if(err){
 			console.log(err);
@@ -625,40 +628,31 @@ db.articles.createIndex( { subject: "text" } )
   },
 
   process_order: function(req, res){
-	  User.findOne({_id: req.body.user.id}, (err, user) => {
-		  if(err){
-		  let errors = [];
-			  for(let i in err.errors){
-				errors.push(err.errors[i].message);
-			  }
-			  return res.status(400).send(errors);
-		  }
-		  let new_order = new Order()
-		  new_order._user = user;
-		  new_order.products = user.basket
-		  new_order.save( (err, savedOrder) => {
-			  if(err){
-			  let errors = [];
-				  for(let i in err.errors){
-					errors.push(err.errors[i].message);
-				  }
-				  return res.status(400).send(errors);
-			  }
-			  user.orders_placed.push(new_order)
-			  user.basket = []
-			  user.save( (err, savedUser) => {
-				  if(err){
-				  let errors = [];
-					  for(let i in err.errors){
-						errors.push(err.errors[i].message);
-					  }
-					  return res.status(400).send(errors);
-				  }
-				  res.json(savedUser)
-			  })
-		  })
-
-	  })
+	    console.log("Controller received: ", req.body)
+    	User.findOne({_id: req.body.user.id}, (err, user) => {
+	        if(err){
+		        let errors = [];
+		        for(let i in err.errors){
+		        	errors.push(err.errors[i].message);
+		        }
+		        return res.status(400).send(errors);
+	        }
+	        let new_order = user.basket.slice()
+	        console.log("New Order: ", new_order)
+	        console.log("User basket: ", user.basket)
+	        user.order_holder.push(new_order)
+	        user.basket = []
+	        user.save( (err, savedUser) => {
+		        if(err){
+		            let errors = [];
+		            for(let i in err.errors){
+		            	errors.push(err.errors[i].message);
+		            }
+		            return res.status(400).send(errors);
+		        }
+		        res.json(savedUser)
+	        })
+        })
   },
 
   //**********************************
@@ -666,43 +660,43 @@ db.articles.createIndex( { subject: "text" } )
   //**********************************
 
   review_product: function(req, res){
-    Product.findOne({_id: req.params.id}, (err, product)=>{
-        if(err){
-          console.log(err);
-        let errors = [];
-            for(let i in err.errors){
-              errors.push(err.errors[i].message);
-            }
-            return res.status(400).send(errors);
-        }
-        let review = new Review(req.body);
-        review.save( (err, savedReview)=>{
-          if(err){
-            console.log(err);
-          let errors = [];
-              for(let i in err.errors){
-                errors.push(err.errors[i].message);
-              }
-              return res.status(400).send(errors);
-          }
+    	Product.findOne({_id: req.params.id}, (err, product)=>{
+	        if(err){
+	            console.log(err);
+		        let errors = [];
+		            for(let i in err.errors){
+		              errors.push(err.errors[i].message);
+		            }
+		            return res.status(400).send(errors);
+		    }
+	        let review = new Review(req.body);
+	        review.save( (err, savedReview)=>{
+	          if(err){
+	            console.log(err);
+	          let errors = [];
+	              for(let i in err.errors){
+	                errors.push(err.errors[i].message);
+	              }
+	              return res.status(400).send(errors);
+	          }
 
-          product.totalRating += req.body.rating;
-          product.numReviews += 1;
-          product.avgRating = product.totalRating/product.numReviews;
-          product.save( (err, savedProduct)=>{
-            if(err){
-              console.log(err);
-            let errors = [];
-                for(let i in err.errors){
-                  errors.push(err.errors[i].message);
-                }
-                return res.status(400).send(errors);
-            }
-            return res.json(review);
-          })
-      })
+	          product.totalRating += req.body.rating;
+	          product.numReviews += 1;
+	          product.avgRating = product.totalRating/product.numReviews;
+	          product.save( (err, savedProduct)=>{
+	            if(err){
+	              console.log(err);
+	            let errors = [];
+	                for(let i in err.errors){
+	                  errors.push(err.errors[i].message);
+	                }
+	                return res.status(400).send(errors);
+	            }
+	            return res.json(review);
+	          })
+	      	})
 
-    })
+    	})
 
   },
   review_vendor: function(req, res){
