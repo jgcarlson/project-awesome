@@ -48,6 +48,7 @@ export class SearchComponent implements OnInit {
 		   product: product
 	   }
 	   this._omniService.product_to_basket(body)
+     alert("Product added to basket!")
 	}
 
   }

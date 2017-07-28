@@ -492,7 +492,7 @@ db.articles.createIndex( { subject: "text" } )
 
   get_basket: function(req, res){
   	console.log("MADE IT TO GET BASKET IN CONTROLLER");
-	User.findOne({_id: req.params.id}).populate({path: 'basket'}).exec( (err, user)=>{
+	User.findOne({_id: req.params.id}).populate({path: 'basket', populate: {path: '_vendor'}}).exec( (err, user)=>{
 		if(err){
 		console.log(err);
 		let errors = [];
@@ -501,12 +501,12 @@ db.articles.createIndex( { subject: "text" } )
 			}
 			return res.status(400).send(errors);
 		}
-		return res.json(user)
+		return res.json(user);
 	});
   },
 
   add_to_basket: function(req, res){
-	User.findOne({_id: req.body.userId}, (err, user) =>{
+	User.findOne({_id: req.body.userId}).populate('basket').exec( (err, user) =>{
 		console.log("MADE IT TO ADD TO BASKET FUNCTION IN CONTROLLER");
 		if(err){
 		console.log(err);
@@ -516,20 +516,36 @@ db.articles.createIndex( { subject: "text" } )
 			}
 			return res.status(400).send(errors);
 		}
-		user.basket.push(req.body.product)
-		console.log("MADE IT TO PUSHING ITEM TO BASKET");
-		console.log("USER: " + user);
-		user.save( (err, savedUser) => {
-			if(err){
-			console.log(err);
-			let errors = [];
-				for(let i in err.errors){
-				  errors.push(err.errors[i].message);
+		function containsObject(obj, list) {
+		    var i;
+		    for (i = 0; i < list.length; i++) {
+		        if (list[i]._id == obj._id) {
+		            return true;
+		        }
+		    }
+		    return false;
+		}
+		if (!containsObject(req.body.product, user.basket)){
+			user.basket.push(req.body.product)
+			console.log("MADE IT TO PUSHING ITEM TO BASKET");
+			console.log("USER: " + user);
+			user.save( (err, savedUser) => {
+				if(err){
+				console.log(err);
+				let errors = [];
+					for(let i in err.errors){
+					  errors.push(err.errors[i].message);
+					}
+					return res.status(400).send(errors);
+				} else {
+					console.log("USER.BASKET: " + user.basket);
+					return res.json(user.basket);
 				}
-				return res.status(400).send(errors);
-			}
-			return res.json(savedUser)
-		})
+			})
+		} else {
+			console.log("USER.BASKET: " + user.basket);
+			return res.json(user.basket);
+		}
 	})
   },
 

@@ -46,6 +46,7 @@ export class ProductComponent implements OnInit {
 	 		 product: product
 	 	 }
 	 	 this._omniService.product_to_basket(body)
+     alert("Product added to basket!")
 	  }
 
   }

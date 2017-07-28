@@ -14,3 +14,11 @@ a:link {
   text-decoration: none;
   color: black
 }
+
+h2 {
+  text-decoration: underline;
+}
+
+#product {
+  text-align: left;
+}

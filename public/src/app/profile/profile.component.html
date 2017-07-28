@@ -78,7 +78,40 @@
       </div>
       <div class="card">
         <div class="card-block">
-          <app-basket></app-basket>
+          <!-- START BASKET SECTION -->
+        <h2>Your Basket</h2>
+        <h4 *ngIf="basket.length === 0">You currently have no items in your basket.</h4>
+        <h4 *ngIf="basket.length === 0">You should fix that.</h4>
+
+        <div *ngIf="basket.length > 0">
+          <div class="container-fluid" *ngFor="let product of basket">
+            <div class="card">
+              <div class="card-block">
+                <div class="row">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4">
+                    <div class="img-responsive">
+                      <img class="img-fluid" src="{{ product.images }}" alt="{{ product.title }} image">
+                    </div>
+                  </div>
+                  <div class="col-md-6" id="product">
+                    <h3>{{ product.title }}</h3>
+                    <ngb-rating [rate]="product.avgRating"></ngb-rating>
+                    <h4>{{ product.price | currency : 'USD' : true }}</h4>
+                    <h5>Vendor: {{ product._vendor.alias }}</h5>
+                    <div class="d-inline">
+                      <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
+                      <button class="btn btn-outline-primary" (click)="remove_from_basket(product)">Remove from Basket</button>
+                    </div>
+                  <div class="col-md-1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <app-checkout [userBasket]="basket"></app-checkout>
+
+          <!--  END BASKET SECTION -->
           <h1>Suggested Products</h1>
           <div class="container-fluid" id="results">
             <div  *ngFor="let item of suggested_products; let i = index" class="container-fluid">
