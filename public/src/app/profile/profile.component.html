@@ -40,32 +40,7 @@
         <div class="col">
           <div class="card">
             <div class="card-block">
-              <!-- START BASKET SECTION -->
-            <h2>Your Basket</h2>
-            <h4 *ngIf="basket.length === 0">You currently have no items in your basket.</h4>
-            <h4 *ngIf="basket.length === 0">You should fix that.</h4>
-            <div *ngIf="basket.length > 0">
-              <div class="container-fluid" *ngFor="let product of basket">
-                <div class="card">
-                  <div class="card-block">
-                    <div class="img-responsive">
-                      <img class="img-fluid" src="{{ product.images }}" alt="{{ product.title }} image">
-                    </div>
-                    <div class="col-md-6" id="product">
-                      <h3>{{ product.title }}</h3>
-                      <ngb-rating [rate]="product.avgRating"></ngb-rating>
-                      <h4>{{ product.price | currency : 'USD' : true }}</h4>
-                      <h5>Vendor: {{ product._vendor.alias }}</h5>
-                      <div class="d-inline">
-                        <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
-                        <button class="btn btn-outline-primary" (click)="remove_from_basket(product)">Remove from Basket</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <app-checkout [userBasket]="basket"></app-checkout>
+<!-- BASKET WAS REMOVED FROM HERE -->
             </div>
             </div>
           </div>
