@@ -203,7 +203,7 @@ module.exports = {
 
   },
   get_item: function(req, res){
-    Product.findOne({_id: req.params.id}).populate('_vendor').exec( (err, product)=>{
+    Product.findOne({_id: req.params.product_id}).populate('_vendor').exec( (err, product)=>{
         if(err){
           console.log(err);
         let errors = [];
@@ -212,6 +212,36 @@ module.exports = {
             }
             return res.status(400).send(errors);
         }
+
+        User.findOne({_id: req.params.user_id}, (err, user)=>{
+            if(err){
+                console.log(err);
+                let errors = [];
+                for(let i in err.errors){
+                    errors.push(err.errors[i].message);
+                }
+            return res.status(400).send(errors);
+            }
+            if (user.recently_viewed.indexOf(product._id)<0){
+            	if(user.recently_viewed.length < 3){
+            	user.recently_viewed.push(product._id);
+	            } else {
+	          		user.recently_viewed.shift();
+	          		user.recently_viewed[2] = product._id;
+	          	}
+	          	user.save( (err, savedUser)=> {
+	          		if(err){
+		                console.log(err);
+		                let errors = [];
+		                for(let i in err.errors){
+		                    errors.push(err.errors[i].message);
+		                }
+		            	return res.status(400).send(errors);
+	            	}
+	          	})
+            }
+            
+        })
 
         return res.json(product);
     })
@@ -461,6 +491,7 @@ db.articles.createIndex( { subject: "text" } )
   },
 
   get_basket: function(req, res){
+  	console.log("MADE IT TO GET BASKET IN CONTROLLER");
 	User.findOne({_id: req.params.id}).populate({path: 'basket'}).exec( (err, user)=>{
 		if(err){
 		console.log(err);
@@ -476,6 +507,7 @@ db.articles.createIndex( { subject: "text" } )
 
   add_to_basket: function(req, res){
 	User.findOne({_id: req.body.userId}, (err, user) =>{
+		console.log("MADE IT TO ADD TO BASKET FUNCTION IN CONTROLLER");
 		if(err){
 		console.log(err);
 		let errors = [];
@@ -485,6 +517,8 @@ db.articles.createIndex( { subject: "text" } )
 			return res.status(400).send(errors);
 		}
 		user.basket.push(req.body.product)
+		console.log("MADE IT TO PUSHING ITEM TO BASKET");
+		console.log("USER: " + user);
 		user.save( (err, savedUser) => {
 			if(err){
 			console.log(err);

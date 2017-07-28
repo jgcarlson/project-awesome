@@ -28,7 +28,7 @@ export class ProductComponent implements OnInit {
   product:any;
 
   ngOnInit() {
-    this._omniService.get_item(this.product_id)
+    this._omniService.get_item(this.product_id, this.currentUser.user.id)
     .then(data => {
 		console.log("data: ", data)
 	  this.product = data

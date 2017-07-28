@@ -14,6 +14,8 @@ export class ProfileComponent implements OnInit {
   recently_viewed;
   suggested_products;
   orders;
+  currentUser:any;
+  product = new Product()
 
   constructor(private _omniService:OmniService) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -49,9 +51,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
   }
 
-  currentUser:any;
 
-  product = new Product()
 
   create_item() {
     this.product._vendor = this.currentUser.user.id;
@@ -63,17 +63,16 @@ export class ProfileComponent implements OnInit {
 
 
   add_to_basket(product){
-  if(!this.currentUser){
-    alert("Modal Window here: Please log in!")
-    //Modal window here
-  }else{
-     let body = {
-       userId: this.currentUser.user.id,
-       product: product
-     }
-     this._omniService.product_to_basket(body)
-  }
-
+    if(!this.currentUser){
+      alert("Modal Window here: Please log in!")
+      //Modal window here
+    }else{
+       let body = {
+         userId: this.currentUser.user.id,
+         product: product
+       }
+       this._omniService.product_to_basket(body)
+    }
   }
 
 }
