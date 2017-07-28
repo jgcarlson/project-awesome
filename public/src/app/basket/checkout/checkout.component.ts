@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, HostListener, Input, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { PaymentService } from '../.././payment.service';
 import { environment } from '../../.././environments/environment';
 
@@ -8,7 +8,7 @@ import { environment } from '../../.././environments/environment';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnChanges, OnInit {
 
 
 
@@ -18,7 +18,8 @@ export class CheckoutComponent implements OnInit {
   }
 
 
-  @Input() userBasket
+  @Input() userBasket: Array<any>
+  private _userBasket: Array<any>
   @Output() checkoutSuccessEmitter = new EventEmitter()
   subTotal: number = 0
   currentUser: any;
@@ -26,10 +27,17 @@ export class CheckoutComponent implements OnInit {
   amount: 500;
   total: "$5.00"
 
-
+  ngOnChanges(changes: SimpleChanges){
+	  const basket: SimpleChange = changes.userBasket;
+	  console.log('prev basket: ', basket.previousValue)
+	  console.log('got basket: ', basket.currentValue)
+	  this._userBasket = basket.currentValue
+  }
 
 
   ngOnInit() {
+	  console.log('on init');
+	  console.log(this.userBasket)
 	  console.log(this.currentUser)
 	  this.handler = StripeCheckout.configure({
 		  key: environment.stripeKey,
@@ -65,6 +73,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   calcTotal(basket){
+	  this.subTotal = 0;
 	  for(let i=0; i<basket.length; i++){
 		  console.log(basket[i])
 		  this.subTotal += basket[i].price;
@@ -74,6 +83,7 @@ export class CheckoutComponent implements OnInit {
 
   checkoutSuccess(){
 	this.checkoutSuccessEmitter.emit(1)
+	setTimeout((this.subTotal = this.calcTotal(this.userBasket)), 5000)
   }
 
 
