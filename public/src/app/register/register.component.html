@@ -50,10 +50,12 @@
 		  	<p class="error" *ngIf="email.touched && !email.valid">Please enter a valid email address</p>
           <input type="password" [(ngModel)]="user.password" #password="ngModel" name="password" class="form-control" placeholder="Password" minlength="8" required>
 		  	<p class="error" *ngIf="password.touched && !password.valid">Password must be at least 8 characters long</p>
-          <input type="password" [(ngModel)]="user.confirm" #confirm="ngModel" name="confirm" class="form-control" placeholder="Confirm Password" pattern=password minlength="8" required>
+          <input type="password" [(ngModel)]="user.confirm" #confirm="ngModel" name="confirm" class="form-control" placeholder="Confirm Password" minlength="8" required>
 		  	<p class="error" *ngIf="confirm.touched && !confirm.valid">Please enter your password again</p>
+		  	<p class="error" *ngIf="confirm.touched && user.password != user.confirm">Passwords don't match!</p>
           <button [disabled]="!regForm.valid" type="submit" class="btn btn-outline-primary btn-block">Register!</button>
         </form>
+		{{ user | json }}
       </div>
     </div>
   </div>

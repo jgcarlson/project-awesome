@@ -14,7 +14,7 @@
         <ngb-rating [rate]="item.rating"></ngb-rating>
         <h4>{{ item.price | currency : 'USD' : true }}</h4>
         <h5>Description: {{ item.description }}</h5>
-        <h5>Vendor: {{ item._vendor }}</h5>
+        <h5>Vendor: {{ item._vendor.alias }}</h5>
         <div class="d-inline">
           <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
           <button (click)="add_to_basket(item)" type="submit" class="btn btn-outline-primary">Add to Cart</button>

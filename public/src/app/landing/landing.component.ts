@@ -32,7 +32,7 @@ export class LandingComponent implements OnInit {
 
   add_to_basket(product){
 	if(!this.currentUser){
-	  alert("Modal Window here: Please log in!")
+	  alert("Please log in to add this product to your basket!")
 	  //Modal window here
 	}else{
 	   let body = {
@@ -40,6 +40,7 @@ export class LandingComponent implements OnInit {
 		   product: product
 	   }
 	   this._omniService.product_to_basket(body)
+	   alert("Product added to basket!")
 	}
 
   }

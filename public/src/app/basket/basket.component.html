@@ -5,7 +5,7 @@
 <h4 *ngIf="userBasket.length === 0">You should fix that.</h4>
 
 <div *ngIf="userBasket.length > 0">
-<app-checkout [userBasket]="userBasket" (checkoutSuccessEmitter)="process_order($event)"></app-checkout>
+<app-checkout [userBasket]="userBasket" (checkoutSuccessEmitter)="process_order($event)" ></app-checkout>
   <div class="container-fluid" *ngFor="let product of userBasket">
     <div class="card">
       <div class="card-block">
@@ -21,7 +21,7 @@
             <ngb-rating [rate]="product.avgRating"></ngb-rating>
             <h4>{{ product.price | currency : 'USD' : true }}</h4>
             <h5>Description: {{ product.description }}</h5>
-            <h5>Vendor: {{ product._vendor }}</h5>
+            <h5>Vendor: {{ product._vendor.alias }}</h5>
             <div class="d-inline">
               <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
               <button class="btn btn-outline-primary" (click)="remove_from_basket(product)">Remove from Basket</button>
@@ -32,4 +32,3 @@
     </div>
   </div>
 </div>
-<app-checkout></app-checkout>
