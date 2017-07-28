@@ -20,7 +20,7 @@ import { ProductComponent } from './product/product.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { BasketComponent } from './basket/basket.component';
-import { CheckoutComponent } from './checkout/checkout.component';
+import { CheckoutComponent } from './basket/checkout/checkout.component';
 import { NgbdCarouselConfig } from './landing/carousel/carousel.component';
 import { NgbdRatingConfig } from './rating/rating.component';
 import { ReviewComponent } from './review/review.component';

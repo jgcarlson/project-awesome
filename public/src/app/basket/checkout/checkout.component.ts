@@ -1,6 +1,6 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { PaymentService } from '.././payment.service';
-import { environment } from '../.././environments/environment';
+import { Component, OnInit, HostListener, Input, Output, EventEmitter } from '@angular/core';
+import { PaymentService } from '../.././payment.service';
+import { environment } from '../../.././environments/environment';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { environment } from '../.././environments/environment';
 })
 export class CheckoutComponent implements OnInit {
 
-
+@Input() userBasket
 
 
   constructor(private _paymentService: PaymentService) {
@@ -22,7 +22,9 @@ export class CheckoutComponent implements OnInit {
   amount: 500;
   total: "$5.00"
 
-  
+
+
+
   ngOnInit() {
 	  console.log(this.currentUser)
 	  this.handler = StripeCheckout.configure({
@@ -45,12 +47,14 @@ export class CheckoutComponent implements OnInit {
 
   }
 
+  testAmount = 500
+
   handlePayment(){
-	  let stripeAmount = this.amount
+	  let stripeAmount = this.testAmount
 
 	  this.handler.open({
-		  name: "Test name",
-		  description: "Total Amount: " + this.total,
+		  name: "Checkout",
+		  description: "Choose your pament method",
 		  amount: stripeAmount,
 		  bitcoin: true
 	  });

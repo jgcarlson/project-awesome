@@ -17,7 +17,7 @@
         <h5>Vendor: {{ item._vendor }}</h5>
         <div class="d-inline">
           <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
-          <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
+          <button (click)="add_to_basket(item)" type="submit" class="btn btn-outline-primary">Add to Cart</button>
         </div>
       </div>
       <div class="cold-md-1"></div>

@@ -9,7 +9,7 @@ import { ProductComponent } from './product/product.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { BasketComponent } from './basket/basket.component';
-import { CheckoutComponent } from './checkout/checkout.component'
+import { CheckoutComponent } from './basket/checkout/checkout.component';
 
 const routes: Routes = [ // to limit access to only logged in users, add 'canActivate: [OmniService]' to route.
   { path: '', component: LandingComponent },
