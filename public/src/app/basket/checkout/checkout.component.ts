@@ -1,6 +1,6 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { PaymentService } from '.././payment.service';
-import { environment } from '../.././environments/environment';
+import { Component, OnInit, HostListener, Input, Output, EventEmitter } from '@angular/core';
+import { PaymentService } from '../.././payment.service';
+import { environment } from '../../.././environments/environment';
 
 
 @Component({
@@ -10,9 +10,7 @@ import { environment } from '../.././environments/environment';
 })
 export class CheckoutComponent implements OnInit {
 
-  handler: any;
-  amount: 500;
-  total: "$5.00"
+@Input() userBasket
 
 
   constructor(private _paymentService: PaymentService) {
@@ -20,6 +18,12 @@ export class CheckoutComponent implements OnInit {
   }
 
   currentUser: any;
+  handler: any;
+  amount: 500;
+  total: "$5.00"
+
+
+
 
   ngOnInit() {
 	  console.log(this.currentUser)
@@ -27,20 +31,32 @@ export class CheckoutComponent implements OnInit {
 		  key: environment.stripeKey,
 		  image: "http://localhost:5000/assets/images/llama.png",
 		  locale: "auto",
+		  currency: "usd",
+		  amount: this.amount,
+		  bitcoin: "true",
 		  token: token => {
-			  console.log("Token: ", token)
-			  console.log("Amount: ", this.amount)
 			  this._paymentService.processPayment(this.currentUser.user.id, token, this.amount)
+			  .then( data => {
+				  console.log("Successful payment: ", data)
+			  })
+			  .catch( err => {
+				  console.log(err)
+			  })
 		  }
 	  });
 
   }
 
+  testAmount = 500
+
   handlePayment(){
+	  let stripeAmount = this.testAmount
+
 	  this.handler.open({
-		  name: "Test name",
-		  description: "Total Amount: " + this.total,
-		  amount: this.amount
+		  name: "Checkout",
+		  description: "Choose your pament method",
+		  amount: stripeAmount,
+		  bitcoin: true
 	  });
   }
 
