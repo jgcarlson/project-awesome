@@ -11,22 +11,26 @@ import { Router } from '@angular/router';
 })
 export class ReviewComponent implements OnInit {
 	thisreview = new Review();
+  currentUser:any;
+
   constructor(private _omniService:OmniService, 
   	private _route: ActivatedRoute, private _router:Router) {
   	this._route.params.subscribe((param)=>{
   		this.thisreview._reviewedProduct = param.id;
   	})
-  	this.thisreview._byUser = JSON.parse(localStorage.getItem('currentUser.user.id'));
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  	this.thisreview._byUser = this.currentUser.user.id;
+    console.log("REVIEW AFTER ADDING BYUSER: " + this.thisreview);
    }
 
   ngOnInit() {
   }
 
   review_product(){
-  	this.thisreview.rating = Math.floor(this.thisreview.rating);
+  console.log("REVIEW BEFORE SENDING: " + this.thisreview);
   	this._omniService.review_product(this.thisreview)
           .then(something => {
-            this._router.navigate(['/user', JSON.parse(localStorage.getItem('currentUser.user.alias'))]);
+            this._router.navigate(['/user', this.currentUser.user.alias]);
           })
           .catch(err => {
             console.log('Review-catch error:', err);

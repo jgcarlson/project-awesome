@@ -96,7 +96,7 @@ export class ProfileComponent implements OnInit {
       userId: this.currentUser.user.id,
       product: product
     }
-    console.log("Body: ", body)
+    //console.log("Body: ", body)
     this._omniService.remove_from_basket(body)
       .then( data => {
         this._omniService.get_basket(this.currentUser.user.id)

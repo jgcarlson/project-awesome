@@ -11,12 +11,15 @@ import { Router } from '@angular/router';
 })
 export class ReviewVendorComponent implements OnInit {
 	thisreview = new Review();
+  currentUser:any;
+  
   constructor(private _omniService:OmniService, 
   	private _route: ActivatedRoute, private _router:Router) {
   	this._route.params.subscribe((param)=>{
   		this.thisreview._reviewedVendor = param.id;
   	})
-  	this.thisreview._byUser = JSON.parse(localStorage.getItem('currentUser.user.id'));
+  	this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.thisreview._byUser = this.currentUser.user.id;
    }
 
   ngOnInit() {
@@ -26,7 +29,7 @@ export class ReviewVendorComponent implements OnInit {
   	this.thisreview.rating = Math.floor(this.thisreview.rating);
   	this._omniService.review_vendor(this.thisreview)
           .then(something => {
-            this._router.navigate(['/user', JSON.parse(localStorage.getItem('currentUser.user.alias'))]);
+            this._router.navigate(['/user', this.currentUser.user.alias]);
           })
           .catch(err => {
             console.log('Review-catch error:', err);
