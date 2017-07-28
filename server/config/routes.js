@@ -33,7 +33,7 @@ module.exports = app => {
   app.get('/api/get_basket/:id', controller.get_basket);
   app.post('/api/basket', controller.add_to_basket);
   app.post('/api/remove_from_basket', controller.remove_from_basket);
-  app.post('/api/process_order', controller.process_order)
+  app.post('/api/process_order', controller.process_order);
 
   //**********************************
   //review routes \/

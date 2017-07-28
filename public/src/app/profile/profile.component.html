@@ -105,7 +105,7 @@
           <h1>Order History</h1>
           <h3 *ngIf='orders.length == 0'>No ordered items! Lame :(</h3>
           <div class="container-fluid" id="results">
-            <div  *ngFor="let item of listings; let i = index" class="container-fluid">
+            <div  *ngFor="let item of orders; let i = index" class="container-fluid">
               <div class="row">
                 <div class="col-md-1">
                     <h4>{{ i + 1 }}.</h4>
@@ -124,6 +124,8 @@
                   <div class="d-inline">
                     <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
                     <button type="submit" class="btn btn-outline-primary" (click)="add_to_basket(item)">Add to Cart</button>
+                    <a [routerLink]="['/review_product', item._id]"><button type="submit" class="btn btn-outline-primary">Review this product</button></a>
+                    <a [routerLink]="['/review_vendor', item._vendor._id]"><button type="submit" class="btn btn-outline-primary">Review this vendor</button></a>
                   </div>
                 </div>
                 <div class="cold-md-1"></div>

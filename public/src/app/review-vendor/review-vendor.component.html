@@ -2,7 +2,15 @@
 <form (submit)='review_vendor()' #reviewForm="ngForm">
 	<p>Review: <input type='text' name='review' [(ngModel)]='thisreview.review' #review="ngModel" required minlength="30" style="height: 100px; width: 400px;"> <span *ngIf="review.errors && (review.dirty || review.touched)">Review is required and must be at least 30 characters.</span></p>
 
-	<p>Rating: <input type='number' name='rating' [(ngModel)]='thisreview.rating' #rating="ngModel" required> <span *ngIf="(rating.errors || rating<0 || rating>5) && (rating.dirty || rating.touched)">Rating is required and must be between 0 and 5.</span></p>
+	<p>Rating:  
+		<select name='rating' [(ngModel)]='thisreview.rating' #rating="ngModel" required>
+  		<option value="1">1</option>
+  		<option value="2">2</option>
+  		<option value="3">3</option>
+  		<option value="4">4</option>
+  		<option value="5">5</option>
+		</select>
+		<span *ngIf="(rating.errors || rating<0 || rating>5) && (rating.dirty || rating.touched)">Rating is required and must be between 0 and 5.</span></p>
 
 	<input type='submit' value='Submit' [disabled]='!reviewForm.valid || rating<0 || rating>5'>
 </form>
