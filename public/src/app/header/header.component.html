@@ -8,39 +8,41 @@
       <h5>Etsy meets bitcoin and bartering.</h5>
     </div>
     <div *ngIf="currentUser == null" class="navbar-collapse collapse" id="loggedout">
-    <p *ngIf="errors" class="error">Invalid Credentials</p>
-        <form class="d-inline ml-auto" (submit)="login()">
-            <div class="input-group">
-              <input type="text" name="alias" [(ngModel)]="user.alias" class="form-control" placeholder="Alias">
-              <input type="password" name="password" [(ngModel)]="user.password" class="form-control" placeholder="Password">
-              <span class="input-group-btn">
-                <button class="btn btn-outline-primary" type="submit">Login</button>
-              </span>
-            </div>
-            <small class="form-text text-muted">Don't have an account? Register <a [routerLink]="['/register']">here</a>!</small>
-        </form>
-        <form (submit)="search()">
+      <p *ngIf="errors" class="error">Invalid Credentials</p>
+      <form class="d-inline ml-auto" (submit)="login()">
           <div class="input-group">
-            <input type="text" name="search" [(ngModel)]="query" class="form-control" placeholder="What are you looking for?">
-            <span class="input-group-btn"><button type="submit" class="btn btn-outline-primary">Search</button></span>
+            <input type="text" name="alias" [(ngModel)]="user.alias" class="form-control" placeholder="Alias">
+            <input type="password" name="password" [(ngModel)]="user.password" class="form-control" placeholder="Password">
+            <span class="input-group-btn">
+              <button class="btn btn-outline-primary" type="submit">Login</button>
+            </span>
           </div>
-        </form>
-      </div>
+          <small class="form-text text-muted">Don't have an account? Register <a [routerLink]="['/register']">here</a>!</small>
+      </form>
+      <form (submit)="search()">
+        <div class="input-group">
+          <input type="text" name="search" [(ngModel)]="query" class="form-control" placeholder="What are you looking for?">
+          <span class="input-group-btn"><button type="submit" class="btn btn-outline-primary">Search</button></span>
+        </div>
+      </form>
+    </div>
 
     <div *ngIf="currentUser != null" class="container-fluid" id="loggedin">
       <div class="card">
         <div class="card-block">
           <div class="d-inline-flex justify-content-start align-items-center" id="buttons">
-            <h4 class="middle item"><a [routerLink]="['user', currentUser.user.alias, 'basket']">Basket <i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i></a></h4>
-            <h4 class="middle item"><a [routerLink]="['user', currentUser.user.alias]">Profile <i class="fa fa-user-secret fa-fw" aria-hidden="true"></i></a></h4>
-            <button type="submit" class="btn btn-outline-danger btn-sm" (click)="logout()">Logout</button>
-          </div>
-          <form (submit)="search()">
-            <div class="input-group">
-              <input type="text" name="search" [(ngModel)]="query" class="form-control" placeholder="What are you looking for?">
-              <span class="input-group-btn"><button type="submit" class="btn btn-outline-primary">Search</button></span>
+            <div class="container">
+              <h4 class="middle item"><a [routerLink]="['user', currentUser.user.alias, 'basket']">Basket <i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i></a></h4>
+              <h4 class="middle item"><a [routerLink]="['user', currentUser.user.alias]">Profile <i class="fa fa-user-secret fa-fw" aria-hidden="true"></i></a></h4>
+              <button type="submit" class="btn btn-outline-danger btn-sm" (click)="logout()">Logout</button>
             </div>
-          </form>
+            <form (submit)="search()">
+              <div class="input-group">
+                <input type="text" name="search" [(ngModel)]="query" class="form-control" placeholder="What are you looking for?">
+                <span class="input-group-btn"><button type="submit" class="btn btn-outline-primary">Search</button></span>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
