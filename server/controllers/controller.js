@@ -594,9 +594,13 @@ module.exports = {
 		        }
 		        return res.status(400).send(errors);
 	        }
-	        let new_order = user.basket.slice()
-	        console.log("New Order: ", new_order)
-	        console.log("User basket: ", user.basket)
+	        for (var i = 0; i<user.basket.length; i++){
+	        	user.orders_placed.push(user.basket[i]);
+	        }
+	        
+	        let new_order = user.basket.slice();
+	        console.log("New Order: ", new_order);
+	        console.log("User basket: ", user.basket);
 	        user.order_holder.push(new_order)
 	        user.basket = []
 	        user.save( (err, savedUser) => {
