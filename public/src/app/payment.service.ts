@@ -13,8 +13,6 @@ export class PaymentService {
 		  amount: amount,
 		  userId: userId
 	  }
-	  console.log("Service token: ", token)
-	  console.log("Service, amount: ", amount)
 	  return this._http.post("/api/payment", body)
 	  .map(data => data.json())
 	  .toPromise()

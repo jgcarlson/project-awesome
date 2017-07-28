@@ -18,7 +18,6 @@ const routes: Routes = [ // to limit access to only logged in users, add 'canAct
   { path: 'product/:id', component: ProductComponent },
   { path: 'user/:alias', component: ProfileComponent },
   { path: 'user/:alias/basket', component: BasketComponent, canActivate: [OmniService] },
-  { path: 'checkout', component: CheckoutComponent},
   { path: '**', component: LandingComponent },
 ];
 

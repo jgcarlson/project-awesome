@@ -138,6 +138,12 @@ export class OmniService implements CanActivate {
       .toPromise();
     }
 
+	process_order(user){
+		return this._http.post('/api/process_order/', user)
+		.map( data => data.json())
+		.toPromise()
+	}
+
     //**********************************
     //review controller methods \/
     //**********************************
