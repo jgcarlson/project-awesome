@@ -11,7 +11,7 @@ import { OmniService } from './../omni.service';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-
+  reviews;
   constructor(private _route: ActivatedRoute, private _omniService:OmniService, config: NgbRatingConfig) {
     config.max = 5;
     config.readonly = false;
@@ -20,6 +20,10 @@ export class ProductComponent implements OnInit {
       this.product_id = param.id;
     })
 	this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+  this._omniService.get_reviews(this.product_id)
+      .then(data => this.reviews = data)
+      .catch(data => console.log(data))
   }
 
   currentUser: any

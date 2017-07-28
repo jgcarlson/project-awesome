@@ -310,6 +310,19 @@ module.exports = {
         return res.json(products);
     })
   },
+  my_items: function(req, res){
+    Product.find({_vendor: req.params.id}, (err, products)=>{
+      if(err){
+          console.log(err);
+        let errors = [];
+            for(let i in err.errors){
+              errors.push(err.errors[i].message);
+            }
+            return res.status(400).send(errors);
+        }
+        return res.json(products);
+    })
+  },
   create_item: function(req, res){
     //console.log(req.body)
     let prod = new Product({title: req.body.title, description: req.body.description, price: req.body.price, _vendor: req.body._vendor, images: req.body.images, tags: req.body.tags, avgRating: Math.floor(Math.random() * 5)});
@@ -682,6 +695,19 @@ module.exports = {
       })
     })
 
+  },
+  get_reviews: function(req, res){
+    Review.find({_reviewedProduct: req.params.id}, (err, reviews)=>{
+      if(err){
+          console.log(err);
+        let errors = [];
+            for(let i in err.errors){
+              errors.push(err.errors[i].message);
+            }
+            return res.status(400).send(errors);
+        }
+        return res.json(reviews);
+    })
   },
 
 

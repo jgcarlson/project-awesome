@@ -20,6 +20,7 @@ module.exports = app => {
   app.get('/api/get_item_nolog/:product_id/', controller.get_item_nolog);
   app.get('/api/find_item/:search_criteria', controller.find_item);
   app.get('/api/new_items_from_store/:id', controller.new_items_from_store);
+  app.get('/api/my_items/:id', controller.my_items);
   app.get('/api/popular_items_from_store/:id', controller.popular_items_from_store);
   app.post('/api/create_item', controller.create_item);
   app.post('/api/payment', controller.payment);
@@ -40,5 +41,6 @@ module.exports = app => {
   //**********************************
   app.post('/api/review_vendor', controller.review_vendor);
   app.post('/api/review_product', controller.review_product);
+  app.get('/api/get_reviews/:id', controller.get_reviews);
 
 }

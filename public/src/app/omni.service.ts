@@ -104,6 +104,12 @@ export class OmniService implements CanActivate {
       .toPromise();
     }
 
+    my_items(id){
+      return this._http.get('/api/my_items/' + id)
+      .map( data => data.json())
+      .toPromise();
+    }
+
     create_item(item){
       return this._http.post('/api/create_item', item)
       .map( data => data.json())
@@ -162,6 +168,12 @@ export class OmniService implements CanActivate {
 
     review_vendor(review){
       return this._http.post('/api/review_vendor', review)
+      .map( data => data.json())
+      .toPromise();
+    }
+
+    get_reviews(id){
+      return this._http.get('/api/get_reviews/' + id)
       .map( data => data.json())
       .toPromise();
     }
