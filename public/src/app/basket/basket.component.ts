@@ -45,7 +45,7 @@ export class BasketComponent implements OnInit {
     this._omniService.remove_from_basket(body)
     .then( data => {
       console.log(data)
-	  window.location.reload()
+	//   window.location.reload()
       this.getBasket(this.currentUser.user.id)
     })
     .catch( err => {

@@ -245,6 +245,19 @@ module.exports = {
         return res.json(product);
     })
   },
+  get_item_nolog: function(req, res){
+    Product.findOne({_id: req.params.product_id}).populate('_vendor').exec( (err, product)=>{
+        if(err){
+          console.log(err);
+        let errors = [];
+            for(let i in err.errors){
+              errors.push(err.errors[i].message);
+            }
+            return res.status(400).send(errors);
+        }
+        return res.json(product);
+    })
+  },
   find_item: function(req, res){
     console.log("MADE it to find_item in controller");
     console.log(req.body);

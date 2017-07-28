@@ -17,6 +17,7 @@ module.exports = app => {
   app.get('/api/order_history/:id', controller.order_history);
   app.get('/api/suggested_products/:id', controller.suggested_products);
   app.get('/api/get_item/:product_id/:user_id', controller.get_item);
+  app.get('/api/get_item_nolog/:product_id/', controller.get_item_nolog);
   app.get('/api/find_item/:search_criteria', controller.find_item);
   app.get('/api/new_items_from_store/:id', controller.new_items_from_store);
   app.get('/api/popular_items_from_store/:id', controller.popular_items_from_store);
