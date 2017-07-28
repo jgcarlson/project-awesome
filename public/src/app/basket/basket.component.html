@@ -5,7 +5,7 @@
 <h4 *ngIf="userBasket.length === 0">You should fix that.</h4>
 
 <div *ngIf="userBasket.length > 0">
-<app-checkout [userBasket]="userBasket"></app-checkout>
+<app-checkout [userBasket]="userBasket" (checkoutSuccessEmitter)="process_order($event)"></app-checkout>
   <div class="container-fluid" *ngFor="let product of userBasket">
     <div class="card">
       <div class="card-block">

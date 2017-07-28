@@ -55,6 +55,7 @@ let UserSchema = new Schema({
   },
   basket: [{type: Schema.Types.ObjectId, ref: 'Product'}],
   reviews: [{type: Schema.Types.ObjectId, ref: 'Review'}],
+  order_holder: [],
   orders_placed: [{type: Schema.Types.ObjectId, ref: 'Product'}],
   products_offered: [{type: Schema.Types.ObjectId, ref: 'Product'}],
   recently_viewed: [{type: Schema.Types.ObjectId, ref: 'Product'}],

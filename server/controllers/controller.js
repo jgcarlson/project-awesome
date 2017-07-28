@@ -581,10 +581,8 @@ db.articles.createIndex( { subject: "text" } )
   },
 
   payment: function(req, res){
-	  console.log(req.body)
 	  User.findOne({_id: req.body.userId}, (err, user) => {
 		  if(err){
-		  console.log(err);
 		  let errors = [];
 			  for(let i in err.errors){
 				errors.push(err.errors[i].message);
@@ -594,7 +592,34 @@ db.articles.createIndex( { subject: "text" } )
 		  user.payments.push(req.body.token)
 		  user.save( (err, savedUser) => {
 			  if(err){
-			  console.log(err);
+			  let errors = [];
+				  for(let i in err.errors){
+					errors.push(err.errors[i].message);
+				  }
+				  return res.status(400).send(errors);
+			  }
+			  res.json(savedUser)
+		  })
+	  })
+  },
+
+  process_order: function(req, res){
+	  console.log("Controller received: ", req.body)
+	  User.findOne({_id: req.body.user.id}, (err, user) => {
+		  if(err){
+		  let errors = [];
+			  for(let i in err.errors){
+				errors.push(err.errors[i].message);
+			  }
+			  return res.status(400).send(errors);
+		  }
+		  let new_order = user.basket.slice()
+		  console.log("New Order: ", new_order)
+		  console.log("User basket: ", user.basket)
+		  user.order_holder.push(new_order)
+		  user.basket = []
+		  user.save( (err, savedUser) => {
+			  if(err){
 			  let errors = [];
 				  for(let i in err.errors){
 					errors.push(err.errors[i].message);

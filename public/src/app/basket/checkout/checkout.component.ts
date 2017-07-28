@@ -10,13 +10,17 @@ import { environment } from '../../.././environments/environment';
 })
 export class CheckoutComponent implements OnInit {
 
-@Input() userBasket
+
 
 
   constructor(private _paymentService: PaymentService) {
 	this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
 
+
+  @Input() userBasket
+  @Output() checkoutSuccessEmitter = new EventEmitter()
+  subTotal: number = 0
   currentUser: any;
   handler: any;
   amount: 500;
@@ -32,26 +36,26 @@ export class CheckoutComponent implements OnInit {
 		  image: "http://localhost:5000/assets/images/llama.png",
 		  locale: "auto",
 		  currency: "usd",
-		  amount: this.amount,
-		  bitcoin: "true",
+		  amount: this.subTotal*100,
 		  token: token => {
 			  this._paymentService.processPayment(this.currentUser.user.id, token, this.amount)
 			  .then( data => {
-				  console.log("Successful payment: ", data)
+				  console.log("Successful payment: ", data);
+				  this.checkoutSuccess();
 			  })
 			  .catch( err => {
 				  console.log(err)
 			  })
 		  }
 	  });
-
+	  this.subTotal = this.calcTotal(this.userBasket)
+	  console.log("subTotal: ", this.subTotal)
   }
 
-  testAmount = 500
+
 
   handlePayment(){
-	  let stripeAmount = this.testAmount
-
+	  let stripeAmount = this.subTotal*100
 	  this.handler.open({
 		  name: "Checkout",
 		  description: "Choose your pament method",
@@ -60,6 +64,19 @@ export class CheckoutComponent implements OnInit {
 	  });
   }
 
+  calcTotal(basket){
+	  for(let i=0; i<basket.length; i++){
+		  console.log(basket[i])
+		  this.subTotal += basket[i].price;
+	  }
+	  return this.subTotal;
+  }
+
+  checkoutSuccess(){
+	this.checkoutSuccessEmitter.emit(1)
+  }
+
+
   // @HostListener('window:popstate'){
   //  onPopstate(){
   //   this.handler.close()
@@ -67,8 +84,3 @@ export class CheckoutComponent implements OnInit {
   // }
 
 }
-
-
-// token: token => {
-// 	this._paymentService.processPayment(token, this.amount)
-// }
