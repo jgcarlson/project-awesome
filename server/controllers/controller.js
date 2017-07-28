@@ -24,7 +24,7 @@ module.exports = {
             }
             return res.status(400).send(errors);
         }
-        console.log(products)
+        //console.log(products)
         var prods = [];
         prods.push(products[Math.floor(Math.random()*products.length)]);
         prods.push(products[Math.floor(Math.random()*products.length)]);
@@ -119,7 +119,7 @@ module.exports = {
   },
   order_history: function(req, res){
     //whenever we get a product, rotate the recently viewed array
-    User.findOne({_id: req.params.id}).populate('orders_placed').exec( (err, user)=>{
+    User.findOne({_id: req.params.id}).populate({path: 'orders_placed', populate: {path: '_vendor'}}).exec( (err, user)=>{
       if(err){
           console.log(err);
         let errors = [];
@@ -278,62 +278,6 @@ module.exports = {
       }
       return res.json(products);
     })
-
-
-    /*
-    Product.find({ tags: criteria[0]}, (err, products)=>{ //{ tags: { "$in" : criteria} }
-        if(err){
-            console.log(err);
-          let errors = [];
-            for(let i in err.errors){
-              errors.push(err.errors[i].message);
-            }
-            return res.status(400).send(errors);
-      }
-      console.log("PRODUCTS FOUND: " + products);
-        for (var i = 0; i<products.length; i++){
-          products[i].matches = 0;
-          for (var w = 0; w<criteria.length; w++){ //loop through all criteria
-            if (products[i].tags.indexOf(criteria[w])> -1){ //if word is in tags
-                products[i].matches += 1; //increment matches
-            }
-          } //done with words
-      } //done with products
-        products.sort(function(a, b) {
-          return b.matches - a.matches;
-      });
-      return res.json(products);
-    });
-
-db.articles.find(
-   { $text: { $search: "cake" } },
-   { score: { $meta: "textScore" } }
-)
-The returned document includes an additional field score that contains
-the document’s score associated with the text search
-
-db.articles.find(
-   { $text: { $search: "coffee" } },
-   { score: { $meta: "textScore" } }
-).sort( { score: { $meta: "textScore" } } )
-
-db.articles.createIndex( { subject: "text" } )
-
-  for (var i = 0; i<products.length; i++){
-          products[i].matches = 0;
-          for (var w = 0; w<criteria.length; w++){ //loop through all criteria
-            if (products[i].tags.indexOf(criteria[w])> -1){ //if word is in tags
-                products[i].matches += 1; //increment matches
-            }
-          } //done with words
-      } //done with products
-        products.sort(function(a, b) {
-          return b.matches - a.matches;
-      });
-      return res.json(products);
-      */
-
-
   },
   new_items_from_store: function(req, res){
     Product.find({_vendor: req.params.id}).sort('-createdAt').limit(3).exec( (err, products)=>{
@@ -660,7 +604,7 @@ db.articles.createIndex( { subject: "text" } )
   //**********************************
 
   review_product: function(req, res){
-    	Product.findOne({_id: req.params.id}, (err, product)=>{
+    	Product.findOne({_id: req.body._reviewedProduct}, (err, product)=>{
 	        if(err){
 	            console.log(err);
 		        let errors = [];
@@ -669,7 +613,7 @@ db.articles.createIndex( { subject: "text" } )
 		            }
 		            return res.status(400).send(errors);
 		    }
-	        let review = new Review(req.body);
+	        let review = new Review({review: req.body.review, rating: req.body.rating, _byUser: req.body._byUser, _reviewedProduct: req.body.reviewedProduct});
 	        review.save( (err, savedReview)=>{
 	          if(err){
 	            console.log(err);
@@ -680,19 +624,20 @@ db.articles.createIndex( { subject: "text" } )
 	              return res.status(400).send(errors);
 	          }
 
-	          product.totalRating += req.body.rating;
+	          product.totalRating += parseInt(req.body.rating);
 	          product.numReviews += 1;
 	          product.avgRating = product.totalRating/product.numReviews;
 	          product.save( (err, savedProduct)=>{
 	            if(err){
 	              console.log(err);
-	            let errors = [];
+	            	let errors = [];
 	                for(let i in err.errors){
 	                  errors.push(err.errors[i].message);
 	                }
 	                return res.status(400).send(errors);
 	            }
-	            return res.json(review);
+	            console.log("REVIEW: " + savedReview);
+	            return res.json(savedReview);
 	          })
 	      	})
 
@@ -700,7 +645,7 @@ db.articles.createIndex( { subject: "text" } )
 
   },
   review_vendor: function(req, res){
-    User.findOne({_id: req.params.id}, (err, user)=>{ //could add extra layer where we check that vendor = true?
+    User.findOne({_id: req.body._reviewedVendor}, (err, user)=>{ //could add extra layer where we check that vendor = true?
       if(err){
           console.log(err);
         let errors = [];
@@ -709,7 +654,7 @@ db.articles.createIndex( { subject: "text" } )
             }
             return res.status(400).send(errors);
         }
-        let review = new Review(req.body);
+        let review = new Review({review: req.body.review, rating: req.body.rating, _byUser: req.body._byUser, _reviewedVendor: req.body._reviewedVendor});
         review.save( (err, savedReview)=>{
           if(err){
             console.log(err);
@@ -720,7 +665,7 @@ db.articles.createIndex( { subject: "text" } )
               return res.status(400).send(errors);
           }
 
-          user.totalRating += req.body.rating;
+          user.totalRating += parseInt(req.body.rating);
           user.numReviews += 1;
           user.avgRating = user.totalRating/user.numReviews;
           user.save( (err, saveduser)=>{

@@ -15,12 +15,12 @@ let ReviewSchema = new Schema({
   _byUser: {
     type: Schema.Types.ObjectId, ref: "User"
   },
-  _reviewedVendor: [{
+  _reviewedVendor: {
     type: Schema.Types.ObjectId, ref: "User"
-  }],
-  _reviewedProduct: [{
+  },
+  _reviewedProduct: {
     type: Schema.Types.ObjectId, ref: "Product"
-  }]
+  }
 }, {timestamps: true})
 
 mongoose.model('Review', ReviewSchema)
