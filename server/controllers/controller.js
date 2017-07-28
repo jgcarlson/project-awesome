@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Product = mongoose.model('Product');
 var Review = mongoose.model('Review');
+var Order = mongoose.model('Order')
 var bcrypt = require('bcrypt');
 const stripe = require('stripe')
 const jwt = require('jsonwebtoken');
@@ -145,58 +146,58 @@ module.exports = {
             }
             return res.status(400).send(errors);
         } else {
-          var criteria = "";
-          if (typeof user.orders_placed[0] != 'undefined'){
-            criteria += user.orders_placed[0].tags;
-          }//IF THERE ARE NOT ENOUGH ORDERS PLACED YET
-          if (typeof user.orders_placed[1] != 'undefined'){
-            criteria += user.orders_placed[1].tags;
-          }
-          if (typeof user.orders_placed[2] != 'undefined'){
-            criteria += user.orders_placed[2].tags;
-          }
-          if (typeof user.recently_viewed[0] != 'undefined'){
-            criteria += user.recently_viewed[0].tags;
-          }
-          if (typeof user.recently_viewed[1] != 'undefined'){
-            criteria += user.recently_viewed[1].tags;
-          }
-          if (typeof user.recently_viewed[2] != 'undefined'){
-            criteria += user.recently_viewed[2].tags;
-          }
-          if(criteria.split(' ').length < 3){
-            Product.find({}).limit(3).populate("_vendor").exec( (err, products)=>{
-              if(err){
-                  console.log(err);
-                  let errors = [];
-                      for(let i in err.errors){
-                          errors.push(err.errors[i].message);
-                      }
-                  console.log("error found line 175");
-                  return res.status(400).send(errors);
-              } else {
-                console.log("returning random products line 178");
-                return res.json(products);
-              }
-            })
-          } else {
+	        var criteria = "";
+	        if (typeof user.orders_placed[0] != 'undefined'){
+	        	criteria += user.orders_placed[0].tags;
+	        }//IF THERE ARE NOT ENOUGH ORDERS PLACED YET
+	        if (typeof user.orders_placed[1] != 'undefined'){
+	        	criteria += user.orders_placed[1].tags;
+	        }
+	        if (typeof user.orders_placed[2] != 'undefined'){
+	        	criteria += user.orders_placed[2].tags;
+	        }
+	        if (typeof user.recently_viewed[0] != 'undefined'){
+	        	criteria += user.recently_viewed[0].tags;
+	        }
+	        if (typeof user.recently_viewed[1] != 'undefined'){
+	        	criteria += user.recently_viewed[1].tags;
+	        }
+	        if (typeof user.recently_viewed[2] != 'undefined'){
+	        	criteria += user.recently_viewed[2].tags;
+	        }
+	        if(criteria.split(' ').length < 3){
+	        	Product.find({}).limit(3).populate("_vendor").exec( (err, products)=>{
+			        if(err){
+			            console.log(err);
+			            let errors = [];
+			                for(let i in err.errors){
+			                    errors.push(err.errors[i].message);
+			                }
+			            console.log("error found line 175");
+			            return res.status(400).send(errors);
+			        } else {
+			        	console.log("returning random products line 178");
+			        	return res.json(products);
+			        }
+		        })
+	        } else {
 
-            Product.find({ $text: { $search: criteria } }, { score: { $meta: "textScore" } }).populate('_vendor').sort( { score: { $meta: "textScore" } } ).limit(3).exec( (err, products)=>{
-          if(err){
-                  console.log(err);
-                let errors = [];
-                  for(let i in err.errors){
-                    errors.push(err.errors[i].message);
-                  }
-                  console.log("error found line 191");
-                  return res.status(400).send(errors);
-              } else {
-                console.log("Sending back matching products line 194");
-                return res.json(products);
-            }
-            })
-        }
-      }
+		        Product.find({ $text: { $search: criteria } }, { score: { $meta: "textScore" } }).populate('_vendor').sort( { score: { $meta: "textScore" } } ).limit(3).exec( (err, products)=>{
+					if(err){
+			            console.log(err);
+			          let errors = [];
+			            for(let i in err.errors){
+			              errors.push(err.errors[i].message);
+			            }
+			            console.log("error found line 191");
+			            return res.status(400).send(errors);
+			        } else {
+			        	console.log("Sending back matching products line 194");
+			        	return res.json(products);
+			    	}
+		        })
+		    }
+	    }
     })
 
 
@@ -559,36 +560,32 @@ db.articles.createIndex( { subject: "text" } )
   },
 
   remove_from_basket: function(req, res){
-  User.findOne({_id: req.body.userId}, (err, user) => {
-    if(err){
-    console.log(err);
-    let errors = [];
-      for(let i in err.errors){
-        errors.push(err.errors[i].message);
-      }
-      return res.status(400).send(errors);
-    }
-    console.log("Product_id: ", req.body.product._id)
-    function isProduct(item){
-      return String(item) === String(req.body.product._id)
-    }
-    let index = user.basket.findIndex(isProduct)
-    console.log("Index: ", index)
-    console.log("Length", user.basket.length)
-    user.basket.splice(index, 1)
-    console.log("Length", user.basket.length)
-    user.save( (err, savedUser) => {
-      if(err){
-      console.log(err);
-      let errors = [];
-        for(let i in err.errors){
-          errors.push(err.errors[i].message);
-        }
-        return res.status(400).send(errors);
-      }
-      return res.json(savedUser)
-    })
-  });
+	User.findOne({_id: req.body.userId}, (err, user) => {
+		if(err){
+		console.log(err);
+		let errors = [];
+			for(let i in err.errors){
+			  errors.push(err.errors[i].message);
+			}
+			return res.status(400).send(errors);
+		}
+		function isProduct(item){
+			return String(item) === String(req.body.product._id)
+		}
+		let index = user.basket.findIndex(isProduct)
+		user.basket.splice(index, 1)
+		user.save( (err, savedUser) => {
+			if(err){
+			console.log(err);
+			let errors = [];
+				for(let i in err.errors){
+				  errors.push(err.errors[i].message);
+				}
+				return res.status(400).send(errors);
+			}
+			return res.json(savedUser)
+		})
+	});
   },
 
   payment: function(req, res){
@@ -615,31 +612,40 @@ db.articles.createIndex( { subject: "text" } )
   },
 
   process_order: function(req, res){
-    console.log("Controller received: ", req.body)
-    User.findOne({_id: req.body.user.id}, (err, user) => {
-      if(err){
-      let errors = [];
-        for(let i in err.errors){
-        errors.push(err.errors[i].message);
-        }
-        return res.status(400).send(errors);
-      }
-      let new_order = user.basket.slice()
-      console.log("New Order: ", new_order)
-      console.log("User basket: ", user.basket)
-      user.order_holder.push(new_order)
-      user.basket = []
-      user.save( (err, savedUser) => {
-        if(err){
-        let errors = [];
-          for(let i in err.errors){
-          errors.push(err.errors[i].message);
-          }
-          return res.status(400).send(errors);
-        }
-        res.json(savedUser)
-      })
-    })
+	  User.findOne({_id: req.body.user.id}, (err, user) => {
+		  if(err){
+		  let errors = [];
+			  for(let i in err.errors){
+				errors.push(err.errors[i].message);
+			  }
+			  return res.status(400).send(errors);
+		  }
+		  let new_order = new Order()
+		  new_order._user = user;
+		  new_order.products = user.basket
+		  new_order.save( (err, savedOrder) => {
+			  if(err){
+			  let errors = [];
+				  for(let i in err.errors){
+					errors.push(err.errors[i].message);
+				  }
+				  return res.status(400).send(errors);
+			  }
+			  user.orders_placed.push(new_order)
+			  user.basket = []
+			  user.save( (err, savedUser) => {
+				  if(err){
+				  let errors = [];
+					  for(let i in err.errors){
+						errors.push(err.errors[i].message);
+					  }
+					  return res.status(400).send(errors);
+				  }
+				  res.json(savedUser)
+			  })
+		  })
+
+	  })
   },
 
   //**********************************
