@@ -139,64 +139,64 @@ module.exports = {
     User.findOne({_id: req.params.id}).populate('orders_placed').populate('recently_viewed').exec( (err, user)=>{
         if(err){
             console.log(err);
-        	let errors = [];
+          let errors = [];
             for(let i in err.errors){
               errors.push(err.errors[i].message);
             }
             return res.status(400).send(errors);
         } else {
-	        var criteria = "";
-	        if (typeof user.orders_placed[0] != 'undefined'){ 
-	        	criteria += user.orders_placed[0].tags;
-	        }//IF THERE ARE NOT ENOUGH ORDERS PLACED YET
-	        if (typeof user.orders_placed[1] != 'undefined'){ 
-	        	criteria += user.orders_placed[1].tags;
-	        }
-	        if (typeof user.orders_placed[2] != 'undefined'){ 
-	        	criteria += user.orders_placed[2].tags;
-	        }
-	        if (typeof user.recently_viewed[0] != 'undefined'){
-	        	criteria += user.recently_viewed[0].tags;
-	        }
-	        if (typeof user.recently_viewed[1] != 'undefined'){
-	        	criteria += user.recently_viewed[1].tags;
-	        }
-	        if (typeof user.recently_viewed[2] != 'undefined'){
-	        	criteria += user.recently_viewed[2].tags;
-	        }
-	        if(criteria.split(' ').length < 3){
-	        	Product.find({}).limit(3).populate("_vendor").exec( (err, products)=>{
-			        if(err){
-			            console.log(err);
-			            let errors = [];
-			                for(let i in err.errors){
-			                    errors.push(err.errors[i].message);
-			                }
-			            console.log("error found line 175");
-			            return res.status(400).send(errors);
-			        } else {
-			        	console.log("returning random products line 178");
-			        	return res.json(products);
-			        }
-		        })
-	        } else {
-	        
-		        Product.find({ $text: { $search: criteria } }, { score: { $meta: "textScore" } }).populate('_vendor').sort( { score: { $meta: "textScore" } } ).limit(3).exec( (err, products)=>{
-					if(err){
-			            console.log(err);
-			          let errors = [];
-			            for(let i in err.errors){
-			              errors.push(err.errors[i].message);
-			            }
-			            console.log("error found line 191");
-			            return res.status(400).send(errors);
-			        } else {
-			        	console.log("Sending back matching products line 194");
-			        	return res.json(products);
-			    	}
-		        })
-		    }
-	    }
+          var criteria = "";
+          if (typeof user.orders_placed[0] != 'undefined'){
+            criteria += user.orders_placed[0].tags;
+          }//IF THERE ARE NOT ENOUGH ORDERS PLACED YET
+          if (typeof user.orders_placed[1] != 'undefined'){
+            criteria += user.orders_placed[1].tags;
+          }
+          if (typeof user.orders_placed[2] != 'undefined'){
+            criteria += user.orders_placed[2].tags;
+          }
+          if (typeof user.recently_viewed[0] != 'undefined'){
+            criteria += user.recently_viewed[0].tags;
+          }
+          if (typeof user.recently_viewed[1] != 'undefined'){
+            criteria += user.recently_viewed[1].tags;
+          }
+          if (typeof user.recently_viewed[2] != 'undefined'){
+            criteria += user.recently_viewed[2].tags;
+          }
+          if(criteria.split(' ').length < 3){
+            Product.find({}).limit(3).populate("_vendor").exec( (err, products)=>{
+              if(err){
+                  console.log(err);
+                  let errors = [];
+                      for(let i in err.errors){
+                          errors.push(err.errors[i].message);
+                      }
+                  console.log("error found line 175");
+                  return res.status(400).send(errors);
+              } else {
+                console.log("returning random products line 178");
+                return res.json(products);
+              }
+            })
+          } else {
+
+            Product.find({ $text: { $search: criteria } }, { score: { $meta: "textScore" } }).populate('_vendor').sort( { score: { $meta: "textScore" } } ).limit(3).exec( (err, products)=>{
+          if(err){
+                  console.log(err);
+                let errors = [];
+                  for(let i in err.errors){
+                    errors.push(err.errors[i].message);
+                  }
+                  console.log("error found line 191");
+                  return res.status(400).send(errors);
+              } else {
+                console.log("Sending back matching products line 194");
+                return res.json(products);
+            }
+            })
+        }
+      }
     })
 
 
@@ -219,27 +219,27 @@ module.exports = {
                 for(let i in err.errors){
                     errors.push(err.errors[i].message);
                 }
-            	return res.status(400).send(errors);
+              return res.status(400).send(errors);
             }
             if (user.recently_viewed.indexOf(product._id)<0){
-            	if(user.recently_viewed.length < 3){
-            	user.recently_viewed.push(product._id);
-	            } else {
-	          		user.recently_viewed.shift();
-	          		user.recently_viewed[2] = product._id;
-	          	}
-	          	user.save( (err, savedUser)=> {
-	          		if(err){
-		                console.log(err);
-		                let errors = [];
-		                for(let i in err.errors){
-		                    errors.push(err.errors[i].message);
-		                }
-		            	return res.status(400).send(errors);
-	            	}
-	          	})
+              if(user.recently_viewed.length < 3){
+              user.recently_viewed.push(product._id);
+              } else {
+                user.recently_viewed.shift();
+                user.recently_viewed[2] = product._id;
+              }
+              user.save( (err, savedUser)=> {
+                if(err){
+                    console.log(err);
+                    let errors = [];
+                    for(let i in err.errors){
+                        errors.push(err.errors[i].message);
+                    }
+                  return res.status(400).send(errors);
+                }
+              })
             }
-            
+
         })
         return res.json(product);
     })
@@ -253,8 +253,8 @@ module.exports = {
     //var criteria = search.split(" ");
     //console.log(criteria);
 
-	Product.find({ $text: { $search: search } }, { score: { $meta: "textScore" } }).populate('_vendor').sort( { score: { $meta: "textScore" } } ).exec( (err, products)=>{
-		if(err){
+  Product.find({ $text: { $search: search } }, { score: { $meta: "textScore" } }).populate('_vendor').sort( { score: { $meta: "textScore" } } ).exec( (err, products)=>{
+    if(err){
             console.log(err);
           let errors = [];
             for(let i in err.errors){
@@ -423,8 +423,19 @@ db.articles.createIndex( { subject: "text" } )
               console.log('false')
               res.json({success: false}) // We should do something else here
             } else {
-              console.log('true')
-              res.json({success: true}) // and here.
+              let token = jwt.sign(user, cert, {
+                expiresIn: 86400 // expires in 24 hours
+              });
+              res.json({
+                user: {
+                  alias: user.alias,
+                  id: user._id,
+                  vendor: user.vendor,
+                  basket: user.basket
+                },
+                success: true,
+                token: token
+              });
             }
           })
         }
@@ -447,7 +458,7 @@ db.articles.createIndex( { subject: "text" } )
               alias: user.alias,
               id: user._id,
               vendor: user.vendor,
-			  basket: user.basket
+              basket: user.basket
             },
             success: true,
             token: token
@@ -489,146 +500,146 @@ db.articles.createIndex( { subject: "text" } )
   },
 
   get_basket: function(req, res){
-  	console.log("MADE IT TO GET BASKET IN CONTROLLER");
-	User.findOne({_id: req.params.id}).populate({path: 'basket', populate: {path: '_vendor'}}).exec( (err, user)=>{
-		if(err){
-		console.log(err);
-		let errors = [];
-			for(let i in err.errors){
-			  errors.push(err.errors[i].message);
-			}
-			return res.status(400).send(errors);
-		}
-		return res.json(user);
-	});
+    console.log("MADE IT TO GET BASKET IN CONTROLLER");
+  User.findOne({_id: req.params.id}).populate({path: 'basket', populate: {path: '_vendor'}}).exec( (err, user)=>{
+    if(err){
+    console.log(err);
+    let errors = [];
+      for(let i in err.errors){
+        errors.push(err.errors[i].message);
+      }
+      return res.status(400).send(errors);
+    }
+    return res.json(user);
+  });
   },
 
   add_to_basket: function(req, res){
-	User.findOne({_id: req.body.userId}).populate('basket').exec( (err, user) =>{
-		console.log("MADE IT TO ADD TO BASKET FUNCTION IN CONTROLLER");
-		if(err){
-		console.log(err);
-		let errors = [];
-			for(let i in err.errors){
-			  errors.push(err.errors[i].message);
-			}
-			return res.status(400).send(errors);
-		}
-		function containsObject(obj, list) {
-		    var i;
-		    for (i = 0; i < list.length; i++) {
-		        if (list[i]._id == obj._id) {
-		            return true;
-		        }
-		    }
-		    return false;
-		}
-		if (!containsObject(req.body.product, user.basket)){
-			user.basket.push(req.body.product)
-			console.log("MADE IT TO PUSHING ITEM TO BASKET");
-			console.log("USER: " + user);
-			user.save( (err, savedUser) => {
-				if(err){
-				console.log(err);
-				let errors = [];
-					for(let i in err.errors){
-					  errors.push(err.errors[i].message);
-					}
-					return res.status(400).send(errors);
-				} else {
-					console.log("USER.BASKET: " + user.basket);
-					return res.json(user.basket);
-				}
-			})
-		} else {
-			console.log("USER.BASKET: " + user.basket);
-			return res.json(user.basket);
-		}
-	})
+  User.findOne({_id: req.body.userId}).populate('basket').exec( (err, user) =>{
+    console.log("MADE IT TO ADD TO BASKET FUNCTION IN CONTROLLER");
+    if(err){
+    console.log(err);
+    let errors = [];
+      for(let i in err.errors){
+        errors.push(err.errors[i].message);
+      }
+      return res.status(400).send(errors);
+    }
+    function containsObject(obj, list) {
+        var i;
+        for (i = 0; i < list.length; i++) {
+            if (list[i]._id == obj._id) {
+                return true;
+            }
+        }
+        return false;
+    }
+    if (!containsObject(req.body.product, user.basket)){
+      user.basket.push(req.body.product)
+      console.log("MADE IT TO PUSHING ITEM TO BASKET");
+      console.log("USER: " + user);
+      user.save( (err, savedUser) => {
+        if(err){
+        console.log(err);
+        let errors = [];
+          for(let i in err.errors){
+            errors.push(err.errors[i].message);
+          }
+          return res.status(400).send(errors);
+        } else {
+          console.log("USER.BASKET: " + user.basket);
+          return res.json(user.basket);
+        }
+      })
+    } else {
+      console.log("USER.BASKET: " + user.basket);
+      return res.json(user.basket);
+    }
+  })
   },
 
   remove_from_basket: function(req, res){
-	User.findOne({_id: req.body.userId}, (err, user) => {
-		if(err){
-		console.log(err);
-		let errors = [];
-			for(let i in err.errors){
-			  errors.push(err.errors[i].message);
-			}
-			return res.status(400).send(errors);
-		}
-		console.log("Product_id: ", req.body.product._id)
-		function isProduct(item){
-			return String(item) === String(req.body.product._id)
-		}
-		let index = user.basket.findIndex(isProduct)
-		console.log("Index: ", index)
-		console.log("Length", user.basket.length)
-		user.basket.splice(index, 1)
-		console.log("Length", user.basket.length)
-		user.save( (err, savedUser) => {
-			if(err){
-			console.log(err);
-			let errors = [];
-				for(let i in err.errors){
-				  errors.push(err.errors[i].message);
-				}
-				return res.status(400).send(errors);
-			}
-			return res.json(savedUser)
-		})
-	});
+  User.findOne({_id: req.body.userId}, (err, user) => {
+    if(err){
+    console.log(err);
+    let errors = [];
+      for(let i in err.errors){
+        errors.push(err.errors[i].message);
+      }
+      return res.status(400).send(errors);
+    }
+    console.log("Product_id: ", req.body.product._id)
+    function isProduct(item){
+      return String(item) === String(req.body.product._id)
+    }
+    let index = user.basket.findIndex(isProduct)
+    console.log("Index: ", index)
+    console.log("Length", user.basket.length)
+    user.basket.splice(index, 1)
+    console.log("Length", user.basket.length)
+    user.save( (err, savedUser) => {
+      if(err){
+      console.log(err);
+      let errors = [];
+        for(let i in err.errors){
+          errors.push(err.errors[i].message);
+        }
+        return res.status(400).send(errors);
+      }
+      return res.json(savedUser)
+    })
+  });
   },
 
   payment: function(req, res){
-	  User.findOne({_id: req.body.userId}, (err, user) => {
-		  if(err){
-		  let errors = [];
-			  for(let i in err.errors){
-				errors.push(err.errors[i].message);
-			  }
-			  return res.status(400).send(errors);
-		  }
-		  user.payments.push(req.body.token)
-		  user.save( (err, savedUser) => {
-			  if(err){
-			  let errors = [];
-				  for(let i in err.errors){
-					errors.push(err.errors[i].message);
-				  }
-				  return res.status(400).send(errors);
-			  }
-			  res.json(savedUser)
-		  })
-	  })
+    User.findOne({_id: req.body.userId}, (err, user) => {
+      if(err){
+      let errors = [];
+        for(let i in err.errors){
+        errors.push(err.errors[i].message);
+        }
+        return res.status(400).send(errors);
+      }
+      user.payments.push(req.body.token)
+      user.save( (err, savedUser) => {
+        if(err){
+        let errors = [];
+          for(let i in err.errors){
+          errors.push(err.errors[i].message);
+          }
+          return res.status(400).send(errors);
+        }
+        res.json(savedUser)
+      })
+    })
   },
 
   process_order: function(req, res){
-	  console.log("Controller received: ", req.body)
-	  User.findOne({_id: req.body.user.id}, (err, user) => {
-		  if(err){
-		  let errors = [];
-			  for(let i in err.errors){
-				errors.push(err.errors[i].message);
-			  }
-			  return res.status(400).send(errors);
-		  }
-		  let new_order = user.basket.slice()
-		  console.log("New Order: ", new_order)
-		  console.log("User basket: ", user.basket)
-		  user.order_holder.push(new_order)
-		  user.basket = []
-		  user.save( (err, savedUser) => {
-			  if(err){
-			  let errors = [];
-				  for(let i in err.errors){
-					errors.push(err.errors[i].message);
-				  }
-				  return res.status(400).send(errors);
-			  }
-			  res.json(savedUser)
-		  })
-	  })
+    console.log("Controller received: ", req.body)
+    User.findOne({_id: req.body.user.id}, (err, user) => {
+      if(err){
+      let errors = [];
+        for(let i in err.errors){
+        errors.push(err.errors[i].message);
+        }
+        return res.status(400).send(errors);
+      }
+      let new_order = user.basket.slice()
+      console.log("New Order: ", new_order)
+      console.log("User basket: ", user.basket)
+      user.order_holder.push(new_order)
+      user.basket = []
+      user.save( (err, savedUser) => {
+        if(err){
+        let errors = [];
+          for(let i in err.errors){
+          errors.push(err.errors[i].message);
+          }
+          return res.status(400).send(errors);
+        }
+        res.json(savedUser)
+      })
+    })
   },
 
   //**********************************
