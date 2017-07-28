@@ -112,6 +112,7 @@ export class ProfileComponent implements OnInit {
     .catch( err => {
       console.log(err)
     })
+  
   }
 
 }

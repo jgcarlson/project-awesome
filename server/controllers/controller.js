@@ -212,7 +212,6 @@ module.exports = {
             }
             return res.status(400).send(errors);
         }
-
         User.findOne({_id: req.params.user_id}, (err, user)=>{
             if(err){
                 console.log(err);
@@ -220,7 +219,7 @@ module.exports = {
                 for(let i in err.errors){
                     errors.push(err.errors[i].message);
                 }
-            return res.status(400).send(errors);
+            	return res.status(400).send(errors);
             }
             if (user.recently_viewed.indexOf(product._id)<0){
             	if(user.recently_viewed.length < 3){
@@ -242,7 +241,6 @@ module.exports = {
             }
             
         })
-
         return res.json(product);
     })
   },
