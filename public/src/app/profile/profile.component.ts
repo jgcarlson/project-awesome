@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit {
   currentUser:any;
   product = new Product()
   basket;
+  my_items;
 
   constructor(private _omniService:OmniService, config: NgbRatingConfig, private _route: ActivatedRoute) {
     config.max = 5;
@@ -61,6 +62,13 @@ export class ProfileComponent implements OnInit {
             console.log('basket-catch error:', err);
             //this.errors = err;
           })
+    this._omniService.my_items(this.currentUser.user.id)
+          .then(items => {
+            this.my_items = items;
+          })
+          .catch(err => {
+            console.log('basket-catch error:', err);
+          })
   }
 
   ngOnInit() {
@@ -74,6 +82,9 @@ export class ProfileComponent implements OnInit {
     .then(data => console.log(data))
     .catch(data => console.log(data))
     this.product = new Product();
+    this._omniService.my_items(this.currentUser.id)
+    .then(items => this.my_items = items)
+    .catch(data => console.log(data))
   }
 
 

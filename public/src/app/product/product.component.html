@@ -17,7 +17,11 @@
               <li><h4>Price: {{ product.price | currency : 'USD' : true }}</h4></li>
               <li><h4>Product description: {{ product.description }}</h4></li>
               <li><h4>Vendor: {{ product._vendor.alias }}</h4></li>
-              <li><h4>Reviews: REVIEWS GO HERE!!!!</h4></li>
+              <li><h5 *ngIf='reviews.length == 0'>No Reviews Yet!</h5></li>
+              <li *ngIf='reviews.length>0'><div *ngFor='let item of reviews'>
+                <p>Review: {{item.review}}</p>
+                <p>Rating: {{item.rating}}</p>
+              </div></li>
             </ul>
             <button type="submit" class="btn btn-outline-primary" (click)="add_to_basket(product)">Add to Basket</button>
           </div>
