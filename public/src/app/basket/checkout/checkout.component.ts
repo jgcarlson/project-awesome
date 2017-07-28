@@ -29,16 +29,12 @@ export class CheckoutComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges){
 	  const basket: SimpleChange = changes.userBasket;
-	  console.log('prev basket: ', basket.previousValue)
-	  console.log('got basket: ', basket.currentValue)
 	  this._userBasket = basket.currentValue
+	  this.subTotal = this.calcTotal(this.userBasket)
   }
 
 
   ngOnInit() {
-	  console.log('on init');
-	  console.log(this.userBasket)
-	  console.log(this.currentUser)
 	  this.handler = StripeCheckout.configure({
 		  key: environment.stripeKey,
 		  image: "http://localhost:5000/assets/images/llama.png",
