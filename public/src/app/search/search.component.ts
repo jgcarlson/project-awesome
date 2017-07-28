@@ -39,30 +39,17 @@ export class SearchComponent implements OnInit {
   listings:any = '';
 
   add_to_basket(product){
-<<<<<<< HEAD
-	if(!this.currentUser){
-	  alert("Please log in to add this product to your basket!")
-	}else{
-	   let body = {
-		   userId: this.currentUser.user.id,
-		   product: product
-	   }
-	   this._omniService.product_to_basket(body)
-=======
   if(!this.currentUser){
-    alert("Modal Window here: Please log in!")
-    //Modal window here
+     alert("Please log in to add this product to your basket!")
   }else{
      let body = {
        userId: this.currentUser.user.id,
        product: product
      }
      this._omniService.product_to_basket(body)
->>>>>>> 7429af97b71cd3ea9207699fa5e77d1d92a042b2
      alert("Product added to basket!")
-  }
-
-  }
+    }
+ }
 
 
 
