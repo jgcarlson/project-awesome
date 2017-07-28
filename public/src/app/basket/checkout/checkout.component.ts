@@ -50,7 +50,6 @@ export class CheckoutComponent implements OnChanges, OnInit {
 			  .then( data => {
 				  console.log("Successful payment: ", data);
 				  this.checkoutSuccess();
-				  this.subTotal = this.calcTotal(this.userBasket)
 			  })
 			  .catch( err => {
 				  console.log(err)

@@ -53,4 +53,14 @@ export class BasketComponent implements OnInit {
     })
   }
 
+  process_order(confirmation){
+	  this._omniService.process_order(this.currentUser)
+	  .then( response => {
+		  console.log("Successful order: ", response)
+		  alert("Thank you for your order!")
+		  this.getBasket(this.currentUser.user.id)
+	  })
+
+  }
+
 }
