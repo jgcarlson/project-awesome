@@ -12,7 +12,7 @@ export class SearchComponent implements OnInit {
   query = '';
 
   constructor(private _omniService:OmniService, private _route: ActivatedRoute) {
-	this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this._route.params.subscribe((param)=>{
         console.log(param);
           console.log("searchComponent loaded and url search_criteria given is: " + param.search_critera);
@@ -39,6 +39,7 @@ export class SearchComponent implements OnInit {
   listings:any = '';
 
   add_to_basket(product){
+<<<<<<< HEAD
 	if(!this.currentUser){
 	  alert("Please log in to add this product to your basket!")
 	}else{
@@ -47,8 +48,19 @@ export class SearchComponent implements OnInit {
 		   product: product
 	   }
 	   this._omniService.product_to_basket(body)
+=======
+  if(!this.currentUser){
+    alert("Modal Window here: Please log in!")
+    //Modal window here
+  }else{
+     let body = {
+       userId: this.currentUser.user.id,
+       product: product
+     }
+     this._omniService.product_to_basket(body)
+>>>>>>> 7429af97b71cd3ea9207699fa5e77d1d92a042b2
      alert("Product added to basket!")
-	}
+  }
 
   }
 
