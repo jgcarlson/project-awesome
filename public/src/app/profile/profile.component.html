@@ -110,8 +110,13 @@
           </div>
         </div>
         <app-checkout [userBasket]="basket"></app-checkout>
-
+<hr>
           <!--  END BASKET SECTION -->
+        </div>
+      </div>
+      <hr>
+      <div class="card">
+        <div class="card-block">
           <h1>Suggested Products</h1>
           <div class="container-fluid" id="results">
             <div  *ngFor="let item of suggested_products; let i = index" class="container-fluid">
@@ -139,6 +144,7 @@
           </div>
         </div>
       </div>
+      <hr>
       <div class="card">
         <div class="card-block">
           <h1>Order History</h1>
