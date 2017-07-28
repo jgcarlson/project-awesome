@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from './../models/product';
 import { FileUploadModule } from 'primeng/primeng';
+import { Router, ActivatedRoute } from '@angular/router';
+import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
+import { NgbdRatingConfig } from './../rating/rating.component';
 
 import { OmniService } from './../omni.service';
 
@@ -18,7 +21,9 @@ export class ProfileComponent implements OnInit {
   product = new Product()
   basket;
 
-  constructor(private _omniService:OmniService) {
+  constructor(private _omniService:OmniService, config: NgbRatingConfig, private _route: ActivatedRoute) {
+    config.max = 5;
+    config.readonly = false;
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this._omniService.recently_viewed(this.currentUser.user.id)
           .then(results => {
