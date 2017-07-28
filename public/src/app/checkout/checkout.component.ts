@@ -10,9 +10,7 @@ import { environment } from '../.././environments/environment';
 })
 export class CheckoutComponent implements OnInit {
 
-  handler: any;
-  amount: 500;
-  total: "$5.00"
+
 
 
   constructor(private _paymentService: PaymentService) {
@@ -20,27 +18,41 @@ export class CheckoutComponent implements OnInit {
   }
 
   currentUser: any;
+  handler: any;
+  amount: 500;
+  total: "$5.00"
 
+  
   ngOnInit() {
 	  console.log(this.currentUser)
 	  this.handler = StripeCheckout.configure({
 		  key: environment.stripeKey,
 		  image: "http://localhost:5000/assets/images/llama.png",
 		  locale: "auto",
+		  currency: "usd",
+		  amount: this.amount,
+		  bitcoin: "true",
 		  token: token => {
-			  console.log("Token: ", token)
-			  console.log("Amount: ", this.amount)
 			  this._paymentService.processPayment(this.currentUser.user.id, token, this.amount)
+			  .then( data => {
+				  console.log("Successful payment: ", data)
+			  })
+			  .catch( err => {
+				  console.log(err)
+			  })
 		  }
 	  });
 
   }
 
   handlePayment(){
+	  let stripeAmount = this.amount
+
 	  this.handler.open({
 		  name: "Test name",
 		  description: "Total Amount: " + this.total,
-		  amount: this.amount
+		  amount: stripeAmount,
+		  bitcoin: true
 	  });
   }
 

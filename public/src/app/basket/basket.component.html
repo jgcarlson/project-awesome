@@ -1,9 +1,11 @@
 <h2>Your Basket</h2>
 
+
 <h4 *ngIf="userBasket.length === 0">You currently have no items in your basket.</h4>
 <h4 *ngIf="userBasket.length === 0">You should fix that.</h4>
 
 <div *ngIf="userBasket.length > 0">
+<app-checkout></app-checkout>
   <div class="container-fluid" *ngFor="let product of userBasket">
     <div class="card">
       <div class="card-block">
@@ -24,7 +26,6 @@
               <button type="submit" class="btn btn-outline-primary">Contact Seller</button>
               <button class="btn btn-outline-primary" (click)="remove_from_basket(product)">Remove from Basket</button>
             </div>
-          </div>
           <div class="col-md-1"></div>
         </div>
       </div>
