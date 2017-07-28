@@ -10,7 +10,7 @@
               <div class="card-block">
                 <h3>List a product:</h3>
                 <form (submit)="create_item()">
-                  <input type="text" name="title" [(ngModel)]="product.title" class="form-control" placeholder="Product Name">
+                  <input type="text" name="title" [(ngModel)]="product.title" class="form-control" placeholder="Product Name" required #title='ngModel' minlength='10'>
                   <hr>
                   <input type="text" name="description" [(ngModel)]="product.description" class="form-control" placeholder="Product Description">
                   <hr>
@@ -62,7 +62,7 @@
           <h1>Order History</h1>
           <h3 *ngIf='orders.length == 0'>No ordered items! Lame :(</h3>
           <div class="container-fluid" id="results">
-            <div  *ngFor="let item of listings; let i = index" class="container-fluid">
+            <div  *ngFor="let item of orders; let i = index" class="container-fluid">
               <div class="row">
                 <div class="col-md-1">
                     <h4>{{ i + 1 }}.</h4>
