@@ -14,6 +14,7 @@ export class BasketComponent implements OnInit {
   constructor(private _omniService: OmniService) { }
 
   ngOnInit() {
+    console.log("MADE IT TO INIT OF BASKET COMPONENT");
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"))
     console.log("Current User: ", this.currentUser)
     this.getBasket(this.currentUser.user.id)
@@ -22,7 +23,8 @@ export class BasketComponent implements OnInit {
   getBasket(id){
     this._omniService.get_basket(id)
     .then( user => {
-      this.userBasket = user.basket
+    console.log("RECEIVED USER IN BASKET COMPONENT: " + user);
+      this.userBasket = user.basket;
     })
     .catch( err => {
       console.log(err)

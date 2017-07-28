@@ -56,20 +56,26 @@ export class OmniService implements CanActivate {
       .toPromise();
     }
 
-    recently_viewed(){
-      return this._http.get('/api/recently_viewed')
+    recently_viewed(id){
+      return this._http.get('/api/recently_viewed/'+ id)
       .map( data => data.json())
       .toPromise();
     }
 
-    suggested_products(){
-      return this._http.get('/api/suggested_products')
+    order_history(id){
+      return this._http.get('/api/order_history/'+ id)
       .map( data => data.json())
       .toPromise();
     }
 
-    get_item(id){
-      return this._http.get('/api/get_item/' + id)
+    suggested_products(id){
+      return this._http.get('/api/suggested_products/'+ id)
+      .map( data => data.json())
+      .toPromise();
+    }
+
+    get_item(product_id, user_id){
+      return this._http.get('/api/get_item/' + product_id + '/' + user_id)
       .map( data => data.json())
       .toPromise();
     }
@@ -136,14 +142,14 @@ export class OmniService implements CanActivate {
     //review controller methods \/
     //**********************************
 
-    review_product(id, form){
-      return this._http.post('/api/review_product/' + id, form.value)
+    review_product(review){
+      return this._http.post('/api/review_product', review)
       .map( data => data.json())
       .toPromise();
     }
 
-    review_vendor(id, form){
-      return this._http.post('/api/review_vendor/' + id, form.value)
+    review_vendor(review){
+      return this._http.post('/api/review_vendor', review)
       .map( data => data.json())
       .toPromise();
     }

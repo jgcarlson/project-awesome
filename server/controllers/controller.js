@@ -101,7 +101,7 @@ module.exports = {
   },
   recently_viewed: function(req, res){
     //whenever we get a product, rotate the recently viewed array
-    User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}).populate('recently_viewed').exec( (err, user)=>{
+    User.findOne({_id: req.params.id}).populate('recently_viewed').exec( (err, user)=>{
       if(err){
           console.log(err);
         let errors = [];
@@ -116,11 +116,10 @@ module.exports = {
 
 
   },
-  suggested_products: function(req, res){
-    //get up to 3 items from order history, get up to 3 tags from each- 3 tags total
-    //then do the search thing and return those items
-    User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}).populate('orders_placed').exec( (err, user)=>{
-        if(err){
+  order_history: function(req, res){
+    //whenever we get a product, rotate the recently viewed array
+    User.findOne({_id: req.params.id}).populate('orders_placed').exec( (err, user)=>{
+      if(err){
           console.log(err);
         let errors = [];
             for(let i in err.errors){
@@ -128,50 +127,83 @@ module.exports = {
             }
             return res.status(400).send(errors);
         }
-        var criteria = [];
-        if (typeof user.orders_placed[0] === 'undefined'){ //IF THERE ARE NO ORDERS PLACED YET
-          Product.find({}).limit(3).exec( (err, products)=>{
-          if(err){
-              console.log(err);
-              let errors = [];
-                  for(let i in err.errors){
-                    errors.push(err.errors[i].message);
-                  }
-              return res.status(400).send(errors);
-          }
-          return res.json(products);
-      })
-        } else if (typeof user.orders_placed[1] === 'undefined'){ //IF ONLY 1 ORDER
-          criteria.push(user.orders_placed[0].tags[0]);
-          criteria.push(user.orders_placed[0].tags[1]);
-          criteria.push(user.orders_placed[0].tags[2]);
-        } else if (typeof user.orders_placed[2] === 'undefined'){ //IF ONLY 2
-          criteria.push(user.orders_placed[0].tags[0]);
-          criteria.push(user.orders_placed[0].tags[1]);
-          criteria.push(user.orders_placed[1].tags[0]);
-        } else { //IF 3 OR MORE
-          criteria.push(user.orders_placed[0].tags[0]);
-          criteria.push(user.orders_placed[1].tags[0]);
-          criteria.push(user.orders_placed[2].tags[0]);
-        }
-        Product.find({ tags: { "$in" : criteria} }).limit(3).exec( (err, products)=>{ //FIND PRODUCTS BASED ON NEW CRITERIA
-          if(err){
+        return res.json(user.orders_placed);
+      //hopefully this returns just the array of products
+    })
+
+
+  },
+  suggested_products: function(req, res){
+    //get up to 3 items from order history, get up to 3 tags from each- 3 tags total
+    //then do the search thing and return those items
+    User.findOne({_id: req.params.id}).populate('orders_placed').populate('recently_viewed').exec( (err, user)=>{
+        if(err){
             console.log(err);
-          let errors = [];
-              for(let i in err.errors){
-                errors.push(err.errors[i].message);
-              }
-              return res.status(400).send(errors);
-          }
-          return res.json(products);
-      });
+        	let errors = [];
+            for(let i in err.errors){
+              errors.push(err.errors[i].message);
+            }
+            return res.status(400).send(errors);
+        } else {
+	        var criteria = "";
+	        if (typeof user.orders_placed[0] != 'undefined'){ 
+	        	criteria += user.orders_placed[0].tags;
+	        }//IF THERE ARE NOT ENOUGH ORDERS PLACED YET
+	        if (typeof user.orders_placed[1] != 'undefined'){ 
+	        	criteria += user.orders_placed[1].tags;
+	        }
+	        if (typeof user.orders_placed[2] != 'undefined'){ 
+	        	criteria += user.orders_placed[2].tags;
+	        }
+	        if (typeof user.recently_viewed[0] != 'undefined'){
+	        	criteria += user.recently_viewed[0].tags;
+	        }
+	        if (typeof user.recently_viewed[1] != 'undefined'){
+	        	criteria += user.recently_viewed[1].tags;
+	        }
+	        if (typeof user.recently_viewed[2] != 'undefined'){
+	        	criteria += user.recently_viewed[2].tags;
+	        }
+	        if(criteria.split(' ').length < 3){
+	        	Product.find({}).limit(3).populate("_vendor").exec( (err, products)=>{
+			        if(err){
+			            console.log(err);
+			            let errors = [];
+			                for(let i in err.errors){
+			                    errors.push(err.errors[i].message);
+			                }
+			            console.log("error found line 175");
+			            return res.status(400).send(errors);
+			        } else {
+			        	console.log("returning random products line 178");
+			        	return res.json(products);
+			        }
+		        })
+	        } else {
+	        
+		        Product.find({ $text: { $search: criteria } }, { score: { $meta: "textScore" } }).populate('_vendor').sort( { score: { $meta: "textScore" } } ).limit(3).exec( (err, products)=>{
+					if(err){
+			            console.log(err);
+			          let errors = [];
+			            for(let i in err.errors){
+			              errors.push(err.errors[i].message);
+			            }
+			            console.log("error found line 191");
+			            return res.status(400).send(errors);
+			        } else {
+			        	console.log("Sending back matching products line 194");
+			        	return res.json(products);
+			    	}
+		        })
+		    }
+	    }
     })
 
 
 
   },
   get_item: function(req, res){
-    Product.findOne({_id: req.params.id}, (err, product)=>{
+    Product.findOne({_id: req.params.product_id}).populate('_vendor').exec( (err, product)=>{
         if(err){
           console.log(err);
         let errors = [];
@@ -180,23 +212,35 @@ module.exports = {
             }
             return res.status(400).send(errors);
         }
-
-        // Had to comment this out because it broke the app when it ran.
-        // I think localStorage might not work in the backend....
-
-        // User.findOne({_id: JSON.parse(localStorage.getItem('currentUser.user.id'))}, (err, user)=>{
-        //   if(err){
-        //         console.log(err);
-        //         let errors = [];
-        //         for(let i in err.errors){
-        //             errors.push(err.errors[i].message);
-        //         }
-        //     return res.status(400).send(errors);
-        //     }
-        //   user.recently_viewed.shift();
-        //   user.recently_viewed[2] = product._id;
-        // })
-
+        User.findOne({_id: req.params.user_id}, (err, user)=>{
+            if(err){
+                console.log(err);
+                let errors = [];
+                for(let i in err.errors){
+                    errors.push(err.errors[i].message);
+                }
+            	return res.status(400).send(errors);
+            }
+            if (user.recently_viewed.indexOf(product._id)<0){
+            	if(user.recently_viewed.length < 3){
+            	user.recently_viewed.push(product._id);
+	            } else {
+	          		user.recently_viewed.shift();
+	          		user.recently_viewed[2] = product._id;
+	          	}
+	          	user.save( (err, savedUser)=> {
+	          		if(err){
+		                console.log(err);
+		                let errors = [];
+		                for(let i in err.errors){
+		                    errors.push(err.errors[i].message);
+		                }
+		            	return res.status(400).send(errors);
+	            	}
+	          	})
+            }
+            
+        })
         return res.json(product);
     })
   },
@@ -208,8 +252,9 @@ module.exports = {
     search = search.toLowerCase();
     //var criteria = search.split(" ");
     //console.log(criteria);
-  Product.find({ $text: { $search: search } }, { score: { $meta: "textScore" } }).sort( { score: { $meta: "textScore" } } ).exec( (err, products)=>{
-    if(err){
+
+	Product.find({ $text: { $search: search } }, { score: { $meta: "textScore" } }).populate('_vendor').sort( { score: { $meta: "textScore" } } ).exec( (err, products)=>{
+		if(err){
             console.log(err);
           let errors = [];
             for(let i in err.errors){
@@ -218,7 +263,7 @@ module.exports = {
             return res.status(400).send(errors);
       }
       return res.json(products);
-  })
+    })
 
 
     /*
@@ -444,7 +489,8 @@ db.articles.createIndex( { subject: "text" } )
   },
 
   get_basket: function(req, res){
-	User.findOne({_id: req.params.id}).populate({path: 'basket'}).exec( (err, user)=>{
+  	console.log("MADE IT TO GET BASKET IN CONTROLLER");
+	User.findOne({_id: req.params.id}).populate({path: 'basket', populate: {path: '_vendor'}}).exec( (err, user)=>{
 		if(err){
 		console.log(err);
 		let errors = [];
@@ -453,12 +499,13 @@ db.articles.createIndex( { subject: "text" } )
 			}
 			return res.status(400).send(errors);
 		}
-		return res.json(user)
+		return res.json(user);
 	});
   },
 
   add_to_basket: function(req, res){
-	User.findOne({_id: req.body.userId}, (err, user) =>{
+	User.findOne({_id: req.body.userId}).populate('basket').exec( (err, user) =>{
+		console.log("MADE IT TO ADD TO BASKET FUNCTION IN CONTROLLER");
 		if(err){
 		console.log(err);
 		let errors = [];
@@ -467,18 +514,36 @@ db.articles.createIndex( { subject: "text" } )
 			}
 			return res.status(400).send(errors);
 		}
-		user.basket.push(req.body.product)
-		user.save( (err, savedUser) => {
-			if(err){
-			console.log(err);
-			let errors = [];
-				for(let i in err.errors){
-				  errors.push(err.errors[i].message);
+		function containsObject(obj, list) {
+		    var i;
+		    for (i = 0; i < list.length; i++) {
+		        if (list[i]._id == obj._id) {
+		            return true;
+		        }
+		    }
+		    return false;
+		}
+		if (!containsObject(req.body.product, user.basket)){
+			user.basket.push(req.body.product)
+			console.log("MADE IT TO PUSHING ITEM TO BASKET");
+			console.log("USER: " + user);
+			user.save( (err, savedUser) => {
+				if(err){
+				console.log(err);
+				let errors = [];
+					for(let i in err.errors){
+					  errors.push(err.errors[i].message);
+					}
+					return res.status(400).send(errors);
+				} else {
+					console.log("USER.BASKET: " + user.basket);
+					return res.json(user.basket);
 				}
-				return res.status(400).send(errors);
-			}
-			return res.json(savedUser)
-		})
+			})
+		} else {
+			console.log("USER.BASKET: " + user.basket);
+			return res.json(user.basket);
+		}
 	})
   },
 
@@ -555,7 +620,7 @@ db.articles.createIndex( { subject: "text" } )
             }
             return res.status(400).send(errors);
         }
-        let review = new Review({review: req.body.review, rating: req.body.rating, _byUser: JSON.parse(localStorage.getItem('currentUser.user.id')), _reviewedProduct: req.params.id});
+        let review = new Review(req.body);
         review.save( (err, savedReview)=>{
           if(err){
             console.log(err);
@@ -595,7 +660,7 @@ db.articles.createIndex( { subject: "text" } )
             }
             return res.status(400).send(errors);
         }
-        let review = new Review({review: req.body.review, rating: req.body.rating, _byUser: JSON.parse(localStorage.getItem('currentUser.user.id')), _reviewedVendor: req.params.id});
+        let review = new Review(req.body);
         review.save( (err, savedReview)=>{
           if(err){
             console.log(err);
